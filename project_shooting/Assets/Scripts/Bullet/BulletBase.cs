@@ -1,0 +1,72 @@
+using UnityEngine;
+
+/// <summary>
+/// 弾の共通処理を制御する基底クラス
+/// </summary>
+public abstract class BulletBase : MonoBehaviour
+{
+    [SerializeField]
+    protected float m_Speed = 10.0f;  //発射速度
+    [SerializeField]
+    protected float m_LifeTime = 3.0f; //弾の生存時間
+
+    protected Vector2 m_Direction = Vector2.right;
+    protected Transform m_CashedTransform;
+    private float m_Timer;
+
+    private void Awake()
+    {
+        m_CashedTransform = this.transform;
+    }
+
+    private void OnEnable()
+    {
+        m_Timer = 0.0f;
+    }
+
+    private void Update()
+    {
+        m_CashedTransform.position += (Vector3)(m_Direction * m_Speed * Time.deltaTime);
+
+        m_Timer += Time.deltaTime;
+
+        if(m_Timer >=m_LifeTime)
+        {
+            Despawn();
+        }
+    }
+
+    /// <summary>
+    /// 弾の初期化
+    /// </summary>
+    /// <param name="position">発射位置</param>
+    /// <param name="direction">進行方向</param>
+    /// <param name="speed">弾の速度</param>
+    public virtual void Initialize(Vector3 position, Vector2 direction,float speed)
+    {
+        m_CashedTransform.position = position;
+        m_Direction = direction.normalized;
+        m_Speed = speed;
+    }
+
+    /// <summary>
+    /// 共通の当たり判定
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        OnHit(other);
+    }
+
+    /// <summary>
+    /// 当たった時の処理
+    /// </summary>
+    /// <param name="other"></param>
+    protected abstract void OnHit(Collider2D other);
+
+    protected virtual void Despawn()
+    {
+        Destroy(this.gameObject);
+    }
+
+}

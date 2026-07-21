@@ -2,20 +2,42 @@ using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-//*プレイヤー制御クラス*//
-
+/// <summary>
+/// プレイヤー制御クラス
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
+    [Header("移動設定")]
     [SerializeField]
-    private float m_MoveSpeed = 5.0f;
+    private float m_MoveSpeed = 5.0f;   //移動速度
+    [SerializeField]
+    private float m_SlowMoveSpeedRatio = 0.5f; //低速移動時の移動倍率
 
+    private Transform m_CashedTransform;
     private Vector2 m_MoveInput;
-    private Vector2 m_BombInput;
+    private bool m_IsSlowMode;  //低速移動の切り替え
+
+    private void Awake()
+    {
+        m_CashedTransform = this.transform;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.position += (Vector3)m_MoveInput * m_MoveSpeed * Time.deltaTime;
+        //移動処理
+        Move();
+    }
+
+
+    /// <summary>
+    /// 入力に応じて移動させる
+    /// </summary>
+    private void Move()
+    {
+        float speed = m_IsSlowMode ? m_MoveSpeed * m_SlowMoveSpeedRatio : m_MoveSpeed;
+        Vector3 delta = (Vector3)m_MoveInput * speed * Time.deltaTime;
+        m_CashedTransform.position += delta;
     }
 
     /// <summary>
@@ -24,19 +46,23 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        //"move"のリファレンスを追加
+        //"Move"アクションの値を反映
         m_MoveInput = context.ReadValue<Vector2>();
     }
 
     /// <summary>
-    /// 射撃処理
+    /// 低速移動の切り替え
     /// </summary>
     /// <param name="context"></param>
-    public void OnShoot(InputAction.CallbackContext context)
+    public void OnSlowMode(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if(context.started)
         {
-            Debug.Log("ショット");
+            m_IsSlowMode = true;
+        }
+        else if(context.canceled)
+        {
+            m_IsSlowMode = false;
         }
     }
 }

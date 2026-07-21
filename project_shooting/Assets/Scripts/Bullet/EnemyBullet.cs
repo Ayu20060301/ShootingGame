@@ -10,7 +10,6 @@ public class EnemyBullet : BulletBase
         if(other.CompareTag("Player"))
         {
             Debug.Log("ƒvƒŒ[ƒ„[‚É“–‚½‚Á‚½");
-         //   other.GetComponent<PlayerController>().TakeDamage(m_Damage);
             Despawn();
         }
     }

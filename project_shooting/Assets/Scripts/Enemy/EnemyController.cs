@@ -92,11 +92,11 @@ public class EnemyController : MonoBehaviour
     {
         m_CurrentHP -= damage;
 
+        //“G‚ÌHP‚ª0‚É‚È‚Á‚½‚çŽ€–S
         if(m_CurrentHP <= 0)
         {
             Die();
         }
-
     }
 
     /// <summary>
@@ -104,6 +104,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void Die()
     {
+        Debug.Log("“G‚ð“|‚µ‚½");
         Destroy(this.gameObject);
     }
 

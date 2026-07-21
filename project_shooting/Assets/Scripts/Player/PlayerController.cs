@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     float m_XLimit = 8.0f;
     float m_YLimit = 4.5f;
 
+    private Rigidbody2D m_Rigidbody2D;
     private Transform m_CashedTransform;
     private Vector2 m_MoveInput;
     private bool m_IsSlowMode;  //低速移動の切り替え
@@ -36,14 +37,13 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         m_CashedTransform = this.transform;
+        m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //移動処理
-        Move();
-
+      
         //発射間隔のクールタイムを更新する
         HandleShootTimer();
 
@@ -51,29 +51,28 @@ public class PlayerController : MonoBehaviour
         HandleShooting();
     }
 
+    private void FixedUpdate()
+    {
+        Move();
+    }
 
     /// <summary>
     /// 入力に応じて移動させる
     /// </summary>
     private void Move()
     {
-        float speed = m_IsSlowMode ? m_MoveSpeed * m_SlowMoveSpeedRatio : m_MoveSpeed;
-        Vector3 delta = (Vector3)m_MoveInput * speed * Time.deltaTime;
-        m_CashedTransform.position += delta;
+        float speed = m_IsSlowMode
+         ? m_MoveSpeed * m_SlowMoveSpeedRatio
+         : m_MoveSpeed;
 
-        //---画面外に出ないようにする---
+        Vector2 nextPos =
+            m_Rigidbody2D.position + m_MoveInput * speed * Time.fixedDeltaTime;
 
-        //現在のポジションを保持する
-        Vector3 currentPos = this.transform.position;
+        // 画面外に出ないよう制限
+        nextPos.x = Mathf.Clamp(nextPos.x, -m_XLimit, m_XLimit);
+        nextPos.y = Mathf.Clamp(nextPos.y, -m_YLimit, m_YLimit);
 
-        //Mathf.ClampでX,Yの値それぞれが最小～最大の範囲内に収める
-        currentPos.x = Mathf.Clamp(currentPos.x, -m_XLimit, m_XLimit);
-        currentPos.y = Mathf.Clamp(currentPos.y, -m_YLimit, m_YLimit);
-
-        //positionをcurrentPosにする
-        this.transform.position = currentPos;
-
-        //------------------------------
+        m_Rigidbody2D.MovePosition(nextPos);
     }
 
     /// <summary>

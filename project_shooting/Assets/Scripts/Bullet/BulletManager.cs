@@ -25,9 +25,8 @@ public static class BulletManager
         spriteRenderer.sprite = sprite;
 
         //“–‚½‚è”»’è
-        CircleCollider2D collider = bulletObj.AddComponent<CircleCollider2D>();
+        PolygonCollider2D collider = bulletObj.AddComponent<PolygonCollider2D>();
         collider.isTrigger = true;
-        collider.radius = 0.1f;
 
         //•¨—‰‰Z
         Rigidbody2D rb = bulletObj.AddComponent<Rigidbody2D>();

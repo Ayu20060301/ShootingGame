@@ -32,6 +32,7 @@ public abstract class BulletBase : MonoBehaviour
 
         if(m_Timer >=m_LifeTime)
         {
+            //“–‚½‚Á‚½‚ç’e‚ÍÁ‚¦‚é
             Despawn();
         }
     }

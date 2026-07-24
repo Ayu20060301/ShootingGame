@@ -7,12 +7,11 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    [Header("移動設定")]
     [SerializeField]
     private float m_MoveSpeed = 5.0f;   //移動速度
     [SerializeField]
     private float m_SlowMoveSpeedRatio = 0.5f; //低速移動時の移動倍率
-
+    
     //X座標とY座標の上限
     float m_XLimit = 8.0f;
     float m_YLimit = 4.5f;
@@ -34,19 +33,19 @@ public class PlayerController : MonoBehaviour
     private float m_ShotTimer;
     private bool m_IsShooting;
 
-    
+
 
     private void Start()
     {
         m_CashedTransform = this.transform;
-        m_Rigidbody2D = GetComponent<Rigidbody2D>();   
+        m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-      
+
         //発射間隔のクールタイムを更新する
         HandleShootTimer();
 
@@ -83,7 +82,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleShootTimer()
     {
-        if(m_ShotTimer > 0.0f)
+        if (m_ShotTimer > 0.0f)
         {
             m_ShotTimer -= Time.deltaTime;
         }
@@ -94,7 +93,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleShooting()
     {
-        if(m_IsShooting)
+        if (m_IsShooting)
         {
             Shoot();
         }
@@ -126,11 +125,11 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnSlowMode(InputAction.CallbackContext context)
     {
-        if(context.started)
+        if (context.started)
         {
             m_IsSlowMode = true;
         }
-        else if(context.canceled)
+        else if (context.canceled)
         {
             m_IsSlowMode = false;
         }
@@ -146,7 +145,7 @@ public class PlayerController : MonoBehaviour
         {
             m_IsShooting = true;
         }
-        else if(context.canceled)
+        else if (context.canceled)
         {
             m_IsShooting = false;
         }

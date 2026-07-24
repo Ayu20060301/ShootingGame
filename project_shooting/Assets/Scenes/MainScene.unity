@@ -154,7 +154,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -200, y: -60.000015}
-  m_SizeDelta: {x: 295, y: 27}
+  m_SizeDelta: {x: 295, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &380429294
 MonoBehaviour:
@@ -713,10 +713,10 @@ MonoBehaviour:
     m_ActionName: 'Player/Bomb[/XInputControllerWindows/buttonSouth,/Keyboard/x]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 928235183}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShoot
-        m_Mode: 0
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: PlayerShot, Assembly-CSharp
+        m_MethodName: HandleShoting
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_SlowMoveSpeedRatio: 0.5
   m_BulletSprite: {fileID: -5544677771057691170, guid: 38198277edbc35749b1c0e24d9525747, type: 3}
   m_MuzzlePoint: {fileID: 928235181}
-  m_ShotInterval: 0.2
+  m_ShotInterval: 0.1
   m_BulletSpeed: 10
 --- !u!95 &928235185
 Animator:
@@ -1369,7 +1369,7 @@ PolygonCollider2D:
       - {x: 1.36, y: 0.63}
       - {x: 1.26, y: 0.72999996}
       - {x: 1.16, y: 0.72999996}
-      - {x: 1.0378795, y: 0.71100163}
+      - {x: 1.081546, y: 0.6493353}
       - {x: 1, y: 0.08}
       - {x: 1, y: -0.22}
       - {x: 0.6239399, y: -0.17720202}
@@ -1378,7 +1378,7 @@ PolygonCollider2D:
       - {x: 0.57, y: 0.87}
       - {x: 0.53, y: 0.96999997}
       - {x: 0.38, y: 1.0699999}
-      - {x: 0.45, y: 1.51}
+      - {x: 0.40633366, y: 1.4571432}
       - {x: 0.34, y: 1.65}
       - {x: 0.25, y: 1.79}
       - {x: 0.17999999, y: 1.9599999}
@@ -1390,6 +1390,7 @@ PolygonCollider2D:
       - {x: -0.5, y: 1.4178581}
       - {x: -0.5, y: 1.24}
       - {x: -0.42999998, y: 1.22}
+      - {x: -0.49264178, y: 1.1030685}
       - {x: -0.58, y: 0.94}
       - {x: -0.64, y: 0.85999995}
       - {x: -0.64, y: 0.62999976}
@@ -1399,6 +1400,7 @@ PolygonCollider2D:
       - {x: -1.0328299, y: -0.19090144}
       - {x: -1.1, y: 0.099999994}
       - {x: -1.15, y: 0.099999994}
+      - {x: -1.1487333, y: 0.6299998}
       - {x: -1.14, y: 0.63}
       - {x: -1.24, y: 0.72999996}
       - {x: -1.3399999, y: 0.72999996}
@@ -1440,6 +1442,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHPBar
   m_HPUI: {fileID: 380429294}
+  m_NormalSprite: {fileID: -785977977146228, guid: 250d5fe0d6227c148ad04092b84a9137, type: 3}
+  m_HalfSprite: {fileID: -707864590045415678, guid: b3ab97a50972d3843b8db2f4d867b241, type: 3}
+  m_CriticalSprite: {fileID: 1498029327742160514, guid: 5f545bf448cd5e44d8891174b1b8552c, type: 3}
 --- !u!114 &1630205802
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 /// <summary>
 /// ’e‚Ì‹¤’Êˆ—‚ğ§Œä‚·‚éŠî’êƒNƒ‰ƒX
 /// </summary>
@@ -12,11 +13,12 @@ public abstract class BulletBase : MonoBehaviour
 
     protected Vector2 m_Direction = Vector2.right;
     protected Transform m_CashedTransform;
-    private float m_Timer;
+    private float m_Timer = 0.0f;
 
+    
     private void Awake()
     {
-        m_CashedTransform = this.transform;
+        m_CashedTransform = this.transform;   
     }
 
     private void OnEnable()
@@ -30,9 +32,9 @@ public abstract class BulletBase : MonoBehaviour
 
         m_Timer += Time.deltaTime;
 
+        //¶‘¶ŠÔ‚ğ’´‚¦‚½ê‡’e‚ÍÁ‚¦‚é
         if(m_Timer >=m_LifeTime)
         {
-            //“–‚½‚Á‚½‚ç’e‚ÍÁ‚¦‚é
             Despawn();
         }
     }
@@ -48,6 +50,7 @@ public abstract class BulletBase : MonoBehaviour
         m_CashedTransform.position = position;
         m_Direction = direction.normalized;
         m_Speed = speed;
+        m_Timer = 0.0f;
     }
 
     /// <summary>
@@ -65,9 +68,9 @@ public abstract class BulletBase : MonoBehaviour
     /// <param name="other"></param>
     protected abstract void OnHit(Collider2D other);
 
+    //’e‚ğÁ‚·
     protected virtual void Despawn()
     {
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
-
 }

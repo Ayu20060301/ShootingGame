@@ -2,106 +2,70 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
-//ゲームの進行を管理するクラス
-public class GameManager : MonoBehaviour
+/// <summary>
+/// ゲームの状態
+/// </summary>
+public enum GameState
 {
-    //シングルトン化
-    public static GameManager Instance { get; private set; }
+    PLAY,
+    PAUSE,
+    GAMEOVER
+}
 
-    /// <summary>
-    /// ゲームの状態
-    /// </summary>
-    public enum GameState
-    {
-        TITLE,   //タイトル
-        LOADING,  //ロード中
-        PLAY,     //ゲームプレイ
-        PAUSED,   //ポーズ中
-        GAMEOVER,  //ゲームオーバー
-    }
+public class GameManager : SingletonMonoBehaviour<GameManager>
+{
 
-    public GameState CurrentState { get; private set; }
-    public event Action<GameState> OnStateChanged;
+    [Header("ゲーム状態")]
+    [SerializeField]
+    private GameState m_GameState = GameState.PLAY;
+    public GameState GameState => m_GameState;
 
-    private void Awake()
-    {
-        if(Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-    }
+    public float timer;  //時間
 
     private void Start()
     {
-        ChangeState(GameState.TITLE);
-    }
+        Application.targetFrameRate = 60; //フレームレート
 
-
-    public void ChangeState(GameState newState)
-    {
-        CurrentState = newState;
-        OnStateChanged.Invoke(newState);
-
-        switch(newState)
-        {
-            case GameState.TITLE:
-                Time.timeScale = 1.0f;
-                break;
-            case GameState.LOADING:
-                Time.timeScale = 1.0f;
-                break;
-            case GameState.PLAY:
-                Time.timeScale = 1.0f;
-                break;
-            case GameState.PAUSED:
-                Time.timeScale = 0.0f;
-                break;
-            case GameState.GAMEOVER:
-                Time.timeScale = 0.0f;
-                break;
-        }
+        timer = 0.0f;
     }
 
     /// <summary>
-    /// ゲームオーバー
+    /// ゲームを一時停止する
     /// </summary>
-    public void GameOver()
+    public void Pause()
     {
-        ChangeState(GameState.GAMEOVER);
+        if (m_GameState != GameState.PLAY) return;
+
+        m_GameState = GameState.PAUSE;
+
+        Time.timeScale = 0.0f;
     }
 
     /// <summary>
-    /// ロード中
+    /// ゲームを再開する
     /// </summary>
-    public void Loading()
+    public void Resume()
     {
-        ChangeState(GameState.LOADING);
+        if (m_GameState != GameState.PAUSE) return;
+
+        m_GameState = GameState.PLAY;
+        Time.timeScale = 1.0f;
     }
 
     /// <summary>
-    /// ゲームスタート
+    /// リザルト処理
     /// </summary>
-    public void StartGame()
+    public void Result()
     {
-        ChangeState(GameState.PLAY);
-    }
+        if (m_GameState == GameState.GAMEOVER) return;
 
-    /// <summary>
-    /// ポーズ中
-    /// </summary>
-    public void Pauseing()
-    {
-        if(CurrentState == GameState.PAUSED)
-        {
-            ChangeState(GameState.PAUSED);
-        }
-    }
+        m_GameState = GameState.GAMEOVER;
+        Time.timeScale = 0.0f;
+        Debug.Log("GameOver");
 
+        SceneController.Instance.LoadScene("ResultScene");
+
+    }
 }

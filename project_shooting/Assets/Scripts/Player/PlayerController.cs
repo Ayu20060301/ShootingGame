@@ -34,24 +34,12 @@ public class PlayerController : MonoBehaviour
     private float m_ShotTimer;
     private bool m_IsShooting;
 
-
-    [Header("被弾時の点滅設定")]
-    [SerializeField]
-    private SpriteRenderer m_SpriteRenderer;
-    [SerializeField]
-    private float m_FlashInterval = 0.1f; //点滅の間隔
-    [SerializeField]
-    int m_LoopCount; //ループカウント
-    private PolygonCollider2D m_PolygonCollider2D; //コライダーをON/OFFするためのPolygonCollider2D
-    private bool m_IsHit;   //当たったかどうかのフラグ
     
 
     private void Start()
     {
         m_CashedTransform = this.transform;
         m_Rigidbody2D = GetComponent<Rigidbody2D>();   
-        m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_PolygonCollider2D = GetComponent<PolygonCollider2D>();
     }
 
 
@@ -162,33 +150,5 @@ public class PlayerController : MonoBehaviour
         {
             m_IsShooting = false;
         }
-    }
-
-    //当たった時の処理
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Hitしていたら処理を行わない
-        if (m_IsHit) return;
-
-        //コルーチンを開始
-        StartCoroutine(HitCoroutine());
-    }
-
-    //点滅させる処理
-    private IEnumerator HitCoroutine()
-    {
-        //当たりフラグをtrueに変更
-        m_IsHit = true;
-
-        //点滅ループ開始
-        for (int i = 0; i < m_LoopCount; i++)
-        {
-            yield return new WaitForSeconds(m_FlashInterval);
-            //spriteRendererをオフ
-            m_SpriteRenderer.enabled = false;
-        }
-
-        //点滅ループが抜けたら当たりフラグをfalse
-        m_IsHit = false;
     }
 }

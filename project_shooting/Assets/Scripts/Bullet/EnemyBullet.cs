@@ -7,8 +7,17 @@ public class EnemyBullet : BulletBase
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log("ÉvÉåÅ[ÉÑÅ[Ç…ìñÇΩÇ¡ÇΩ");
+            if (other.TryGetComponent<PlayerFlash>(out var playerFlash))
+            {
+                playerFlash.BulletHit();
+            }
 
+            if (other.TryGetComponent<LifeUI>(out var lifeUI))
+            {
+                lifeUI.LoseLife();
+            }
+
+            //íeé©ëÃÇÕè¡Ç¶ÇÈ
             Despawn();
         }
     }

@@ -28,11 +28,6 @@ public class EnemyController : MonoBehaviour
 
     private float m_ShotTimer;
 
-    [Header("ステータス")]
-    [SerializeField]
-    private int m_MaxHP = 100; //最大HP
-    private int m_CurrentHP;  //現在のHP
-
     private void Awake()
     {
         m_CashedTransform = this.transform;
@@ -43,7 +38,6 @@ public class EnemyController : MonoBehaviour
     {
         //開始時の位置を基準点として保存
         m_StartPosition = this.transform.position;
-        m_CurrentHP = m_MaxHP;
     }
 
     // Update is called once per frame
@@ -83,29 +77,4 @@ public class EnemyController : MonoBehaviour
 
         m_ShotTimer = m_ShotInterval;
     }
-
-    /// <summary>
-    /// ダメージを受ける処理
-    /// </summary>
-    /// <param name="damage">ダメージ量</param>
-    public void TakeDamage(int damage)
-    {
-        m_CurrentHP -= damage;
-
-        //敵のHPが0になったら死亡
-        if(m_CurrentHP <= 0)
-        {
-            Die();
-        }
-    }
-
-    /// <summary>
-    /// 撃破時の処理
-    /// </summary>
-    private void Die()
-    {
-        Debug.Log("敵を倒した");
-        Destroy(this.gameObject);
-    }
-
 }

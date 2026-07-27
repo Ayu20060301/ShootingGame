@@ -53,6 +53,15 @@ public abstract class BulletBase : MonoBehaviour
         m_Timer = 0.0f;
     }
 
+
+    /// <summary>
+    /// ’e‚ÌˆÚ“®ˆ—
+    /// </summary>
+    protected virtual void Move()
+    {
+        m_CashedTransform.position += (Vector3)(m_Direction * m_Speed * Time.deltaTime);
+    }
+
     /// <summary>
     /// ‹¤’Ê‚Ì“–‚½‚è”»’è
     /// </summary>

@@ -18,14 +18,17 @@ public static class BulletManager
     {
         GameObject bulletObj = new GameObject(typeof(T).Name);
         bulletObj.transform.position = position;
-        bulletObj.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+
 
         //å©ÇΩñ⁄
         SpriteRenderer spriteRenderer = bulletObj.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
 
         //ìñÇΩÇËîªíË
-        PolygonCollider2D collider = bulletObj.AddComponent<PolygonCollider2D>();
+        CircleCollider2D collider = bulletObj.AddComponent<CircleCollider2D>();
         collider.isTrigger = true;
 
         //ï®óùââéZ

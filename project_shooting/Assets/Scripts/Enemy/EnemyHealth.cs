@@ -3,10 +3,13 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField]
-    private int m_MaxHP = 60000;
+    private int m_MaxHP = 10000;
 
     [SerializeField]
     private int m_CurrentHP;
+
+    [SerializeField]
+    private EnemyAttackController m_EnemyAttackController;
 
     [Header("HPバー")]
     [SerializeField]
@@ -16,7 +19,10 @@ public class EnemyHealth : MonoBehaviour
 
     private float m_DisplayedHP; //徐々に減る値
 
-    private bool m_IsDead = false; 
+    private bool m_IsDead = false;
+
+
+    private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
 
     private void Start()
     {
@@ -33,6 +39,8 @@ public class EnemyHealth : MonoBehaviour
             m_DisplayedHP = Mathf.Max(m_DisplayedHP, m_CurrentHP);
 
             m_EnemyHPBar.SetHP(Mathf.RoundToInt(m_DisplayedHP), m_MaxHP);
+
+            CheckPhase();
         }
     }
 
@@ -47,7 +55,9 @@ public class EnemyHealth : MonoBehaviour
 
         m_CurrentHP -= damage;
         m_CurrentHP = Mathf.Max(m_CurrentHP, 0);
-        
+
+        CheckPhase();
+
         if(m_CurrentHP <= 0)
         {
             Die();
@@ -57,6 +67,35 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
 
+        m_IsDead = true;
+
+        Destroy(this.gameObject);
+    }
+
+    private void CheckPhase()
+    {
+        float ratio = (float)m_CurrentHP / m_MaxHP;
+
+        EnemyAttackController.EnemyPhase nextPhase;
+
+        if(ratio <= 0.2f)
+        {
+            nextPhase = EnemyAttackController.EnemyPhase.PHASE2;
+        }
+        else if(ratio <= 0.5f)
+        {
+            nextPhase = EnemyAttackController.EnemyPhase.PHASE1;
+        }
+        else
+        {
+            nextPhase = EnemyAttackController.EnemyPhase.NORMAL;
+        }
+
+        if(nextPhase != m_CurrentPhase)
+        {
+            m_CurrentPhase = nextPhase;
+            m_EnemyAttackController.SetPhase(nextPhase);
+        }
     }
 
 }

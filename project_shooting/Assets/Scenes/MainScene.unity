@@ -1151,8 +1151,9 @@ GameObject:
   - component: {fileID: 1630205798}
   - component: {fileID: 1630205799}
   - component: {fileID: 1630205800}
-  - component: {fileID: 1630205802}
   - component: {fileID: 1630205801}
+  - component: {fileID: 1630205803}
+  - component: {fileID: 1630205802}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1174,10 +1175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   m_MoveDistance: 3
   m_MoveSpeed: 1
-  m_BulletSprite: {fileID: -8807635413740140514, guid: 3d65d4837cac5a047bbda961423cf163, type: 3}
-  m_MuzzlePoint: {fileID: 1630205797}
-  m_ShotInterval: 5
-  m_BulletSpeed: 10
 --- !u!212 &1630205796
 SpriteRenderer:
   serializedVersion: 2
@@ -1438,6 +1435,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1630205793}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d670a033551df9442a85cfd38bd5f162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackController
+  m_CurrentPhase: 0
+  m_FirePoint: {fileID: 1630205797}
+  m_Player: {fileID: 928235181}
+  m_NormalBulletSprite: {fileID: -8807635413740140514, guid: 3d65d4837cac5a047bbda961423cf163, type: 3}
+  m_HomingBulletSprite: {fileID: -603075251944600539, guid: 795123bd6bc86a647885a4c1c25b00cb, type: 3}
+  m_BulletSpeed: 10
+  m_NormalInterval: 1
+  m_FanInterval: 2
+  m_HomingInterval: 3
+--- !u!114 &1630205802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630205793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b240fa160331a3b4a89adc8e5f6507d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHPBar
@@ -1445,7 +1463,7 @@ MonoBehaviour:
   m_NormalSprite: {fileID: -785977977146228, guid: 250d5fe0d6227c148ad04092b84a9137, type: 3}
   m_HalfSprite: {fileID: -707864590045415678, guid: b3ab97a50972d3843b8db2f4d867b241, type: 3}
   m_CriticalSprite: {fileID: 1498029327742160514, guid: 5f545bf448cd5e44d8891174b1b8552c, type: 3}
---- !u!114 &1630205802
+--- !u!114 &1630205803
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1459,7 +1477,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   m_MaxHP: 10000
   m_CurrentHP: 0
-  m_EnemyHPBar: {fileID: 1630205801}
+  m_EnemyAttackController: {fileID: 1630205801}
+  m_EnemyHPBar: {fileID: 1630205802}
 --- !u!1 &1672789652
 GameObject:
   m_ObjectHideFlags: 0

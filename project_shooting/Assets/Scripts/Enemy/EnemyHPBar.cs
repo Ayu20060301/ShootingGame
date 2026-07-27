@@ -18,6 +18,9 @@ public class EnemyHPBar : MonoBehaviour
 
     public void SetHP(int current, int max)
     {
+
+        if (max <= 0) return;
+
          float ratio = (float)current / max;
 
         Sprite targetSprite;

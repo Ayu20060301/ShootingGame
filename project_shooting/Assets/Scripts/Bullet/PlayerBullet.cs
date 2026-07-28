@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerBullet : BulletBase
 {
     [SerializeField]
-    private int m_Damage = 30; //ダメージ数
+    private int m_Damage = 40; //ダメージ数
 
     protected override void OnHit(Collider2D other)
     {

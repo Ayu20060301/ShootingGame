@@ -1478,7 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67455593d80ff14fbf0b2dc8d778323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  m_MaxHP: 3000
+  m_MaxHP: 20000
   m_CurrentHP: 0
   m_EnemyAttackController: {fileID: 1630205801}
   m_EnemyController: {fileID: 1630205794}

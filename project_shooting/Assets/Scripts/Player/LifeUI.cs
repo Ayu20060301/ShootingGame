@@ -9,8 +9,7 @@ public class LifeUI : MonoBehaviour
 
     [SerializeField]
     private int m_MaxLifes = 3; //Å‘åc‹@”
-    
-
+ 
     private void Start()
     {
         GameManager.Instance.hitCount = m_MaxLifes;

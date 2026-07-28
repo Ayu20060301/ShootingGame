@@ -7,5 +7,5 @@ public static class ResultData
     public static bool isClear;   //クリアしたかどうか   
     public static int bombUsed;   //ボム(爆弾)の使用数
     public static int hitCount;  //被弾回数
-    public static Sprite rankSprite; //ランク用の画像     
+    public static string rankName; //ランク用の文字     
 }

@@ -32,7 +32,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         ResultData.isClear = isClear;
         ResultData.bombUsed = bombUsed;
         ResultData.hitCount = hitCount;
-        ResultData.rankSprite = rankSprite;
 
         //リザルトシーンに遷移
         SceneController.Instance.LoadScene("ResultScene");

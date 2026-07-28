@@ -13,7 +13,7 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private TMP_Text m_HitCountText;
     [SerializeField]
-    private Image m_RankImage;
+    private TMP_Text m_RankText;
 
     private void Start()
     {
@@ -28,6 +28,10 @@ public class ResultUI : MonoBehaviour
         m_BombText.text = "Bomb : " +  ResultData.bombUsed.ToString();
         m_HitCountText.text = "Hit : " + ResultData.hitCount.ToString();
 
-        m_RankImage.sprite = ResultData.rankSprite; 
+       // UpdateRank();
+
     }
+
+   
+
 }

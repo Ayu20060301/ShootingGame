@@ -4,68 +4,37 @@ using TMPro;
 using System;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// ゲームの状態
-/// </summary>
-public enum GameState
-{
-    PLAY,
-    PAUSE,
-    GAMEOVER
-}
+
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
 
-    [Header("ゲーム状態")]
-    [SerializeField]
-    private GameState m_GameState = GameState.PLAY;
-    public GameState GameState => m_GameState;
 
-    public float timer;  //時間
+    [Header("現在の情報")]
+    public int score;   //スコア
+    public int bombUsed; //ボムの使用数
+    public int hitCount; //被弾数
+    public float playTime;   //経過時間
+    public Sprite rankSprite;
 
     private void Start()
     {
         Application.targetFrameRate = 60; //フレームレート
-
-        timer = 0.0f;
     }
 
     /// <summary>
-    /// ゲームを一時停止する
+    /// ゲーム終了
     /// </summary>
-    public void Pause()
+    /// <param name="isClear">クリアしたかどうか</param>
+    public void GameEnd(bool isClear)
     {
-        if (m_GameState != GameState.PLAY) return;
+        ResultData.playTime = playTime;
+        ResultData.isClear = isClear;
+        ResultData.bombUsed = bombUsed;
+        ResultData.hitCount = hitCount;
+        ResultData.rankSprite = rankSprite;
 
-        m_GameState = GameState.PAUSE;
-
-        Time.timeScale = 0.0f;
-    }
-
-    /// <summary>
-    /// ゲームを再開する
-    /// </summary>
-    public void Resume()
-    {
-        if (m_GameState != GameState.PAUSE) return;
-
-        m_GameState = GameState.PLAY;
-        Time.timeScale = 1.0f;
-    }
-
-    /// <summary>
-    /// リザルト処理
-    /// </summary>
-    public void Result()
-    {
-        if (m_GameState == GameState.GAMEOVER) return;
-
-        m_GameState = GameState.GAMEOVER;
-        Time.timeScale = 0.0f;
-        Debug.Log("GameOver");
-
+        //リザルトシーンに遷移
         SceneController.Instance.LoadScene("ResultScene");
-
     }
 }

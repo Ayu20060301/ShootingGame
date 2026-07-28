@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 795123bd6bc86a647885a4c1c25b00cb
+guid: 8eb60cf0edf76ef45b0b45b762300ed1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -603075251944600539
-    second: EnemyBullet2_0
-  - first:
-      213: -8015196566115641888
-    second: EnemyBullet2_1
+      213: -7334629355508111586
+    second: ResultFrame_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: EnemyBullet2_0
+      name: ResultFrame_0
       rect:
         serializedVersion: 2
-        x: 603
-        y: 1049
-        width: 48
-        height: 84
+        x: 41
+        y: 0
+        width: 995
+        height: 983
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 52c430be04271a7f0800000000000000
-      internalID: -603075251944600539
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: EnemyBullet2_1
-      rect:
-        serializedVersion: 2
-        x: 424
-        y: 135
-        width: 412
-        height: 881
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0e51fbf703d44c090800000000000000
-      internalID: -8015196566115641888
+      spriteID: e1769c13679263a90800000000000000
+      internalID: -7334629355508111586
       vertices: []
       indices: 
       edges: []
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      EnemyBullet2_0: -603075251944600539
-      EnemyBullet2_1: -8015196566115641888
+      ResultFrame_0: -7334629355508111586
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

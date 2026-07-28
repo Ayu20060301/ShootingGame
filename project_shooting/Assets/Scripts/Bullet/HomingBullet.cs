@@ -5,20 +5,13 @@ using UnityEngine;
 public class HomingBullet : BulletBase
 {
     [Header("ÉzÅ[É~ÉìÉOê›íË")]
-    [SerializeField]
+    private float m_HomingSpeed = 2.0f;
     private float m_RotateSpeed = 180.0f;  //1ïbÇ†ÇΩÇËÇÃâÒì]ë¨ìx
-
-    [SerializeField]
     private float m_MaxHomingAngle = 30.0f; //ç≈ëÂóUì±äp
-
-    [SerializeField]
     private float m_MaxHomingTime = 15.0f; //óUì±éûä‘
-
     private Transform m_Target;
-
     private Vector2 m_StartDirection;
     private float m_HomingTimer;
-
     private bool m_IsHoming = false;
 
     /// <summary>
@@ -55,34 +48,31 @@ public class HomingBullet : BulletBase
                 Vector2 targetDir =
                     ((Vector2)m_Target.position - (Vector2)transform.position).normalized;
 
-                float maxRotate =
-                    m_RotateSpeed * Mathf.Deg2Rad * Time.deltaTime;
+                float currentAngle =
+                    Mathf.Atan2(m_Direction.y, m_Direction.x) * Mathf.Rad2Deg;
 
-                m_Direction =
-                    Vector3.RotateTowards(
-                        m_Direction,
-                        targetDir,
-                        maxRotate,
-                        0.0f
-                        );
+                float targetAngle =
+                    Mathf.Atan2(targetDir.x, targetDir.y) * Mathf.Rad2Deg;
 
-                //î≠éÀï˚å¸Ç©ÇÁ30Åãà»è„ã»Ç™Ç¡ÇΩÇÁóUì±èIóπ
+                currentAngle =
+                     Mathf.MoveTowardsAngle(
+                         currentAngle,
+                         targetAngle,
+                         m_RotateSpeed * Time.deltaTime
+                         );
 
-                float angle = Vector2.Angle(m_StartDirection, m_Direction);
-
-                if(angle >= m_MaxHomingAngle)
-                {
-                    m_IsHoming = false;
-                }
+                m_Direction = new Vector2(
+                    Mathf.Cos(currentAngle * Mathf.Deg2Rad),
+                    Mathf.Sin(currentAngle * Mathf.Deg2Rad
+                    ));
             }
-
-
-
         }
+
+        m_Direction = m_Direction.normalized;
 
         //ëOêi
         m_CashedTransform.position +=
-            (Vector3)(m_Direction * m_Speed * Time.deltaTime);
+            (Vector3)(m_Direction * m_HomingSpeed * Time.deltaTime);
     }
 
     protected override void OnHit(Collider2D other)

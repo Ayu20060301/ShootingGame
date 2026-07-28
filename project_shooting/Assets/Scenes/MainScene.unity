@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: -60.000015}
+  m_AnchoredPosition: {x: -200, y: -60}
   m_SizeDelta: {x: 295, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &380429294
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 558730097}
   - component: {fileID: 558730099}
   m_Layer: 5
-  m_Name: TimerText
+  m_Name: PlayTimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,7 +454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: -60.000015}
+  m_AnchoredPosition: {x: -200, y: -60}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &737893160
@@ -588,7 +588,7 @@ Transform:
   m_GameObject: {fileID: 928235179}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalPosition: {x: -7, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1175,6 +1175,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   m_MoveDistance: 3
   m_MoveSpeed: 1
+  m_MoveTime: 3
+  m_StopTime: 2
 --- !u!212 &1630205796
 SpriteRenderer:
   serializedVersion: 2
@@ -1243,7 +1245,7 @@ Transform:
   m_GameObject: {fileID: 1630205793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 3.7969, y: -0.0262, z: 0}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1.5264001, y: 1.5132, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1442,11 +1444,12 @@ MonoBehaviour:
   m_FirePoint: {fileID: 1630205797}
   m_Player: {fileID: 928235181}
   m_NormalBulletSprite: {fileID: -8807635413740140514, guid: 3d65d4837cac5a047bbda961423cf163, type: 3}
-  m_HomingBulletSprite: {fileID: -603075251944600539, guid: 795123bd6bc86a647885a4c1c25b00cb, type: 3}
+  m_HomingBulletSprite: {fileID: 4957065165136443393, guid: 675fd8af8c53c4c4ba2073ce29b45455, type: 3}
   m_BulletSpeed: 10
-  m_NormalInterval: 1
-  m_FanInterval: 2
-  m_HomingInterval: 3
+  m_NormalInterval: 0.7
+  m_FanInterval: 0.5
+  m_HomingInterval: 2
+  m_EnemyController: {fileID: 1630205794}
 --- !u!114 &1630205802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,9 +1478,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67455593d80ff14fbf0b2dc8d778323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  m_MaxHP: 10000
+  m_MaxHP: 3000
   m_CurrentHP: 0
   m_EnemyAttackController: {fileID: 1630205801}
+  m_EnemyController: {fileID: 1630205794}
   m_EnemyHPBar: {fileID: 1630205802}
 --- !u!1 &1672789652
 GameObject:
@@ -1793,8 +1797,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500a1ce5783d809498bcbabb9c9d36d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  m_GameState: 0
-  timer: 0
+  score: 0
+  bombUsed: 0
+  hitCount: 0
+  playTime: 0
+  rankSprite: {fileID: 0}
 --- !u!4 &2025897592
 Transform:
   m_ObjectHideFlags: 0

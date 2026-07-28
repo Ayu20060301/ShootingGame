@@ -10,10 +10,13 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField]
     private EnemyAttackController m_EnemyAttackController;
+    [SerializeField]
+    private EnemyController m_EnemyController;
 
     [Header("HPバー")]
     [SerializeField]
     private EnemyHPBar m_EnemyHPBar;
+
 
     private float m_DecreaseSpeed = 30000.0f; //1秒あたりに減らすHP量
 
@@ -70,6 +73,9 @@ public class EnemyHealth : MonoBehaviour
         m_IsDead = true;
 
         Destroy(this.gameObject);
+
+        GameManager.Instance.GameEnd(true);
+
     }
 
     private void CheckPhase()
@@ -94,7 +100,12 @@ public class EnemyHealth : MonoBehaviour
         if(nextPhase != m_CurrentPhase)
         {
             m_CurrentPhase = nextPhase;
+
+            //攻撃フェーズ変更
             m_EnemyAttackController.SetPhase(nextPhase);
+
+            //移動フェーズ変更
+            m_EnemyController.SetPhase(nextPhase);
         }
     }
 

@@ -74,7 +74,7 @@ public class EnemyHealth : MonoBehaviour
 
         Destroy(this.gameObject);
 
-        GameManager.Instance.GameEnd(true);
+        //GameManager.Instance.GameEnd(true);
 
     }
 

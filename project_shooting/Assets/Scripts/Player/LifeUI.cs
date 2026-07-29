@@ -9,7 +9,10 @@ public class LifeUI : MonoBehaviour
 
     [SerializeField]
     private int m_MaxLifes = 3; //最大残機数
- 
+
+    [SerializeField]
+    private PostEffectController m_Effect;
+
     private void Start()
     {
         GameManager.Instance.hitCount = m_MaxLifes;
@@ -43,8 +46,11 @@ public class LifeUI : MonoBehaviour
         //残機が0になったら
         if(GameManager.Instance.hitCount <= 0)
         {
+
+            m_Effect.BlackOut();
+
             //ゲームオーバー
-            GameManager.Instance.GameEnd(false);
+           // GameManager.Instance.GameEnd(false);
         }
     }
 }

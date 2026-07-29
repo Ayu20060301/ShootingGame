@@ -2,9 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEngine.SceneManagement;
-
-
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
@@ -19,20 +16,42 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private void Start()
     {
         Application.targetFrameRate = 60; //フレームレート
+
+        Time.timeScale = 1.0f;
+        //ゲーム開始時は動作中
+        isActive = true;
     }
 
     /// <summary>
-    /// ゲーム終了
+    /// ポーズ
     /// </summary>
-    /// <param name="isClear">クリアしたかどうか</param>
-    public void GameEnd(bool isClear)
+    public void Pause()
     {
-        ResultData.playTime = playTime;
-        ResultData.isClear = isClear;
-        ResultData.bombUsed = bombUsed;
-        ResultData.hitCount = hitCount;
 
-        //リザルトシーンに遷移
-        SceneController.Instance.LoadScene("ResultScene");
+        if (!isActive) return;
+
+        isActive = false;
+        Time.timeScale = 0.0f;
     }
+
+    /// <summary>
+    /// 再開
+    /// </summary>
+    public void Resume()
+    {
+        if (isActive) return;
+
+        isActive = true;
+        Time.timeScale = 1.0f;
+    }
+
+
+    public void ResetGame()
+    {
+        playTime = 0.0f;
+        bombUsed = 0;
+        hitCount = 0;
+
+    }
+
 }

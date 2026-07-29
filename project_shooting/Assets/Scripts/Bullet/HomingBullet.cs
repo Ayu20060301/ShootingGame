@@ -46,25 +46,44 @@ public class HomingBullet : BulletBase
             else
             {
                 Vector2 targetDir =
-                    ((Vector2)m_Target.position - (Vector2)transform.position).normalized;
+                    ((Vector2)m_Target.position -
+                     (Vector2)transform.position).normalized;
 
-                float currentAngle =
-                    Mathf.Atan2(m_Direction.y, m_Direction.x) * Mathf.Rad2Deg;
+                //î≠éÀï˚å¸Ç∆ÇÃäpìxç∑
+                float angle =
+                    Vector2.Angle(m_StartDirection, targetDir);
 
-                float targetAngle =
-                    Mathf.Atan2(targetDir.x, targetDir.y) * Mathf.Rad2Deg;
+                //Å}30Åãà»è„Ç»ÇÁóUì±èIóπ
+                if(angle > m_MaxHomingAngle)
+                {
+                    m_IsHoming = false;
+                }
+                else
+                {
+                    float currentAngle =
+                        Mathf.Atan2(
+                            m_Direction.y,
+                            m_Direction.x)
+                        * Mathf.Rad2Deg;
 
-                currentAngle =
-                     Mathf.MoveTowardsAngle(
-                         currentAngle,
-                         targetAngle,
-                         m_RotateSpeed * Time.deltaTime
-                         );
+                    float targetAngle =
+                         Mathf.Atan2(
+                             targetDir.y,
+                             targetDir.x)
+                         * Mathf.Rad2Deg;
 
-                m_Direction = new Vector2(
-                    Mathf.Cos(currentAngle * Mathf.Deg2Rad),
-                    Mathf.Sin(currentAngle * Mathf.Deg2Rad
-                    ));
+                    currentAngle =
+                        Mathf.MoveTowardsAngle(
+                            currentAngle,
+                            targetAngle,
+                            m_RotateSpeed * Time.deltaTime);
+
+                    m_Direction =
+                        new Vector2(
+                            Mathf.Cos(currentAngle * Mathf.Rad2Deg),
+                            Mathf.Sin(currentAngle * Mathf.Rad2Deg));
+                }
+            
             }
         }
 
@@ -72,7 +91,7 @@ public class HomingBullet : BulletBase
 
         //ëOêi
         m_CashedTransform.position +=
-            (Vector3)(m_Direction * m_HomingSpeed * Time.deltaTime);
+            (Vector3)(m_Direction * m_Speed * Time.deltaTime);
     }
 
     protected override void OnHit(Collider2D other)

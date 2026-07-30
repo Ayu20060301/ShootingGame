@@ -11,7 +11,7 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private TMP_Text m_BombText;
     [SerializeField]
-    private TMP_Text m_HitCountText;
+    private TMP_Text m_LifeText;
     [SerializeField]
     private TMP_Text m_RankText;
 
@@ -25,7 +25,7 @@ public class ResultUI : MonoBehaviour
         m_TimeText.text = (ResultData.isClear ? "クリア時間 : "  : "生存時間 : ")　+  $"{minutes:00}:{seconds:00}";
 
         m_BombText.text = "使用したボムの数 : " +  ResultData.bombUsed.ToString();
-        m_HitCountText.text = "残りの残機 : " + ResultData.hitCount.ToString();
+        m_LifeText.text = "残りの残機 : " + ResultData.life.ToString();
 
         //ランクの更新
         UpdateRank();

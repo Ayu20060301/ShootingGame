@@ -5,7 +5,6 @@ using UnityEngine;
 public class HomingBullet : BulletBase
 {
     [Header("ƒz[ƒ~ƒ“ƒOÝ’è")]
-    private float m_HomingSpeed = 2.0f;
     private float m_RotateSpeed = 180.0f;  //1•b‚ ‚½‚è‚Ì‰ñ“]‘¬“x
     private float m_MaxHomingAngle = 30.0f; //Å‘å—U“±Šp
     private float m_MaxHomingTime = 15.0f; //—U“±ŽžŠÔ
@@ -51,7 +50,7 @@ public class HomingBullet : BulletBase
 
                 //”­ŽË•ûŒü‚Æ‚ÌŠp“x·
                 float angle =
-                    Vector2.Angle(m_StartDirection, targetDir);
+                    Vector2.Angle(m_StartDirection, m_Direction);
 
                 //}30‹ˆÈã‚È‚ç—U“±I—¹
                 if(angle > m_MaxHomingAngle)
@@ -78,10 +77,13 @@ public class HomingBullet : BulletBase
                             targetAngle,
                             m_RotateSpeed * Time.deltaTime);
 
+
+                    float rad = currentAngle * Mathf.Deg2Rad;
+
                     m_Direction =
                         new Vector2(
-                            Mathf.Cos(currentAngle * Mathf.Rad2Deg),
-                            Mathf.Sin(currentAngle * Mathf.Rad2Deg));
+                            Mathf.Cos(rad),
+                            Mathf.Sin(rad));
                 }
             
             }

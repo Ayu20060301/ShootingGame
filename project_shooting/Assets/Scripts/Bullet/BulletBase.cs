@@ -59,6 +59,10 @@ public abstract class BulletBase : MonoBehaviour
     /// </summary>
     protected virtual void Move()
     {
+
+        if (!GameManager.Instance.isActive) return;
+
+
         m_CashedTransform.position += (Vector3)(m_Direction * m_Speed * Time.deltaTime);
     }
 

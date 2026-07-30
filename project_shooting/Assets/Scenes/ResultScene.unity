@@ -288,7 +288,7 @@ MonoBehaviour:
   m_ResultText: {fileID: 249360498}
   m_TimeText: {fileID: 646625582}
   m_BombText: {fileID: 774521742}
-  m_HitCountText: {fileID: 1588423348}
+  m_LifeText: {fileID: 1588423348}
   m_RankText: {fileID: 1088218857}
 --- !u!4 &626697664
 Transform:
@@ -1019,7 +1019,7 @@ GameObject:
   - component: {fileID: 1588423349}
   - component: {fileID: 1588423348}
   m_Layer: 5
-  m_Name: HitCountText
+  m_Name: LifeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

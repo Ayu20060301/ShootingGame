@@ -5,29 +5,36 @@ using UnityEngine.Rendering;
 //敵の移動制御
 public class EnemyController : MonoBehaviour
 {
-    [Header("通常移動設定")]
     [SerializeField]
     private float m_MoveDistance = 3.0f; //上下に動く距離
-
     [SerializeField]
     private float m_MoveSpeed = 1.0f; //移動速度
+    [SerializeField]
+    private float m_MoveDuration = 3.0f;//移動時間
+    [SerializeField]
+    private float m_StopDuration = 2.0f; //瞬間移動後の停止時間
+    [SerializeField]
+    private float m_StopTimer = 0.0f; //停止時間
+    [SerializeField]
+    private float m_ElapsedTime = 0.0f; //移動経過時間
+    [SerializeField]
+    private float m_MoveTime = 0.0f;  
+    [SerializeField]
+    private bool m_IsStopping = false; //停止しているか
+    [SerializeField]
+    private Transform m_CachedTransform; //敵のtransformキャッシュ
+    [SerializeField]
+    private Vector3 m_StartPosition;  //移動基準位置
+   
 
-    private Transform m_CachedTransform;
-    private Vector3 m_StartPosition;  //敵の開始位置
-
+    [SerializeField]
+    private float m_TargetChangeTime = 1.5f; //次の目標までの時間
+    [SerializeField]
+    private Vector3 m_Phase2TargetPosition;
+    [SerializeField]
+    private float m_Phase2MoveSpeed = 10.0f;
     //現在のフェーズ
     private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
-
-
-    [SerializeField]
-    private float m_MoveTime = 3.0f; //移動時間
-
-    [SerializeField]
-    private float m_StopTime = 2.0f; //停止時間
-
-    private float m_MoveTimer;
-    private float m_Phase1Timer = 0.0f;  //フェーズ1の移動・停止時間を管理するタイマー
-    private bool m_IsStopping = false;   //停止中かどうか
 
     /// <summary>
     /// 現在停止中か取得
@@ -47,7 +54,6 @@ public class EnemyController : MonoBehaviour
     {
         //開始位置を保存
         m_StartPosition = m_CachedTransform.position;
-
     }
 
     private void Update()
@@ -59,16 +65,19 @@ public class EnemyController : MonoBehaviour
 
     public void SetPhase(EnemyAttackController.EnemyPhase phase)
     {
+        //同じフェーズなら処理をしない
         if (m_CurrentPhase == phase) return;
+
 
         m_CurrentPhase = phase;
 
-        //フェーズ変更時に状態リセット
-        m_Phase1Timer = 0.0f;
-        m_IsStopping = false;
 
-        //現在位置を新しい開始位置にする
         m_StartPosition = m_CachedTransform.position;
+
+        if (phase == EnemyAttackController.EnemyPhase.PHASE2)
+        {
+            SetRandomTarget();
+        }
 
     }
 
@@ -110,51 +119,46 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void Phase1Move()
     {
-        //移動・停止時間を計測
-        m_Phase1Timer += Time.deltaTime;
+        m_ElapsedTime += Time.deltaTime;
 
-        if(m_IsStopping)
+        //停止中かどうか
+        if (m_IsStopping)
         {
-            //停止時間経過で再び移動開始
-            if(m_Phase1Timer >= m_StopTime)
+            if (m_ElapsedTime >= m_StopDuration)
             {
                 m_IsStopping = false;
-                m_Phase1Timer = 0.0f;
+                m_ElapsedTime = 0.0f;
             }
 
             return;
         }
 
-        //現在の移動速度
-        float currentMoveSpeed = m_MoveSpeed;
 
-        //停止時間の直前だけ速度アップ
-        if(m_Phase1Timer >= m_MoveTime * 0.7f)
+        float speed = m_MoveSpeed;
+
+
+        //停止前だけ加速
+        if (m_ElapsedTime >= m_MoveDuration * 0.7f)
         {
-            currentMoveSpeed *= 3.0f;
+            speed *= 3.0f;
         }
 
 
-        //-----移動処理-----
+        m_MoveTime += Time.deltaTime * speed;
 
-        //移動中だけ時間を進める
-        m_MoveTimer += Time.deltaTime * currentMoveSpeed;
 
-        //上下移動
         float newY = m_StartPosition.y +
-           Mathf.Sin(m_MoveTimer) * m_MoveDistance;
+            Mathf.Sin(m_MoveTime) *
+            m_MoveDistance;
 
-        m_CachedTransform.position = new Vector3(
-            m_StartPosition.x,
-            newY,
-            m_StartPosition.z
-            );
 
-        //一定時間経過したら停止
-        if (m_Phase1Timer >= m_MoveTime)
+        SetPositionY(newY);
+
+
+        if (m_ElapsedTime >= m_MoveDuration)
         {
             m_IsStopping = true;
-            m_Phase1Timer = 0.0f;
+            m_ElapsedTime = 0.0f;
         }
     }
 
@@ -163,6 +167,53 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void Phase2Move()
     {
-       
+        m_CachedTransform.position =
+            Vector3.MoveTowards(
+                m_CachedTransform.position,
+                m_Phase2TargetPosition,
+                m_Phase2MoveSpeed * Time.deltaTime
+                );
+
+
+        //目的地に到着したら次の位置を設定
+        if(Vector3.Distance(
+            m_CachedTransform.position,
+            m_Phase2TargetPosition) < 0.01f)
+        {
+            SetRandomTarget();
+        }
     }
+
+    /// <summary>
+    /// Y座標だけ変更
+    /// </summary>
+    /// <param name="y">y座標</param>
+    private void SetPositionY(float y)
+    {
+        m_CachedTransform.position =
+            new Vector3(
+                m_StartPosition.x,
+                y,
+                m_StartPosition.z
+                );
+    }
+
+    /// <summary>
+    /// ランダムな移動先を設定
+    /// </summary>
+    private void SetRandomTarget()
+    {
+        float randomY = Random.Range(
+            -m_MoveDuration,
+            m_MoveDuration
+            );
+
+        m_Phase2TargetPosition =
+            new Vector3(
+                m_StartPosition.x,
+                m_StartPosition.y + randomY,
+                m_StartPosition.z
+                );
+    }
+
 }

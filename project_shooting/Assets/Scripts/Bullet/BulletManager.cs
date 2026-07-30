@@ -1,9 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// 弾を生成するクラス
-/// </summary>
+//弾を生成するクラス
 public static class BulletManager
 {
     /// <summary>

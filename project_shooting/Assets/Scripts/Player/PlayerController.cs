@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float m_BulletSpeed = 10.0f; //弾の速度
     private float m_ShotTimer;
-    private bool m_IsShooting;
+    private bool m_IsShoting;
 
 
 
@@ -46,15 +46,21 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        if (!GameManager.Instance.isActive) return;
+
+
         //発射間隔のクールタイムを更新する
-        HandleShootTimer();
+        HandleShotTimer();
 
         //射撃入力中かどうかを見て、発射処理を呼び出す
-        HandleShooting();
+        HandleShoting();
     }
 
     private void FixedUpdate()
     {
+
+        if (!GameManager.Instance.isActive) return;
+
         Move();
     }
 
@@ -80,7 +86,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 発射間隔のクールタイムを更新する
     /// </summary>
-    private void HandleShootTimer()
+    private void HandleShotTimer()
     {
         if (m_ShotTimer > 0.0f)
         {
@@ -91,15 +97,15 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 射撃入力中かどうかを見て、発射処理を呼び出す
     /// </summary>
-    private void HandleShooting()
+    private void HandleShoting()
     {
-        if (m_IsShooting)
+        if (m_IsShoting)
         {
-            Shoot();
+            Shot();
         }
     }
 
-    private void Shoot()
+    private void Shot()
     {
         if (m_ShotTimer > 0.0f) return;
 
@@ -125,6 +131,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnSlowMode(InputAction.CallbackContext context)
     {
+
         if (context.started)
         {
             m_IsSlowMode = true;
@@ -139,15 +146,15 @@ public class PlayerController : MonoBehaviour
     /// 弾の発射処理
     /// </summary>
     /// <param name="context"></param>
-    public void OnShoot(InputAction.CallbackContext context)
-    {
+    public void OnShot(InputAction.CallbackContext context)
+    { 
         if (context.started)
         {
-            m_IsShooting = true;
+            m_IsShoting = true;
         }
         else if (context.canceled)
         {
-            m_IsShooting = false;
+            m_IsShoting = false;
         }
     }
 }

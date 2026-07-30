@@ -10,9 +10,9 @@ public class EnemyHPBar : MonoBehaviour
     [SerializeField]
     private Sprite m_NormalSprite; //í èÌéû
     [SerializeField]
-    private Sprite m_HalfSprite;  //50%à»â∫
+    private Sprite m_HalfSprite;  //55%à»â∫
     [SerializeField]
-    private Sprite m_CriticalSprite;  //20%à»â∫
+    private Sprite m_CriticalSprite;  //30%à»â∫
 
    
 
@@ -24,11 +24,11 @@ public class EnemyHPBar : MonoBehaviour
          float ratio = (float)current / max;
 
         Sprite targetSprite;
-        if(ratio <= 0.2f)
+        if(ratio <= 0.3f)
         {
             targetSprite = m_CriticalSprite;
         }
-        else if(ratio <= 0.5f)
+        else if(ratio <= 0.55f)
         {
             targetSprite = m_HalfSprite;
         }

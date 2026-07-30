@@ -1,16 +1,34 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneController : SingletonMonoBehaviour<SceneController>
+public class SceneController : MonoBehaviour
 {
+
+    public static SceneController Instance;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+
     /// <summary>
     /// シーン遷移
     /// </summary>
     /// <param name="sceneName">シーン名</param>
-    public void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName)
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        Instance.StartCoroutine(Instance.LoadSceneAsync(sceneName));
     }
 
     /// <summary>

@@ -10,12 +10,9 @@ public class LifeUI : MonoBehaviour
     [SerializeField]
     private int m_MaxLifes = 3; //最大残機数
 
-    [SerializeField]
-    private PostEffectController m_Effect;
-
     private void Start()
     {
-        GameManager.Instance.hitCount = m_MaxLifes;
+        GameManager.Instance.life = m_MaxLifes;
 
         //UIの更新
         UpdateUI();
@@ -28,7 +25,7 @@ public class LifeUI : MonoBehaviour
     {
         for(int i = 0; i< m_LifeUI.Length; i++)
         {
-            m_LifeUI[i].enabled = i < GameManager.Instance.hitCount;
+            m_LifeUI[i].enabled = i < GameManager.Instance.life;
         }
     }
 
@@ -38,19 +35,29 @@ public class LifeUI : MonoBehaviour
     /// </summary>
     public void LoseLife()
     {
-        GameManager.Instance.hitCount = Mathf.Max(0, GameManager.Instance.hitCount - 1);
-        
+        //HPが0以下ならば処理を行わない
+        if (GameManager.Instance.life <= 0) return;
+
+        //消える残機のインデックス
+        int index = GameManager.Instance.life - 1;
+
+        //UIの位置でエフェクト再生
+        EffectManager.Instance.PlayEffect(
+            EffectType.EXPLOSION,
+            m_LifeUI[index].transform.position
+            );
+
+        //残機を減らす
+        GameManager.Instance.life--;
+
+
         //UIの更新
         UpdateUI();
 
-        //残機が0になったら
-        if(GameManager.Instance.hitCount <= 0)
+        if(GameManager.Instance.life <= 0)
         {
-
-            m_Effect.BlackOut();
-
-            //ゲームオーバー
-           // GameManager.Instance.GameEnd(false);
+            GameManager.Instance.GameEnd(false);
         }
+
     }
 }

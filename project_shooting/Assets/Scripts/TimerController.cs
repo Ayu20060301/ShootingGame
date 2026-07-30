@@ -14,6 +14,8 @@ public class TimerController : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.isActive) return;
+
         GameManager.Instance.playTime += Time.deltaTime;
 
         int minutes = Mathf.FloorToInt(GameManager.Instance.playTime / 60.0f);

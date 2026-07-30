@@ -72,9 +72,11 @@ public class EnemyHealth : MonoBehaviour
 
         m_IsDead = true;
 
+        GameManager.Instance.GameEnd(true);
+
         Destroy(this.gameObject);
 
-        //GameManager.Instance.GameEnd(true);
+        
 
     }
 
@@ -84,11 +86,11 @@ public class EnemyHealth : MonoBehaviour
 
         EnemyAttackController.EnemyPhase nextPhase;
 
-        if(ratio <= 0.2f)
+        if(ratio <= 0.3f)
         {
             nextPhase = EnemyAttackController.EnemyPhase.PHASE2;
         }
-        else if(ratio <= 0.5f)
+        else if(ratio <= 0.55f)
         {
             nextPhase = EnemyAttackController.EnemyPhase.PHASE1;
         }

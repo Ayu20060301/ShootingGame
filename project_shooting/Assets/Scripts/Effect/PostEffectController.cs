@@ -39,13 +39,4 @@ public class PostEffectController : MonoBehaviour
         m_Bloom.intensity.value = 0.5f;
         m_ColorAdjustments.postExposure.value = 0.0f;
     }
-
-    /// <summary>
-    /// âÊñ Çê^Ç¡çïÇ…Ç∑ÇÈ
-    /// </summary>
-    public void BlackOut()
-    {
-        m_ColorAdjustments.colorFilter.value = Color.black;
-    }
-
 }

@@ -29,7 +29,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         ResultData.bombUsed = bombUsed;
         ResultData.playTime = playTime;
 
-        SceneController.LoadScene("ResultScene");
+            SceneController.Instance.LoadScene("ResultScene");
 
     }
 }

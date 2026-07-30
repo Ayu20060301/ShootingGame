@@ -3,22 +3,29 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneController : MonoBehaviour
+
+public class SceneController : SingletonMonoBehaviour<SceneController>
 {
 
-    public static SceneController Instance;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    /// <summary>
+    /// シーン読み込み完了時
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
+    private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
+    {
+        ChangeBGM(scene.name);  
     }
 
 
@@ -26,9 +33,9 @@ public class SceneController : MonoBehaviour
     /// シーン遷移
     /// </summary>
     /// <param name="sceneName">シーン名</param>
-    public static void LoadScene(string sceneName)
+    public void LoadScene(string sceneName)
     {
-        Instance.StartCoroutine(Instance.LoadSceneAsync(sceneName));
+        StartCoroutine(LoadSceneAsync(sceneName));
     }
 
     /// <summary>
@@ -46,4 +53,23 @@ public class SceneController : MonoBehaviour
             yield return null;
         }
     }
+
+    /// <summary>
+    /// シーンごとにBGMを変える
+    /// </summary>
+    /// <param name="sceneName"></param>
+    private void ChangeBGM(string sceneName)
+    {
+        //シーンごとにBGMを切り替える
+        switch (sceneName)
+        {
+            case "TitleScene":
+                BGMManager.Instance.BGMPlay(BGMType.TITLE);
+                break;
+            case "MainScene":
+                BGMManager.Instance.BGMPlay(BGMType.GAME);
+                break;
+        }
+    }
+
 }

@@ -109,6 +109,9 @@ public class PlayerController : MonoBehaviour
     {
         if (m_ShotTimer > 0.0f) return;
 
+
+        SEManager.Instance.SEPlay(SEType.SHOT_PLAYER);
+
         Vector3 spawnPos = m_MuzzlePoint != null ? m_MuzzlePoint.position : m_CashedTransform.position;
         BulletManager.CreateBullet<PlayerBullet>(spawnPos, Vector2.right, m_BulletSpeed, m_BulletSprite);
 
@@ -147,7 +150,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="context"></param>
     public void OnShot(InputAction.CallbackContext context)
-    { 
+    {
         if (context.started)
         {
             m_IsShoting = true;

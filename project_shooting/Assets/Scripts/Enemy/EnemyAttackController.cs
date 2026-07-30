@@ -159,6 +159,9 @@ public class EnemyAttackController : MonoBehaviour
     /// </summary>
     private void ShotNormal()
     {
+
+        SEManager.Instance.SEPlay(SEType.SHOT_ENEMY);
+
         Vector2 dir = (m_Player.position - m_FirePoint.position).normalized;
 
         BulletManager.CreateBullet<EnemyBullet>(
@@ -174,6 +177,10 @@ public class EnemyAttackController : MonoBehaviour
     /// </summary>
     private void ShotFan()
     {
+
+
+        SEManager.Instance.SEPlay(SEType.SHOT_ENEMY);
+
         int bulletCount = m_IsOddShot ? 5 : 4;
         float angleRange = 60.0f;
 

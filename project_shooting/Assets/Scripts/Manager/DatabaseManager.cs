@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DatabaseManager : SingletonMonoBehaviour<DatabaseManager>
 {
-    
-    public EffectDatabase effectDatabase; 
+    [Header("各種データベースの参照")]
+    public EffectDatabase effectDatabase;
+    public SoundDatabase soundDatabase;
 }

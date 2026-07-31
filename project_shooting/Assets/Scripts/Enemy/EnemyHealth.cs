@@ -12,11 +12,10 @@ public class EnemyHealth : MonoBehaviour
     private EnemyAttackController m_EnemyAttackController;
     [SerializeField]
     private EnemyController m_EnemyController;
-
-    [Header("HPƒo[")]
     [SerializeField]
     private EnemyHPBar m_EnemyHPBar;
-
+    [SerializeField]
+    private FinishController m_FinishController;
 
     private float m_DecreaseSpeed = 30000.0f; //1•b‚ ‚½‚è‚ÉŒ¸‚ç‚·HP—Ê
 
@@ -67,18 +66,32 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// €–Sˆ—
+    /// </summary>
     private void Die()
     {
 
+        if (m_IsDead) return;
+
         m_IsDead = true;
 
-        GameManager.Instance.GameEnd(true);
 
-        Destroy(this.gameObject);
+        //“–‚½‚è”»’è‚âUŒ‚‚ğ–h~
+        Collider2D col = GetComponent<Collider2D>();
+        if(col != null)
+        {
+            col.enabled = false;
+        }
 
-        
+        m_EnemyAttackController.enabled = false;
+        m_EnemyController.enabled = false;
 
+
+        //I—¹‰‰oŠJn
+        m_FinishController.Finish(true, transform.position,gameObject);
     }
+
 
     private void CheckPhase()
     {

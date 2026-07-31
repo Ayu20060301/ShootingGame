@@ -22,6 +22,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
 
 
+    /// <summary>
+    /// ゲーム終了処理
+    /// </summary>
+    /// <param name="isClear">ゲームクリアしているかどうか</param>
     public void GameEnd(bool isClear)
     {
         ResultData.isClear = isClear;
@@ -29,7 +33,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         ResultData.bombUsed = bombUsed;
         ResultData.playTime = playTime;
 
-            SceneController.Instance.LoadScene("ResultScene");
-
+        SceneController.Instance.LoadScene("ResultScene");
     }
 }

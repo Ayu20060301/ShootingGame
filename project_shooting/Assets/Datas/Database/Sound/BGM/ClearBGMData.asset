@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e714e69d3af254cb2392151a790e9d, type: 3}
   m_Name: ClearBGMData
   m_EditorClassIdentifier: Assembly-CSharp::BGMData
-  type: 2
+  type: 3
   clip: {fileID: 8300000, guid: dd5e8695c7d257c4da988b29a23c04c9, type: 3}
   loop: 0

@@ -10,6 +10,10 @@ public class LifeUI : MonoBehaviour
     [SerializeField]
     private int m_MaxLifes = 3; //最大残機数
 
+
+    [SerializeField]
+    private FinishController m_FinishController;
+
     private void Start()
     {
         GameManager.Instance.life = m_MaxLifes;
@@ -17,18 +21,6 @@ public class LifeUI : MonoBehaviour
         //UIの更新
         UpdateUI();
     }
-
-    /// <summary>
-    /// UIの更新
-    /// </summary>
-    private void UpdateUI()
-    {
-        for(int i = 0; i< m_LifeUI.Length; i++)
-        {
-            m_LifeUI[i].enabled = i < GameManager.Instance.life;
-        }
-    }
-
 
     /// <summary>
     /// 残機を1減らす
@@ -54,10 +46,30 @@ public class LifeUI : MonoBehaviour
         //UIの更新
         UpdateUI();
 
+        //残機が0になったらゲームオーバー
         if(GameManager.Instance.life <= 0)
         {
-            GameManager.Instance.GameEnd(false);
-        }
+            PlayerController player = FindFirstObjectByType<PlayerController>();
 
+            if(player != null)
+            {
+                m_FinishController.Finish(false, player.transform.position,player.gameObject);
+            }
+            else
+            {
+                GameManager.Instance.GameEnd(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// UIの更新
+    /// </summary>
+    private void UpdateUI()
+    {
+        for (int i = 0; i < m_LifeUI.Length; i++)
+        {
+            m_LifeUI[i].enabled = i < GameManager.Instance.life;
+        }
     }
 }

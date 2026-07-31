@@ -59,6 +59,13 @@ public class EnemyAttackController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (!GameManager.Instance.isActive) return;
+
+        //プレイヤーがいなければ攻撃しない
+        if (m_Player == null) return;
+
+
         //タイマー更新
         UpdateTimer();
 
@@ -160,6 +167,8 @@ public class EnemyAttackController : MonoBehaviour
     private void ShotNormal()
     {
 
+        if (m_Player == null) return;
+
         SEManager.Instance.SEPlay(SEType.SHOT_ENEMY);
 
         Vector2 dir = (m_Player.position - m_FirePoint.position).normalized;
@@ -177,7 +186,7 @@ public class EnemyAttackController : MonoBehaviour
     /// </summary>
     private void ShotFan()
     {
-
+        if (m_Player == null) return;
 
         SEManager.Instance.SEPlay(SEType.SHOT_ENEMY);
 
@@ -218,6 +227,9 @@ public class EnemyAttackController : MonoBehaviour
     /// </summary>
     private void  ShotHoming()
     {
+
+        if (m_Player == null) return;
+
         Vector2 dir = (m_Player.position - m_FirePoint.position).normalized;
 
         HomingBullet bullet =

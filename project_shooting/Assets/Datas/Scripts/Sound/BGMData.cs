@@ -7,6 +7,7 @@ public enum BGMType
 {
     TITLE,   
     GAME,
+    RESULT,
     CLEAR,
     GAMEOVER
 }

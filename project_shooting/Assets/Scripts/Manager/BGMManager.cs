@@ -22,4 +22,13 @@ public class BGMManager : SingletonMonoBehaviour<BGMManager>
         bgmAudio.clip = data.clip;
         bgmAudio.Play();
     }
+
+    /// <summary>
+    /// BGMÇè¡Ç∑
+    /// </summary>
+    public void AudioStop()
+    {
+        bgmAudio.Stop();
+    }
+
 }

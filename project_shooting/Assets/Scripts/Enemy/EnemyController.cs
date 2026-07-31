@@ -25,7 +25,10 @@ public class EnemyController : MonoBehaviour
     private Transform m_CachedTransform; //敵のtransformキャッシュ
     [SerializeField]
     private Vector3 m_StartPosition;  //移動基準位置
-   
+    [SerializeField]
+    private Vector3 m_HomePosition; //初期位置
+    [SerializeField]
+    private bool m_IsReturning = false; //戻り中かどうかのフラグ
 
     [SerializeField]
     private float m_TargetChangeTime = 1.5f; //次の目標までの時間
@@ -35,6 +38,9 @@ public class EnemyController : MonoBehaviour
     private float m_Phase2MoveSpeed = 10.0f;
     //現在のフェーズ
     private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
+
+    //次に入るフェーズ
+    private EnemyAttackController.EnemyPhase m_NextPhase;
 
     /// <summary>
     /// 現在停止中か取得
@@ -52,12 +58,22 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
-        //開始位置を保存
-        m_StartPosition = m_CachedTransform.position;
+        m_HomePosition = m_CachedTransform.position;
+        m_StartPosition = m_HomePosition;
     }
 
     private void Update()
     {
+
+        if (!GameManager.Instance.isActive) return;
+
+
+        if(m_IsReturning)
+        {
+            ReturnToHome();
+            return;
+        }
+
         //段階ごとの移動処理
         MovePhase();
     }
@@ -68,17 +84,8 @@ public class EnemyController : MonoBehaviour
         //同じフェーズなら処理をしない
         if (m_CurrentPhase == phase) return;
 
-
-        m_CurrentPhase = phase;
-
-
-        m_StartPosition = m_CachedTransform.position;
-
-        if (phase == EnemyAttackController.EnemyPhase.PHASE2)
-        {
-            SetRandomTarget();
-        }
-
+        m_NextPhase = phase;
+        m_IsReturning = true;
     }
 
     /// <summary>
@@ -216,4 +223,35 @@ public class EnemyController : MonoBehaviour
                 );
     }
 
+
+    private void ReturnToHome()
+    {
+        m_CachedTransform.position =
+            Vector3.MoveTowards(
+               m_CachedTransform.position,
+               m_HomePosition,
+               m_Phase2MoveSpeed * Time.deltaTime
+                );
+
+        if(Vector3.Distance(m_CachedTransform.position, m_HomePosition) < 0.01f)
+        {
+            m_CachedTransform.position = m_HomePosition;
+
+            m_IsReturning = false;
+            m_CurrentPhase = m_NextPhase;
+
+
+            //各タイマーをリセット
+            m_StartPosition = m_HomePosition;
+            m_ElapsedTime = 0.0f;
+            m_MoveTime = 0.0f;
+            m_StopTimer = 0.0f;
+            m_IsStopping = false;
+
+            if(m_CurrentPhase == EnemyAttackController.EnemyPhase.PHASE2)
+            {
+                SetRandomTarget();
+            }
+        }
+    }
 }

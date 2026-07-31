@@ -15,8 +15,11 @@ MonoBehaviour:
   bgmData:
   - {fileID: 11400000, guid: 3531a7e61797a8b4c83fc2d4282e08ee, type: 2}
   - {fileID: 11400000, guid: 1c75dbe0b2c68bd479f61ca88baff3e4, type: 2}
+  - {fileID: 11400000, guid: 91a90453d0d82064a85e60175d61f1f5, type: 2}
   - {fileID: 11400000, guid: d260ae644d1224148b552460f609c81f, type: 2}
   - {fileID: 11400000, guid: f197c2837f6ecef4c9b05613b49f0152, type: 2}
   seData:
   - {fileID: 11400000, guid: 77d2c9bcac060a14688afdff3c4fc198, type: 2}
   - {fileID: 11400000, guid: 2a1e39a7913829144b20a22e797ee6fc, type: 2}
+  - {fileID: 11400000, guid: 6111269fe0cc8dd47aba99a4e0c38bb1, type: 2}
+  - {fileID: 11400000, guid: 0506a0aef2836f44688c6e90a1714284, type: 2}

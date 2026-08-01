@@ -1,23 +1,20 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// プレイヤー制御クラス
-/// </summary>
+//プレイヤー制御クラス
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float m_MoveSpeed = 5.0f;   //移動速度
+     private float m_MoveSpeed = 5.0f; //移動速度
     [SerializeField]
     private float m_SlowMoveSpeedRatio = 0.5f; //低速移動時の移動倍率
-    
+
     //X座標とY座標の上限
     float m_XLimit = 8.0f;
     float m_YLimit = 4.5f;
 
     private Rigidbody2D m_Rigidbody2D;
-    private Transform m_CashedTransform;
+    private Transform m_CachedTransform;
     private Vector2 m_MoveInput;
     private bool m_IsSlowMode;  //低速移動の切り替え
 
@@ -27,33 +24,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform m_MuzzlePoint;
     [SerializeField]
-    private float m_ShotInterval = 0.1f;
+    private float m_ShootInterval = 0.1f;
     [SerializeField]
     private float m_BulletSpeed = 10.0f; //弾の速度
-    private float m_ShotTimer;
-    private bool m_IsShoting;
-
+    private float m_ShootTimer;
+    private bool m_IsShooting;
 
 
     private void Start()
     {
-        m_CashedTransform = this.transform;
+        m_CachedTransform = this.transform;
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
-
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
         if (!GameManager.Instance.isActive) return;
 
-
         //発射間隔のクールタイムを更新する
-        HandleShotTimer();
+        HandleShootTimer();
 
         //射撃入力中かどうかを見て、発射処理を呼び出す
-        HandleShoting();
+        HandleShooting();
     }
 
     private void FixedUpdate()
@@ -61,61 +53,65 @@ public class PlayerController : MonoBehaviour
 
         if (!GameManager.Instance.isActive) return;
 
+        //移動処理
         Move();
     }
 
-    /// <summary>
-    /// 入力に応じて移動させる
-    /// </summary>
     private void Move()
     {
         float speed = m_IsSlowMode
-         ? m_MoveSpeed * m_SlowMoveSpeedRatio
-         : m_MoveSpeed;
+            ? m_MoveSpeed * m_SlowMoveSpeedRatio
+            : m_MoveSpeed;
 
         Vector2 nextPos =
-            m_Rigidbody2D.position + m_MoveInput * speed * Time.fixedDeltaTime;
+            m_Rigidbody2D.position + m_MoveInput * speed *
+            Time.fixedDeltaTime;
 
-        // 画面外に出ないよう制限
-        nextPos.x = Mathf.Clamp(nextPos.x, -m_XLimit, m_XLimit);
-        nextPos.y = Mathf.Clamp(nextPos.y, -m_YLimit, m_YLimit);
+        //画面外に出ないように制限
+        nextPos.x = Mathf.Clamp(nextPos.x, - m_XLimit,
+            m_XLimit);
+        nextPos.y = Mathf.Clamp(nextPos.y, -m_YLimit,
+           m_YLimit);
 
         m_Rigidbody2D.MovePosition(nextPos);
     }
 
+
     /// <summary>
     /// 発射間隔のクールタイムを更新する
     /// </summary>
-    private void HandleShotTimer()
+    private void HandleShootTimer()
     {
-        if (m_ShotTimer > 0.0f)
+        if(m_ShootTimer > 0.0f)
         {
-            m_ShotTimer -= Time.deltaTime;
+            m_ShootTimer -= Time.deltaTime;
         }
     }
 
     /// <summary>
     /// 射撃入力中かどうかを見て、発射処理を呼び出す
     /// </summary>
-    private void HandleShoting()
+    private void HandleShooting()
     {
-        if (m_IsShoting)
+        if(m_IsShooting)
         {
-            Shot();
+            Shoot();
         }
     }
 
-    private void Shot()
+    private void Shoot()
     {
-        if (m_ShotTimer > 0.0f) return;
-
+        if (m_ShootTimer > 0.0f) return;
 
         SEManager.Instance.SEPlay(SEType.SHOT_PLAYER);
 
-        Vector3 spawnPos = m_MuzzlePoint != null ? m_MuzzlePoint.position : m_CashedTransform.position;
-        BulletManager.CreateBullet<PlayerBullet>(spawnPos, Vector2.right, m_BulletSpeed, m_BulletSprite);
+        Vector3 spawnPos = m_MuzzlePoint != null ?
+            m_MuzzlePoint.position : m_CachedTransform.position;
 
-        m_ShotTimer = m_ShotInterval;
+        BulletManager.CreateBullet<PlayerBullet>(spawnPos,
+            Vector2.right, m_BulletSpeed, m_BulletSprite);
+
+        m_ShootTimer = m_ShootInterval;
     }
 
     /// <summary>
@@ -128,36 +124,27 @@ public class PlayerController : MonoBehaviour
         m_MoveInput = context.ReadValue<Vector2>();
     }
 
-    /// <summary>
-    /// 低速移動の切り替え
-    /// </summary>
-    /// <param name="context"></param>
     public void OnSlowMode(InputAction.CallbackContext context)
     {
-
-        if (context.started)
+        if(context.started)
         {
             m_IsSlowMode = true;
         }
-        else if (context.canceled)
+        else if(context.canceled)
         {
             m_IsSlowMode = false;
         }
     }
 
-    /// <summary>
-    /// 弾の発射処理
-    /// </summary>
-    /// <param name="context"></param>
-    public void OnShot(InputAction.CallbackContext context)
+    public void OnShoot(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if ((context.started))
         {
-            m_IsShoting = true;
+            m_IsShooting = true;
         }
-        else if (context.canceled)
+        else if(context.canceled)
         {
-            m_IsShoting = false;
+            m_IsShooting = false;
         }
     }
 }

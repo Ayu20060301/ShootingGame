@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class SceneController : SingletonMonoBehaviour<SceneController>
 {
 
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;

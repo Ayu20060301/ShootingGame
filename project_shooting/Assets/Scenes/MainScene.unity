@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500a1ce5783d809498bcbabb9c9d36d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  score: 0
   bombUsed: 0
   life: 0
+  enemyHP: 0
   playTime: 0
   isActive: 0
 --- !u!4 &206750663
@@ -1255,7 +1255,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 928235183}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShot
+        m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1283,10 +1283,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: cff46fc8-800a-45d7-8277-504b1ac87d92
     m_ActionName: 'Player/Slow Movement[/Keyboard/leftShift,/XInputControllerWindows/rightTrigger]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 65880c15-1829-42c3-838f-10047cdd5972
-    m_ActionName: 'System/Pause[/Keyboard/escape,/XInputControllerWindows/start]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1301,14 +1297,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 928235179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 947fc07e473d02b49a6490b9894d115f, type: 3}
+  m_Script: {fileID: 11500000, guid: c41ef3bfb8603414dbf6de92a6ff8d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   m_MoveSpeed: 5
   m_SlowMoveSpeedRatio: 0.5
   m_BulletSprite: {fileID: -8807635413740140514, guid: 3d65d4837cac5a047bbda961423cf163, type: 3}
   m_MuzzlePoint: {fileID: 928235181}
-  m_ShotInterval: 0.3
+  m_ShootInterval: 0.3
   m_BulletSpeed: 10
 --- !u!95 &928235185
 Animator:
@@ -2606,7 +2602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67455593d80ff14fbf0b2dc8d778323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  m_MaxHP: 5000
+  m_MaxHP: 15000
   m_CurrentHP: 0
   m_EnemyAttackController: {fileID: 1630205801}
   m_EnemyController: {fileID: 1630205794}

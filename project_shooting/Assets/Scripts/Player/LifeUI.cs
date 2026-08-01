@@ -8,15 +8,11 @@ public class LifeUI : MonoBehaviour
     private Image[] m_LifeUI; //残機用UI
 
     [SerializeField]
-    private int m_MaxLifes = 3; //最大残機数
-
-
-    [SerializeField]
     private FinishController m_FinishController;
 
     private void Start()
     {
-        GameManager.Instance.life = m_MaxLifes;
+        GameManager.Instance.currentLife = GameManager.Instance.maxLife;
 
         //UIの更新
         UpdateUI();
@@ -28,10 +24,10 @@ public class LifeUI : MonoBehaviour
     public void LoseLife()
     {
         //HPが0以下ならば処理を行わない
-        if (GameManager.Instance.life <= 0) return;
+        if (GameManager.Instance.currentLife <= 0) return;
 
         //消える残機のインデックス
-        int index = GameManager.Instance.life - 1;
+        int index = GameManager.Instance.currentLife - 1;
 
         //UIの位置でエフェクト再生
         EffectManager.Instance.PlayEffect(
@@ -40,14 +36,14 @@ public class LifeUI : MonoBehaviour
             );
 
         //残機を減らす
-        GameManager.Instance.life--;
+        GameManager.Instance.currentLife--;
 
 
         //UIの更新
         UpdateUI();
 
         //残機が0になったらゲームオーバー
-        if(GameManager.Instance.life <= 0)
+        if(GameManager.Instance.currentLife <= 0)
         {
             PlayerController player = FindFirstObjectByType<PlayerController>();
 
@@ -69,7 +65,7 @@ public class LifeUI : MonoBehaviour
     {
         for (int i = 0; i < m_LifeUI.Length; i++)
         {
-            m_LifeUI[i].enabled = i < GameManager.Instance.life;
+            m_LifeUI[i].enabled = i < GameManager.Instance.currentLife;
         }
     }
 }

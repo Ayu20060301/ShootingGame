@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField]
-    private int m_MaxHP = 10000;
-
-    [SerializeField]
-    private int m_CurrentHP;
 
     [SerializeField]
     private EnemyAttackController m_EnemyAttackController;
@@ -28,19 +23,19 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
-        m_CurrentHP = m_MaxHP;
-        m_DisplayedHP = m_MaxHP;
-        m_EnemyHPBar.SetHP(m_CurrentHP, m_MaxHP);
+        GameManager.Instance.currentEnemyHP = GameManager.Instance.maxEnemyHP;
+        m_DisplayedHP = GameManager.Instance.maxEnemyHP;
+        m_EnemyHPBar.SetHP(GameManager.Instance.currentEnemyHP, GameManager.Instance.maxEnemyHP);
     }
 
     private void Update()
     {
-        if(m_DisplayedHP > m_CurrentHP)
+        if(m_DisplayedHP > GameManager.Instance.currentEnemyHP)
         {
             m_DisplayedHP -= m_DecreaseSpeed * Time.deltaTime;
-            m_DisplayedHP = Mathf.Max(m_DisplayedHP, m_CurrentHP);
+            m_DisplayedHP = Mathf.Max(m_DisplayedHP, GameManager.Instance.currentEnemyHP);
 
-            m_EnemyHPBar.SetHP(Mathf.RoundToInt(m_DisplayedHP), m_MaxHP);
+            m_EnemyHPBar.SetHP(Mathf.RoundToInt(m_DisplayedHP), GameManager.Instance.maxEnemyHP);
 
             CheckPhase();
         }
@@ -55,12 +50,12 @@ public class EnemyHealth : MonoBehaviour
 
         if (m_IsDead) return;
 
-        m_CurrentHP -= damage;
-        m_CurrentHP = Mathf.Max(m_CurrentHP, 0);
+        GameManager.Instance.currentEnemyHP -= damage;
+        GameManager.Instance.currentEnemyHP = Mathf.Max(GameManager.Instance.currentEnemyHP, 0);
 
         CheckPhase();
 
-        if(m_CurrentHP <= 0)
+        if(GameManager.Instance.currentEnemyHP <= 0)
         {
             Die();
         }
@@ -95,15 +90,15 @@ public class EnemyHealth : MonoBehaviour
 
     private void CheckPhase()
     {
-        float ratio = (float)m_CurrentHP / m_MaxHP;
+        float ratio = (float)GameManager.Instance.currentEnemyHP / GameManager.Instance.maxEnemyHP;
 
         EnemyAttackController.EnemyPhase nextPhase;
 
-        if(ratio <= 0.3f)
+        if(ratio <= 0.2f)
         {
             nextPhase = EnemyAttackController.EnemyPhase.PHASE2;
         }
-        else if(ratio <= 0.55f)
+        else if(ratio <= 0.50f)
         {
             nextPhase = EnemyAttackController.EnemyPhase.PHASE1;
         }

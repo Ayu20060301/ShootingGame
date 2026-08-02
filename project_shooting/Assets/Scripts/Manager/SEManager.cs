@@ -20,5 +20,11 @@ public class SEManager : SingletonMonoBehaviour<SEManager>
         }
 
         seAudio.PlayOneShot(data.clip);
+
+        if(Time.timeScale < 0)
+        {
+            seAudio.Stop();
+        }
+
     }
 }

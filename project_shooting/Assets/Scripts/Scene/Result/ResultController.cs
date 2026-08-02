@@ -17,7 +17,7 @@ public class ResultController : MonoBehaviour
         m_Input = new PlayerInputActions();
         BGMManager.Instance.BGMPlay(BGMType.RESULT);
 
-        RefreshMenu();
+        UpdateText();
     }
 
     private void OnEnable()
@@ -36,7 +36,7 @@ public class ResultController : MonoBehaviour
 
 
   
-    private void RefreshMenu()
+    private void UpdateText()
     {
         m_MenuText.text =
          (m_SelectIndex == 0 ? "> " : " ") + "ƒŠƒgƒ‰ƒC\n" +
@@ -64,7 +64,7 @@ public class ResultController : MonoBehaviour
             SEManager.Instance.SEPlay(SEType.SELECT);
         }
 
-        RefreshMenu();
+        UpdateText();
     }
 
     private void OnSubmit(InputAction.CallbackContext context)

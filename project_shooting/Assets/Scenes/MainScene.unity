@@ -148,9 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500a1ce5783d809498bcbabb9c9d36d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  bombUsed: 0
-  life: 0
-  enemyHP: 0
+  currentLife: 0
+  maxLife: 0
+  currentEnemyHP: 0
+  maxEnemyHP: 0
   playTime: 0
   isActive: 0
 --- !u!4 &206750663
@@ -334,6 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faacfaeb440eb664a822eb9e13371e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneController
+  m_FadeCanvas: {fileID: 0}
+  m_FadeTime: 0.5
 --- !u!4 &271633721
 Transform:
   m_ObjectHideFlags: 0
@@ -696,6 +699,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerController
   m_TimeText: {fileID: 558730097}
+--- !u!1 &644294444
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644294446}
+  - component: {fileID: 644294445}
+  m_Layer: 0
+  m_Name: PauseController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &644294445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644294444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b55ebbafdf2c2545a6646719a03c8ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseController
+  m_PauseMenu: {fileID: 398163991}
+  m_SelectText: {fileID: 238668349}
+--- !u!4 &644294446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644294444}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &676790502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,6 +1332,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: cff46fc8-800a-45d7-8277-504b1ac87d92
     m_ActionName: 'Player/Slow Movement[/Keyboard/leftShift,/XInputControllerWindows/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 67845e47-063d-4581-b3a8-ac960fa2d991
+    m_ActionName: 'UI/Pause[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1597,7 +1650,6 @@ MonoBehaviour:
   - {fileID: 1694146184}
   - {fileID: 2017143765}
   - {fileID: 723058432}
-  m_MaxLifes: 3
   m_FinishController: {fileID: 988322247}
 --- !u!1 &962627362
 GameObject:
@@ -2602,8 +2654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b67455593d80ff14fbf0b2dc8d778323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  m_MaxHP: 15000
-  m_CurrentHP: 0
   m_EnemyAttackController: {fileID: 1630205801}
   m_EnemyController: {fileID: 1630205794}
   m_EnemyHPBar: {fileID: 1630205802}
@@ -3208,3 +3258,4 @@ SceneRoots:
   - {fileID: 676790505}
   - {fileID: 962627365}
   - {fileID: 988322248}
+  - {fileID: 644294446}

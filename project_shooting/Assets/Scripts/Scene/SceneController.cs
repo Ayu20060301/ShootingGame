@@ -17,6 +17,8 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     {
         base.Awake();
 
+        Application.targetFrameRate = 60; //フレームレートの設定
+
         if(m_FadeCanvas != null)
         {
             m_FadeCanvas.alpha = 0.0f;

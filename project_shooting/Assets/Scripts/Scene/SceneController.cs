@@ -7,6 +7,29 @@ using UnityEngine.SceneManagement;
 public class SceneController : SingletonMonoBehaviour<SceneController>
 {
 
+    [SerializeField]
+    private CanvasGroup m_FadeCanvas;
+
+    [SerializeField]
+    private float m_FadeTime = 0.5f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if(m_FadeCanvas != null)
+        {
+            m_FadeCanvas.alpha = 0.0f;
+        }
+    }
+
+
+    private IEnumerator Start()
+    {
+        //起動時にフェードイン
+        yield return Fade(1.0f, 0.0f);
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,13 +67,29 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <returns></returns>
     private IEnumerator LoadSceneAsync(string sceneName)
     {
+
+        //フェードアウト
+        yield return Fade(0.0f, 1.0f);
+
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
+        async.allowSceneActivation = false;
 
         //読み込み完了まで待機
+        while(async.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        //シーン切り替え
+        async.allowSceneActivation = true;
+
         while(!async.isDone)
         {
             yield return null;
         }
+
+        //フェードイン
+        yield return Fade(1.0f, 0.0f);
     }
 
     /// <summary>
@@ -71,4 +110,20 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         }
     }
 
+    private IEnumerator Fade(float start, float end)
+    {
+        if (m_FadeCanvas == null) yield break;
+
+        float time = 0.0f;
+        m_FadeCanvas.alpha = start;
+
+        while(time < m_FadeTime)
+        {
+            time += Time.deltaTime;
+            m_FadeCanvas.alpha = Mathf.Lerp(start, end, time / m_FadeTime);
+            yield return null;
+        }
+
+        m_FadeCanvas.alpha = end;
+    }
 }

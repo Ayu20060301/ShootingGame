@@ -82,12 +82,17 @@ public class PauseController : MonoBehaviour
 
         if (!m_IsPause) return;
 
+        //シーン遷移中なら無視
+        if (SceneController.Instance.IsLoading) return;
+
+        //決定音を鳴らす
         SEManager.Instance.SEPlay(SEType.DECIDE);
 
-        switch(m_SelectIndex)
+        switch (m_SelectIndex)
         {
             case 0:
                 ResumeGame();
+                SEManager.Instance.SEPlay(SEType.DECIDE);
                 break;
             case 1:
                 ResumeGame();
@@ -129,6 +134,9 @@ public class PauseController : MonoBehaviour
         Time.timeScale = 0.0f;
         BGMManager.Instance.bgmAudio.volume = 0.3f;
         m_PauseMenu.SetActive(true);
+
+        //ESCキー・startボタンを無効
+        m_Input.UI.Pause.Disable();
     }
 
     private void ResumeGame()
@@ -139,6 +147,9 @@ public class PauseController : MonoBehaviour
         Time.timeScale = 1.0f;
         BGMManager.Instance.bgmAudio.volume = 1.0f;
         m_PauseMenu.SetActive(false);
+
+        //ESCキー・startボタンを有効
+        m_Input.UI.Pause.Enable();
     }
 
 

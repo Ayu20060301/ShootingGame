@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c5c74eab257c5945b1b373c6f7c4142, type: 3}
-  m_Name: SelectSound
+  m_Name: PlayerDamageSEData
   m_EditorClassIdentifier: Assembly-CSharp::SEData
-  type: 6
-  clip: {fileID: 8300000, guid: 8a3d8e38815d4c94d813745d7ee48c20, type: 3}
+  type: 2
+  clip: {fileID: 8300000, guid: 81a01d00409445348b5772a88e18740d, type: 3}

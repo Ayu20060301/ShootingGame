@@ -106,7 +106,7 @@ public class HomingBullet : BulletBase
                 playerFlash.BulletHit();
             }
 
-            if (other.TryGetComponent<LifeUI>(out var lifeUI))
+            if (other.TryGetComponent<PlayerLifeUI>(out var lifeUI))
             {
                 lifeUI.LoseLife();
             }

@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float m_BulletSpeed = 10.0f; //’e‚Ì‘¬“x
     private float m_ShootTimer;
-    private bool m_IsShooting;
+    private bool m_IsShooting; //”­ŽË‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 
 
     private void Start()

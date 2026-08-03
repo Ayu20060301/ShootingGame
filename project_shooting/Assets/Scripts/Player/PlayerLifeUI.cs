@@ -1,21 +1,59 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 //残機を表示するスクリプト
-public class LifeUI : MonoBehaviour
+public class PlayerLifeUI : MonoBehaviour
 {
     [SerializeField]
-    private Image[] m_LifeUI; //残機用UI
-
+    private GameObject m_LifePrefab; //残機アイコンのプレハブ
+    [SerializeField]
+    private Transform m_LifeParent; //横並びにする親
+    private List<Image> m_LifeUI = new();
     [SerializeField]
     private FinishController m_FinishController;
+
 
     private void Start()
     {
         GameManager.Instance.currentLife = GameManager.Instance.maxLife;
 
+        //UIを生成
+        CreateLifeUI();
+
         //UIの更新
         UpdateUI();
+
+    }
+
+    /// <summary>
+    /// 残機UIを生成
+    /// </summary>
+    private void CreateLifeUI()
+    {
+        m_LifeUI.Clear();
+
+        for(int i = 0; i< GameManager.Instance.maxLife; i++)
+        {
+            GameObject obj = Instantiate(m_LifePrefab, m_LifeParent);
+
+            Image image = obj.GetComponent<Image>();
+
+            m_LifeUI.Add(image);
+        }
+
+
+    }
+
+    /// <summary>
+    /// UIを更新
+    /// </summary>
+    private void UpdateUI()
+    {
+        for(int i = 0; i < m_LifeUI.Count; i++)
+        {
+            m_LifeUI[i].enabled = i < GameManager.Instance.currentLife;
+        }
     }
 
     /// <summary>
@@ -29,11 +67,8 @@ public class LifeUI : MonoBehaviour
         //消える残機のインデックス
         int index = GameManager.Instance.currentLife - 1;
 
-        //UIの位置でエフェクト再生
-        EffectManager.Instance.PlayEffect(
-            EffectType.EXPLOSION,
-            m_LifeUI[index].transform.position
-            );
+
+        SEManager.Instance.SEPlay(SEType.DAMAGE_PLAYER);
 
         //残機を減らす
         GameManager.Instance.currentLife--;
@@ -58,14 +93,5 @@ public class LifeUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// UIの更新
-    /// </summary>
-    private void UpdateUI()
-    {
-        for (int i = 0; i < m_LifeUI.Length; i++)
-        {
-            m_LifeUI[i].enabled = i < GameManager.Instance.currentLife;
-        }
-    }
+ 
 }

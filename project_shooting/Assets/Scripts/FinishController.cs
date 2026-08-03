@@ -6,10 +6,6 @@ using TMPro;
 
 public class FinishController : MonoBehaviour
 {
-
-    [SerializeField]
-    private EnemyFlash m_Flash;
-
     [SerializeField]
     private int m_ExplosionCount = 7;
     [SerializeField]
@@ -93,8 +89,6 @@ public class FinishController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator PlayEnemyExplosion(Vector3 position)
     {
-        //“G‚ð“_–Å‚³‚¹‚é
-        m_Flash.Flash();
 
         for (int i = 0; i < m_ExplosionCount; i++)
         {

@@ -426,6 +426,7 @@ MonoBehaviour:
   m_ResultText: {fileID: 249360498}
   m_PlayTimeText: {fileID: 646625582}
   m_BestTimeText: {fileID: 1751136604}
+  m_NewRecordText: {fileID: 918150209}
   m_RankText: {fileID: 1088218857}
 --- !u!4 &626697664
 Transform:

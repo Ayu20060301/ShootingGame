@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneController
   m_FadeCanvas: {fileID: 1277383144}
-  m_FadeTime: 0.2
+  m_FadeTime: 0.5
 --- !u!4 &1499000802
 Transform:
   m_ObjectHideFlags: 0

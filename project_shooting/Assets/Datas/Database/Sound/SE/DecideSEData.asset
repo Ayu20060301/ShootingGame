@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c5c74eab257c5945b1b373c6f7c4142, type: 3}
-  m_Name: PlayerShotSE
+  m_Name: DecideSEData
   m_EditorClassIdentifier: Assembly-CSharp::SEData
-  type: 0
-  clip: {fileID: 8300000, guid: 01d0a9fdfc0b9984ca3ce1efbf47f7cd, type: 3}
+  type: 5
+  clip: {fileID: 8300000, guid: 9dfe9673352610941aa726f5b0e57374, type: 3}

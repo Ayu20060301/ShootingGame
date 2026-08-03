@@ -15,6 +15,8 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private TMP_Text m_BestTimeText;
     [SerializeField]
+    private TMP_Text m_NewRecordText;
+    [SerializeField]
     private TMP_Text m_RankText;
 
     private void Start()
@@ -76,12 +78,36 @@ public class ResultUI : MonoBehaviour
     /// </summary>
     private void UpdateBestTime()
     {
+
+        //保存前のベストタイムを取得
+        float oldBestTime = m_BestTimeController.GetBestTime();
+
+        bool isNewRecord = false;
+
        //ゲームクリア時のみベストタイムを更新
        if(ResultData.isClear)
-        {
-            m_BestTimeController.SaveBestTime(ResultData.playTime);
-        }
+       {
+           //初記録または過去記録より早い場合
+           if(ResultData.playTime < oldBestTime)
+           {
+                isNewRecord = true;
+           }
 
+            m_BestTimeController.SaveBestTime(ResultData.playTime);
+       }
+
+       //ニューレコード表示
+       if(isNewRecord)
+       {
+            m_NewRecordText.text = "NEW RECORD!";
+       }
+       else
+       {
+            m_NewRecordText.text = string.Empty;
+       }
+    
+
+        //更新後のベストタイムを取得
         float bestTime = m_BestTimeController.GetBestTime();
 
         //まだ記録がない

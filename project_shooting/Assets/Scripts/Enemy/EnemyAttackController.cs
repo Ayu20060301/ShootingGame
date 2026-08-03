@@ -13,51 +13,38 @@ public class EnemyAttackController : MonoBehaviour
         PHASE2   //フェーズ2に入った状態(ホーミング攻撃)
     }
 
-    [Header("現在のフェーズ")]
     [SerializeField]
-    private EnemyPhase m_CurrentPhase = EnemyPhase.NORMAL;
-
-    [Header("発射位置")]
+    private EnemyPhase m_CurrentPhase = EnemyPhase.NORMAL; //現在のフェーズ
     [SerializeField]
-    private Transform m_FirePoint;
-
+    private Transform m_FirePoint; //発射位置
     [SerializeField]
-    private Transform m_Player;
-
-    [Header("弾")]
+    private Transform m_Player;  //プレイヤーの座標
     [SerializeField]
-    private Sprite m_NormalBulletSprite;
-
-    [Header("ホーミングのスプライト")]
+    private Sprite m_NormalBulletSprite; //弾のスプライト
     [SerializeField]
-    private Sprite m_HomingBulletSprite;
-
-    [Header("弾の速度")]
+    private Sprite m_HomingBulletSprite; //ホーミングのスプライト弾
     [SerializeField]
-    private float m_BulletSpeed = 10.0f;
-
-    [Header("通常攻撃の間隔")]
+    private float m_BulletSpeed = 10.0f; //弾の速度
     [SerializeField]
     private float m_NormalInterval = 2.0f;  //通常弾
-
-    [Header("扇形攻撃の間隔")]
     [SerializeField]
-    private float m_FanInterval = 1.0f;
-
-
+    private float m_FanInterval = 1.0f; //扇形弾の間隔
     [SerializeField]
-    private float m_HomingInterval = 7.0f;
-
+    private float m_HomingInterval = 7.0f; //ホーミング弾が発射する感覚
     private float m_NormalTimer;
     private float m_FanTimer;
     private float m_HomingTimer;
 
-
-    [SerializeField]
-    private EnemyController m_EnemyController;
+    private EnemyController m_EnemyController; 
 
     //扇形を奇数・偶数で切り替える
     private bool m_IsOddShot = true;
+
+    private void Start()
+    {
+        //コーポネントの取得
+        m_EnemyController = GetComponent<EnemyController>();
+    }
 
     // Update is called once per frame
     void Update()

@@ -13,6 +13,10 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     [SerializeField]
     private float m_FadeTime = 0.5f;
 
+    private bool m_IsLoading = false; //シーン遷移中か
+
+    public bool IsLoading => m_IsLoading;
+
     protected override void Awake()
     {
         base.Awake();
@@ -59,6 +63,14 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <param name="sceneName">シーン名</param>
     public void LoadScene(string sceneName)
     {
+        
+        //既に遷移中なら無視
+        if (m_IsLoading) return;
+
+        //遷移開始
+        m_IsLoading = true;
+
+
         StartCoroutine(LoadSceneAsync(sceneName));
     }
 
@@ -92,6 +104,9 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
 
         //フェードイン
         yield return Fade(1.0f, 0.0f);
+
+        //遷移完了
+        m_IsLoading = false;
     }
 
     /// <summary>

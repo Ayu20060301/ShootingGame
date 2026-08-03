@@ -4,14 +4,11 @@ public class EnemyHealth : MonoBehaviour
 {
 
     [SerializeField]
-    private EnemyAttackController m_EnemyAttackController;
-    [SerializeField]
-    private EnemyController m_EnemyController;
-    [SerializeField]
-    private EnemyHPBar m_EnemyHPBar;
-    [SerializeField]
     private FinishController m_FinishController;
-    [SerializeField]
+  
+    private EnemyAttackController m_EnemyAttackController;
+    private EnemyController m_EnemyController;
+    private EnemyHPBar m_EnemyHPBar;
     private EnemyDamageEffect m_EnemyDamageEffect;
 
     private float m_DecreaseSpeed = 30000.0f; //1秒あたりに減らすHP量
@@ -25,6 +22,12 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
+        //コーポネントの取得
+        m_EnemyAttackController = GetComponent<EnemyAttackController>();
+        m_EnemyController = GetComponent<EnemyController>();
+        m_EnemyHPBar = GetComponent<EnemyHPBar>();
+        m_EnemyDamageEffect = GetComponent<EnemyDamageEffect>();
+
         GameManager.Instance.currentEnemyHP = GameManager.Instance.maxEnemyHP;
         m_DisplayedHP = GameManager.Instance.maxEnemyHP;
         m_EnemyHPBar.SetHP(GameManager.Instance.currentEnemyHP, GameManager.Instance.maxEnemyHP);

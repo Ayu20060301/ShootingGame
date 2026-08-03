@@ -29,18 +29,14 @@ public class EnemyController : MonoBehaviour
     private Vector3 m_HomePosition; //初期位置
     [SerializeField]
     private bool m_IsReturning = false; //戻り中かどうかのフラグ
-
     [SerializeField]
     private float m_TargetChangeTime = 1.5f; //次の目標までの時間
     [SerializeField]
-    private Vector3 m_Phase2TargetPosition;
+    private Vector3 m_Phase2TargetPosition; 
     [SerializeField]
-    private float m_Phase2MoveSpeed = 10.0f;
-    //現在のフェーズ
-    private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
-
-    //次に入るフェーズ
-    private EnemyAttackController.EnemyPhase m_NextPhase;
+    private float m_Phase2MoveSpeed = 10.0f;  //フェーズ2段階の移動速度
+    private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;  //現在のフェーズ
+    private EnemyAttackController.EnemyPhase m_NextPhase;  //現在のフェーズ
 
     /// <summary>
     /// 現在停止中か取得

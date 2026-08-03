@@ -12,7 +12,7 @@ public class EnemyHPBar : MonoBehaviour
     [SerializeField]
     private Sprite m_HalfSprite;  //50%ˆÈ‰º
     [SerializeField]
-    private Sprite m_CriticalSprite;  //30%ˆÈ‰º
+    private Sprite m_CriticalSprite;  //20%ˆÈ‰º
 
    
 

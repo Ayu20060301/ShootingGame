@@ -4,10 +4,16 @@ using TMPro;
 
 public class ResultUI : MonoBehaviour
 {
+
+    [SerializeField]
+    private BestTimeController m_BestTimeController;
+
     [SerializeField]
     private TMP_Text m_ResultText;
     [SerializeField]
-    private TMP_Text m_TimeText;
+    private TMP_Text m_PlayTimeText;
+    [SerializeField]
+    private TMP_Text m_BestTimeText;
     [SerializeField]
     private TMP_Text m_RankText;
 
@@ -18,8 +24,10 @@ public class ResultUI : MonoBehaviour
         int minutes = Mathf.FloorToInt(ResultData.playTime / 60.0f);
         int seconds = Mathf.FloorToInt(ResultData.playTime % 60.0f);
 
-        m_TimeText.text = (ResultData.isClear ? "クリア時間 : "  : "生存時間 : ")　+  $"{minutes:00}:{seconds:00}";
+        m_PlayTimeText.text = (ResultData.isClear ? "クリア時間 : "  : "生存時間 : ")　+  $"{minutes:00}:{seconds:00}";
 
+        //ベストタイムを更新
+        UpdateBestTime();
         //ランクの更新
         UpdateRank();
     }
@@ -61,5 +69,31 @@ public class ResultUI : MonoBehaviour
             m_RankText.text = "D";
             m_RankText.color = Color.gray;
         }
+    }
+
+    /// <summary>
+    /// ベストタイムの更新
+    /// </summary>
+    private void UpdateBestTime()
+    {
+       //ゲームクリア時のみベストタイムを更新
+       if(ResultData.isClear)
+        {
+            m_BestTimeController.SaveBestTime(ResultData.playTime);
+        }
+
+        float bestTime = m_BestTimeController.GetBestTime();
+
+        //まだ記録がない
+        if(bestTime == float.MaxValue)
+        {
+            m_BestTimeText.text = "ベストタイム : --:--";
+            return;
+        }
+
+        int minutes = Mathf.FloorToInt(bestTime / 60.0f);
+        int seconds = Mathf.FloorToInt(bestTime % 60.0f);
+
+        m_BestTimeText.text = $"ベストタイム : {minutes:00}:{seconds:00}";
     }
 }

@@ -226,7 +226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u3064\u3065\u3051\u308B\n\n\u30BF\u30A4\u30C8\u30EB\u3078\u3082\u3069\u308B"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 347ce965ab2804847bfc31d2f7bf49cc, type: 2}
   m_sharedMaterial: {fileID: 3304921240332321186, guid: 347ce965ab2804847bfc31d2f7bf49cc, type: 2}
@@ -253,8 +253,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1823,6 +1823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced4fa8acffcc6e498893b880d942549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FinishController
+  m_Flash: {fileID: 1630205805}
   m_ExplosionCount: 7
   m_ExplosionInterval: 0.35
   m_ExplosionRadius: 1
@@ -2319,6 +2320,8 @@ GameObject:
   - component: {fileID: 1630205801}
   - component: {fileID: 1630205803}
   - component: {fileID: 1630205802}
+  - component: {fileID: 1630205804}
+  - component: {fileID: 1630205805}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2658,6 +2661,35 @@ MonoBehaviour:
   m_EnemyController: {fileID: 1630205794}
   m_EnemyHPBar: {fileID: 1630205802}
   m_FinishController: {fileID: 988322247}
+  m_EnemyDamageEffect: {fileID: 1630205804}
+--- !u!114 &1630205804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630205793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3c2d0b535edd64eaaf51fcac183ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamageEffect
+  m_SpriteRenderer: {fileID: 1630205796}
+  m_FlashTime: 0.1
+--- !u!114 &1630205805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630205793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462a3e6c876ada94ea775598004dbedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyFlash
+  m_FlashInterval: 0.1
+  m_SP: {fileID: 1630205796}
 --- !u!1 &1694146181
 GameObject:
   m_ObjectHideFlags: 0

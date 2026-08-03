@@ -22,7 +22,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
         maxLife = 3;
         playTime = 0.0f;
-        maxEnemyHP = 10000;
+        maxEnemyHP = 1000;
 
     }
 

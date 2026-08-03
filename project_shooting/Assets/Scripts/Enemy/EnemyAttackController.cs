@@ -9,8 +9,8 @@ public class EnemyAttackController : MonoBehaviour
     public enum EnemyPhase
     {
         NORMAL,  //通常状態
-        PHASE1,  //フェーズ1に入った状態
-        PHASE2   //フェーズ2に入った状態
+        PHASE1,  //フェーズ1に入った状態(扇形攻撃)
+        PHASE2   //フェーズ2に入った状態(ホーミング攻撃)
     }
 
     [Header("現在のフェーズ")]
@@ -28,19 +28,22 @@ public class EnemyAttackController : MonoBehaviour
     [SerializeField]
     private Sprite m_NormalBulletSprite;
 
+    [Header("ホーミングのスプライト")]
     [SerializeField]
     private Sprite m_HomingBulletSprite;
 
+    [Header("弾の速度")]
     [SerializeField]
     private float m_BulletSpeed = 10.0f;
 
-
-    [Header("攻撃間隔")]
+    [Header("通常攻撃の間隔")]
     [SerializeField]
     private float m_NormalInterval = 2.0f;  //通常弾
 
+    [Header("扇形攻撃の間隔")]
     [SerializeField]
     private float m_FanInterval = 1.0f;
+
 
     [SerializeField]
     private float m_HomingInterval = 7.0f;

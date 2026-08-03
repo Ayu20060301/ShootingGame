@@ -127,7 +127,7 @@ public class PauseController : MonoBehaviour
         UpdateText();
 
         Time.timeScale = 0.0f;
-        BGMManager.Instance.bgmAudio.volume = 0.5f;
+        BGMManager.Instance.bgmAudio.volume = 0.3f;
         m_PauseMenu.SetActive(true);
     }
 

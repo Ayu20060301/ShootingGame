@@ -11,6 +11,8 @@ public class EnemyHealth : MonoBehaviour
     private EnemyHPBar m_EnemyHPBar;
     [SerializeField]
     private FinishController m_FinishController;
+    [SerializeField]
+    private EnemyDamageEffect m_EnemyDamageEffect;
 
     private float m_DecreaseSpeed = 30000.0f; //1ïbÇ†ÇΩÇËÇ…å∏ÇÁÇ∑HPó 
 
@@ -35,6 +37,7 @@ public class EnemyHealth : MonoBehaviour
             m_DisplayedHP -= m_DecreaseSpeed * Time.deltaTime;
             m_DisplayedHP = Mathf.Max(m_DisplayedHP, GameManager.Instance.currentEnemyHP);
 
+           
             m_EnemyHPBar.SetHP(Mathf.RoundToInt(m_DisplayedHP), GameManager.Instance.maxEnemyHP);
 
             CheckPhase();
@@ -52,6 +55,9 @@ public class EnemyHealth : MonoBehaviour
 
         GameManager.Instance.currentEnemyHP -= damage;
         GameManager.Instance.currentEnemyHP = Mathf.Max(GameManager.Instance.currentEnemyHP, 0);
+
+        SEManager.Instance.SEPlay(SEType.DAMAGE_ENEMY);
+        m_EnemyDamageEffect.Flashed();
 
         CheckPhase();
 
@@ -71,6 +77,7 @@ public class EnemyHealth : MonoBehaviour
 
         m_IsDead = true;
 
+       
 
         //ìñÇΩÇËîªíËÇ‚çUåÇÇñhé~
         Collider2D col = GetComponent<Collider2D>();

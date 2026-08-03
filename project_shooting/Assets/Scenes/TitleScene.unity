@@ -130,8 +130,6 @@ GameObject:
   - component: {fileID: 72304712}
   - component: {fileID: 72304714}
   - component: {fileID: 72304713}
-  - component: {fileID: 72304715}
-  - component: {fileID: 72304716}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -179,10 +177,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: -7420330987379367021, guid: 5a6acfcb14fe11d4d9b173c1b8a8ef95, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -196,34 +194,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72304711}
   m_CullTransparentMesh: 1
---- !u!114 &72304715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72304711}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2563c1db09ec6a04f831a0cee7ca598c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LogoReveal
-  m_Mask: {fileID: 72304712}
-  m_Duration: 2
---- !u!114 &72304716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72304711}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
-  m_Padding: {x: 0, y: 0, z: 0, w: 0}
-  m_Softness: {x: 0, y: 0}
 --- !u!1 &119170881
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,8 @@ public enum SEType
     DAMAGE_ENEMY,
     EXPLOSION,
     DECIDE,
-    SELECT
+    SELECT,
+    NOISE
 }
 
 [CreateAssetMenu(fileName = "SEData", menuName = "Sound/SeData‚ğì¬")]

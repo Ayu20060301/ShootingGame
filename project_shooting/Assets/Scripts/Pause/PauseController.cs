@@ -164,4 +164,20 @@ public class PauseController : MonoBehaviour
             (m_SelectIndex == 2 ? "> " : " ") + "タイトルへ戻る";
     }
 
+    /// <summary>
+    /// ゲーム起動中にほかのサイトや別のアプリなどに切り替えたら自動でポーズする
+    /// </summary>
+    /// <param name="pause"></param>
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            if(!m_IsPause)
+            {
+                GamePause();
+            }
+
+        }
+    }
+
 }

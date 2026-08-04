@@ -83,7 +83,7 @@ public class PauseController : MonoBehaviour
         if (!m_IsPause) return;
 
         //シーン遷移中なら無視
-        if (SceneController.Instance.IsLoading) return;
+        if (SceneController.Instance.IsFading) return;
 
         //決定音を鳴らす
         SEManager.Instance.SEPlay(SEType.DECIDE);
@@ -125,6 +125,9 @@ public class PauseController : MonoBehaviour
     {
         //非アクティブの場合は呼び出さない
         if (!GameManager.Instance.isActive) return;
+
+        //フェード中は処理を行わない
+        if (SceneController.Instance.IsFading) return;
 
         m_IsPause = true;
 

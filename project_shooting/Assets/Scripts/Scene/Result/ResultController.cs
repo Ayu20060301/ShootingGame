@@ -70,7 +70,7 @@ public class ResultController : MonoBehaviour
     private void OnSubmit(InputAction.CallbackContext context)
     {
         //ƒV[ƒ“‘JˆÚ’†‚È‚ç–³‹
-        if (SceneController.Instance.IsLoading) return;
+        if (SceneController.Instance.IsFading) return;
 
         //Œˆ’è‰¹‚ğ–Â‚ç‚·
         SEManager.Instance.SEPlay(SEType.DECIDE);

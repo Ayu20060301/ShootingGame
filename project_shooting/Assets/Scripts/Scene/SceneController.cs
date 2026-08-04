@@ -13,9 +13,9 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     [SerializeField]
     private float m_FadeTime = 0.5f;
 
-    private bool m_IsLoading = false; //ƒV[ƒ“‘JˆÚ’†‚©
+    private bool m_IsFading = false; //ƒtƒF[ƒh’†‚©
 
-    public bool IsLoading => m_IsLoading;
+    public bool IsFading => m_IsFading;
 
     protected override void Awake()
     {
@@ -65,10 +65,10 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     {
         
         //Šù‚É‘JˆÚ’†‚È‚ç–³Ž‹
-        if (m_IsLoading) return;
+        if (m_IsFading) return;
 
         //‘JˆÚŠJŽn
-        m_IsLoading = true;
+        m_IsFading = true;
 
 
         StartCoroutine(LoadSceneAsync(sceneName));
@@ -106,7 +106,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         yield return Fade(1.0f, 0.0f);
 
         //‘JˆÚŠ®—¹
-        m_IsLoading = false;
+        m_IsFading = false;
     }
 
     /// <summary>

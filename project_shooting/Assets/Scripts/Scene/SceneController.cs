@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+//シーン遷移を管理するクラス
 public class SceneController : SingletonMonoBehaviour<SceneController>
 {
 
@@ -13,7 +14,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     [SerializeField]
     private float m_FadeTime = 0.5f;
 
-    private bool m_IsFading = false; //フェード中か
+    private bool m_IsFading = false; 
 
     public bool IsFading => m_IsFading;
 
@@ -21,7 +22,8 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     {
         base.Awake();
 
-        Application.targetFrameRate = 60; //フレームレートの設定
+        //フレームレートを60FPSに設定
+        Application.targetFrameRate = 60; 
 
         if(m_FadeCanvas != null)
         {
@@ -32,7 +34,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
 
     private IEnumerator Start()
     {
-        //起動時にフェードイン
+        //起動時はフェードイン
         yield return Fade(1.0f, 0.0f);
     }
 
@@ -49,7 +51,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <summary>
     /// シーン読み込み完了時
     /// </summary>
-    /// <param name="scene"></param>
+    /// <param name="scene">シーン名</param>
     /// <param name="mode"></param>
     private void OnSceneLoaded(Scene scene,LoadSceneMode mode)
     {
@@ -60,7 +62,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <summary>
     /// シーン遷移
     /// </summary>
-    /// <param name="sceneName">シーン名</param>
+    /// <param name="sceneName">遷移先シーン</param>
     public void LoadScene(string sceneName)
     {
         
@@ -77,14 +79,14 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <summary>
     /// シーン遷移を非同期で読み込む
     /// </summary>
-    /// <param name="sceneName">シーン名</param>
+    /// <param name="sceneName">遷移先シーン</param>
     /// <returns></returns>
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-
         //フェードアウト
         yield return Fade(0.0f, 1.0f);
 
+        //シーン読み込み
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
         async.allowSceneActivation = false;
 
@@ -127,11 +129,19 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         }
     }
 
+
+    /// <summary>
+    /// フェード処理
+    /// </summary>
+    /// <param name="start">開始アルファ値</param>
+    /// <param name="end">最終的なアルファ値</param>
+    /// <returns></returns>
     private IEnumerator Fade(float start, float end)
     {
         if (m_FadeCanvas == null) yield break;
 
         float time = 0.0f;
+
         m_FadeCanvas.alpha = start;
 
         while(time < m_FadeTime)

@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TitleController : MonoBehaviour
 {
 
     private PlayerInputActions m_Input;
+
+    [SerializeField]
+    private Button m_Button;
+
+   
 
     private void Awake()
     {
@@ -24,8 +30,10 @@ public class TitleController : MonoBehaviour
         m_Input.UI.Disable();
     }
 
+
     private void OnSubmit(InputAction.CallbackContext context)
     {
+        
 
         //ÉVÅ[ÉìëJà⁄íÜÇ»ÇÁñ≥éã
         if (SceneController.Instance.IsFading) return;

@@ -12,7 +12,8 @@ public enum SEType
     EXPLOSION,
     DECIDE,
     SELECT,
-    NOISE
+    NOISE,
+    HOMING
 }
 
 [CreateAssetMenu(fileName = "SEData", menuName = "Sound/SeData‚ğì¬")]

@@ -12,6 +12,7 @@ public class HomingBullet : BulletBase
     private Vector2 m_StartDirection;
     private float m_HomingTimer;
     private bool m_IsHoming = false;
+   
 
     /// <summary>
     /// ƒ^[ƒQƒbƒg‚ÌÝ’è
@@ -48,44 +49,43 @@ public class HomingBullet : BulletBase
                     ((Vector2)m_Target.position -
                      (Vector2)transform.position).normalized;
 
-                //”­ŽË•ûŒü‚Æ‚ÌŠp“x·
-                float angle =
-                    Vector2.Angle(m_StartDirection, m_Direction);
-
-                //}30‹ˆÈã‚È‚ç—U“±I—¹
-                if(angle > m_MaxHomingAngle)
-                {
-                    m_IsHoming = false;
-                }
-                else
-                {
-                    float currentAngle =
+ 
+                float currentAngle =
                         Mathf.Atan2(
                             m_Direction.y,
                             m_Direction.x)
                         * Mathf.Rad2Deg;
 
-                    float targetAngle =
+                float targetAngle =
                          Mathf.Atan2(
                              targetDir.y,
                              targetDir.x)
                          * Mathf.Rad2Deg;
 
-                    currentAngle =
+                //‰ñ“]
+                currentAngle =
                         Mathf.MoveTowardsAngle(
                             currentAngle,
                             targetAngle,
                             m_RotateSpeed * Time.deltaTime);
 
 
-                    float rad = currentAngle * Mathf.Deg2Rad;
+                float rad = currentAngle * Mathf.Deg2Rad;
 
-                    m_Direction =
+                m_Direction =
                         new Vector2(
                             Mathf.Cos(rad),
                             Mathf.Sin(rad));
+
+                //”­ŽË•ûŒü‚Æ‚ÌŠp“x·
+                float angle =
+                    Vector2.Angle(m_StartDirection, m_Direction);
+
+                //}30‹ˆÈã‚È‚ç—U“±I—¹
+                if (angle >= m_MaxHomingAngle)
+                {
+                    m_IsHoming = false;
                 }
-            
             }
         }
 

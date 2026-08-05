@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class BulletBase : MonoBehaviour
 {
     [SerializeField]
-    protected float m_Speed = 10.0f;  //”­Ë‘¬“x
+    protected float m_Speed = 5.0f;  //”­Ë‘¬“x
     [SerializeField]
     protected float m_LifeTime = 3.0f; //’e‚Ì¶‘¶ŠÔ
 
@@ -28,7 +28,7 @@ public abstract class BulletBase : MonoBehaviour
 
     private void Update()
     {
-        m_CashedTransform.position += (Vector3)(m_Direction * m_Speed * Time.deltaTime);
+        Move();
 
         m_Timer += Time.deltaTime;
 

@@ -220,6 +220,8 @@ public class EnemyAttackController : MonoBehaviour
 
         if (m_Player == null) return;
 
+        SEManager.Instance.SEPlay(SEType.HOMING);
+
         Vector2 dir = (m_Player.position - m_FirePoint.position).normalized;
 
         HomingBullet bullet =

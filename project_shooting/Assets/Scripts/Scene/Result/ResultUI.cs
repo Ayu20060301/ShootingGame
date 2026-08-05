@@ -6,7 +6,7 @@ public class ResultUI : MonoBehaviour
 {
 
     [SerializeField]
-    private BestTimeController m_BestTimeController;
+    private TimeRankingController m_TimeRankingController;
 
     [SerializeField]
     private TMP_Text m_ResultText;
@@ -80,7 +80,7 @@ public class ResultUI : MonoBehaviour
     {
 
         //保存前のベストタイムを取得
-        float oldBestTime = m_BestTimeController.GetBestTime();
+        float oldBestTime = m_TimeRankingController.GetBestTime();
 
         bool isNewRecord = false;
 
@@ -93,7 +93,7 @@ public class ResultUI : MonoBehaviour
                 isNewRecord = true;
            }
 
-            m_BestTimeController.SaveBestTime(ResultData.playTime);
+            m_TimeRankingController.SaveBestTime(ResultData.playTime);
        }
 
        //ニューレコード表示
@@ -108,7 +108,7 @@ public class ResultUI : MonoBehaviour
     
 
         //更新後のベストタイムを取得
-        float bestTime = m_BestTimeController.GetBestTime();
+        float bestTime = m_TimeRankingController.GetBestTime();
 
         //まだ記録がない
         if(bestTime == float.MaxValue)

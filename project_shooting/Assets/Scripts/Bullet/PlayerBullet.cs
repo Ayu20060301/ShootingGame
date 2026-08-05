@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerBullet : BulletBase
 {
-    [SerializeField]
     private int m_Damage = 40; //ƒ_ƒ[ƒW”
 
     protected override void OnHit(Collider2D other)

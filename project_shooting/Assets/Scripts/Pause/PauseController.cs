@@ -155,7 +155,9 @@ public class PauseController : MonoBehaviour
         m_Input.UI.Pause.Enable();
     }
 
-
+    /// <summary>
+    /// テキストの更新
+    /// </summary>
     private void UpdateText()
     {
         m_SelectText.text =
@@ -176,8 +178,6 @@ public class PauseController : MonoBehaviour
             {
                 GamePause();
             }
-
         }
     }
-
 }

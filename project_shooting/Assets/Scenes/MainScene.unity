@@ -214,6 +214,8 @@ MonoBehaviour:
   maxLife: 0
   currentEnemyHP: 0
   maxEnemyHP: 0
+  currentBomb: 0
+  maxBomb: 0
   playTime: 0
   isActive: 0
 --- !u!4 &206750663
@@ -1056,6 +1058,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatabaseManager
   effectDatabase: {fileID: 11400000, guid: 9e02045fd92b67241b33b745383b17a3, type: 2}
   soundDatabase: {fileID: 11400000, guid: 3420248fb93c9024880691d484b44f65, type: 2}
+  playerDatabase: {fileID: 0}
 --- !u!4 &787581732
 Transform:
   m_ObjectHideFlags: 0
@@ -1089,6 +1092,7 @@ GameObject:
   - component: {fileID: 928235191}
   - component: {fileID: 928235192}
   - component: {fileID: 928235193}
+  - component: {fileID: 928235194}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1636,6 +1640,20 @@ MonoBehaviour:
   m_LifePrefab: {fileID: 7383251691082716334, guid: a290540a1e816804aafa2f5789ae9f56, type: 3}
   m_LifeParent: {fileID: 131052382}
   m_FinishController: {fileID: 988322247}
+--- !u!114 &928235194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928235179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e9d747801e05f4ebb1e62d10228741, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBombUI
+  m_BombPrefab: {fileID: 3976785504649102554, guid: e19fdc9cf33487048b16cd141c07706b, type: 3}
+  m_BombParent: {fileID: 1367525111}
 --- !u!1 &962627362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,6 +2121,68 @@ Transform:
   - {fileID: 1392946254}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1367525110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1367525111}
+  - component: {fileID: 1367525112}
+  m_Layer: 5
+  m_Name: BombParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1367525111
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367525110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2106512695}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 240, y: -60}
+  m_SizeDelta: {x: 25, y: 25}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1367525112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367525110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1392946253
 GameObject:
   m_ObjectHideFlags: 0
@@ -3092,6 +3172,7 @@ RectTransform:
   - {fileID: 398163992}
   - {fileID: 1242767660}
   - {fileID: 131052382}
+  - {fileID: 1367525111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

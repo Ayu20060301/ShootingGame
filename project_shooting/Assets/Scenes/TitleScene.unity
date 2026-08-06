@@ -725,6 +725,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336658337}
   m_CullTransparentMesh: 1
+--- !u!1 &488248094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488248096}
+  - component: {fileID: 488248095}
+  m_Layer: 0
+  m_Name: GlitchController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &488248095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488248094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad81369d0ed5d7f4cbbc2bce621037e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GlitchController
+  m_GlitchMaterial: {fileID: 2100000, guid: 239251eb7d121f843a53ebc6df9e2e09, type: 2}
+  m_NormalIntensity: 0
+  m_GlitchIntensity: 0.15
+  m_GlitchTime: 0.7
+--- !u!4 &488248096
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488248094}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 807.5428, y: 272.59512, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &491366704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,54 +1478,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &913488651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 913488653}
-  - component: {fileID: 913488652}
-  m_Layer: 0
-  m_Name: GlitchController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &913488652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913488651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad81369d0ed5d7f4cbbc2bce621037e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoiseController
-  m_GlitchMaterial: {fileID: 2100000, guid: 239251eb7d121f843a53ebc6df9e2e09, type: 2}
-  m_NormalIntensity: 0
-  m_GlitchIntensity: 0.1
-  m_GlitchTime: 0.7
---- !u!4 &913488653
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913488651}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 603.3965, y: 333.1314, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1221461536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,7 +2030,7 @@ GameObject:
   - component: {fileID: 1381489836}
   - component: {fileID: 1381489835}
   m_Layer: 0
-  m_Name: RankingTime
+  m_Name: TitleRankingUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2048,7 +2048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbbcd72adaa3b6428ceb0c546e83936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RankingTime
-  m_TimeRankingController: {fileID: 1503028663}
+  m_BestTimeController: {fileID: 1503028663}
   m_RankTexts:
   - {fileID: 60558776}
   - {fileID: 1455436387}
@@ -2445,7 +2445,7 @@ GameObject:
   - component: {fileID: 1503028664}
   - component: {fileID: 1503028663}
   m_Layer: 0
-  m_Name: TimeRankingController
+  m_Name: BestTimeController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3149,6 +3149,6 @@ SceneRoots:
   - {fileID: 1339957836}
   - {fileID: 2000757325}
   - {fileID: 491366706}
-  - {fileID: 913488653}
   - {fileID: 1381489836}
   - {fileID: 1503028664}
+  - {fileID: 488248096}

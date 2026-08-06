@@ -1,9 +1,8 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
 
-
+//ゲーム終了処理
 public class FinishController : MonoBehaviour
 {
     [SerializeField]
@@ -37,7 +36,7 @@ public class FinishController : MonoBehaviour
     }
 
     /// <summary>
-    /// ゲーム終了の順序
+    /// 終了演出シーケンス
     /// </summary>
     /// <param name="isClear">クリアしているか</param>
     /// <param name="position">指定の座標</param>
@@ -50,22 +49,27 @@ public class FinishController : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1.0f);
 
-        if(isClear)
-        {
-            yield return StartCoroutine(PlayEnemyExplosion(position));
-        }
-        else
-        {
-            yield return StartCoroutine(PlayPlayerExplosion(position));
-        }
+        yield return isClear
+            ? PlayEnemyExplosion(position)
+            : PlayPlayerExplosion(position);
 
         DestroyTarget(target);
 
         yield return new WaitForSecondsRealtime(1.0f);
 
+        PlayResult(isClear);
+
+        yield return new WaitForSecondsRealtime(m_EndWaitTime);
+
+        GameManager.Instance.GameEnd(isClear);
+    }
+
+
+    private void PlayResult(bool isClear)
+    {
         BGMManager.Instance.AudioStop();
 
-        if (isClear)
+        if(isClear)
         {
             BGMManager.Instance.BGMPlay(BGMType.CLEAR);
             m_ResultText.text = "Game Clear";
@@ -76,30 +80,22 @@ public class FinishController : MonoBehaviour
             m_ResultText.text = "Game Over";
         }
 
-
-        yield return new WaitForSecondsRealtime(m_EndWaitTime);
-
-        GameManager.Instance.GameEnd(isClear);
     }
 
     /// <summary>
     /// 敵の爆発演出
     /// </summary>
-    /// <param name="position"></param>
+    /// <param name="position">敵のポジション</param>
     /// <returns></returns>
     private IEnumerator PlayEnemyExplosion(Vector3 position)
     {
 
         for (int i = 0; i < m_ExplosionCount; i++)
         {
-            Vector2 offset = Random.insideUnitCircle * m_ExplosionRadius;
 
-            EffectManager.Instance.PlayEffect(
-                EffectType.EXPLOSION,
-                position + (Vector3)offset
+            CreateExplosion(
+                position + (Vector3)(Random.insideUnitCircle * m_ExplosionRadius)
                 );
-
-            SEManager.Instance.SEPlay(SEType.EXPLOSION);
 
             yield return new WaitForSecondsRealtime(m_ExplosionInterval);
         }
@@ -122,17 +118,28 @@ public class FinishController : MonoBehaviour
     /// <summary>
     /// プレイヤーの爆発演出
     /// </summary>
-    /// <param name="position"></param>
+    /// <param name="position">プレイヤーのポジション</param>
     /// <returns></returns>
     private IEnumerator PlayPlayerExplosion(Vector3 position)
     {
-        EffectManager.Instance.PlayEffect(
-            EffectType.EXPLOSION,
-            position);
-
-        SEManager.Instance.SEPlay(SEType.EXPLOSION);
+        CreateExplosion(position);
 
         yield return new WaitForSecondsRealtime(0.1f);
+    }
+
+
+    /// <summary>
+    /// 爆発の生成
+    /// </summary>
+    /// <param name="position">爆発させるポジション</param>
+    private void CreateExplosion(Vector3 position)
+    {
+        EffectManager.Instance.PlayEffect(
+            EffectType.EXPLOSION,
+            position
+            );
+
+        SEManager.Instance.SEPlay(SEType.EXPLOSION);
     }
 
     /// <summary>

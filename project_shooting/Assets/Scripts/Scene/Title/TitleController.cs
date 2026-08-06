@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.Rendering;
 
 //タイトル画面の制御
@@ -186,6 +185,10 @@ public class TitleController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ゲーム起動中にほかのサイトや別のアプリなどに切り替えたら自動で終了メニューを表示する
+    /// </summary>
+    /// <param name="pause"></param>
     private void OnApplicationPause(bool pause)
     {
         if(pause && !m_IsMenuOpen)

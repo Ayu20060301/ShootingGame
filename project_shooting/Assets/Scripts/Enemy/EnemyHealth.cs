@@ -28,7 +28,6 @@ public class EnemyHealth : MonoBehaviour
         m_EnemyHPBar = GetComponent<EnemyHPBar>();
         m_EnemyDamageEffect = GetComponent<EnemyDamageEffect>();
 
-        GameManager.Instance.currentEnemyHP = GameManager.Instance.maxEnemyHP;
         m_DisplayedHP = GameManager.Instance.maxEnemyHP;
         m_EnemyHPBar.SetHP(GameManager.Instance.currentEnemyHP, GameManager.Instance.maxEnemyHP);
     }

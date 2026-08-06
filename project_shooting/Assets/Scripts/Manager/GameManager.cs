@@ -5,6 +5,12 @@ using System;
 
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
+
+    private const int DEFAULT_MAX_LIFE = 3;
+    private const int DEFAULT_ENEMY_HP = 10000;
+    private const int DEFAULT_MAX_BOMB = 3;
+
+
     [Header("現在の情報")]
 
     [Header("残機")]
@@ -19,32 +25,44 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public int currentBomb; //現在のボム数
     public int maxBomb;  //最大のボム数
 
+    [Header("ゲーム情報")]
     public float playTime;   //経過時間
     public bool isActive; //動いているかどうか
   
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
 
-        Time.timeScale = 1.0f;
-        //ゲーム開始時は動作中
-        isActive = true;
-
-        maxLife = 3; //最大残機
-        playTime = 0.0f; //プレイ時間
-        maxEnemyHP = 10000;  //敵の最大HP
-        maxBomb = 3;  //最大ボム数
-
+        InitializeGame();
     }
 
-
-    public void ResetGame()
+    /// <summary>
+    /// ゲーム初期化
+    /// </summary>
+    private void InitializeGame()
     {
+        Time.timeScale = 1.0f;
+
         isActive = true;
 
-        maxLife = 3;
+        maxLife = DEFAULT_MAX_LIFE;
+        currentLife = maxLife;
+
+        maxEnemyHP = DEFAULT_ENEMY_HP;
+        currentEnemyHP = maxEnemyHP;
+
+        maxBomb = DEFAULT_MAX_BOMB;
+        currentBomb = maxBomb;
+
         playTime = 0.0f;
-        maxEnemyHP = 10000;
-        maxBomb = 3;
+    }
+
+    /// <summary>
+    /// ゲームリセット
+    /// </summary>
+    public void ResetGame()
+    {
+        InitializeGame();
     }
 
     /// <summary>

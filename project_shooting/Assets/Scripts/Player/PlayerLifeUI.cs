@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-//残機を表示するスクリプト
+//プレイヤー残機UI管理クラス
 public class PlayerLifeUI : MonoBehaviour
 {
     [SerializeField]
@@ -11,19 +11,16 @@ public class PlayerLifeUI : MonoBehaviour
     private Transform m_LifeParent; //横並びにする親
     private List<Image> m_LifeUI = new();
     [SerializeField]
-    private FinishController m_FinishController;
+    private FinishController m_FinishController; //ゲーム終了処理
 
 
     private void Start()
     {
-        GameManager.Instance.currentLife = GameManager.Instance.maxLife;
-
         //UIを生成
         CreateLifeUI();
 
         //UIの更新
         UpdateUI();
-
     }
 
     /// <summary>
@@ -41,8 +38,6 @@ public class PlayerLifeUI : MonoBehaviour
 
             m_LifeUI.Add(image);
         }
-
-
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TimeRankingController : MonoBehaviour
+public class BestTimeController : MonoBehaviour
 {
     private const int RANK_MAX = 5;
     private const string BEST_TIME_KEY = "BestTime";

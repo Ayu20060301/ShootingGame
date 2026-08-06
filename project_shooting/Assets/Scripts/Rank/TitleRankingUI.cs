@@ -1,10 +1,10 @@
 using UnityEngine;
 using TMPro;
 
-public class TimeRankingUI : MonoBehaviour
+public class TitleRankingUI : MonoBehaviour
 {
     [SerializeField]
-    private TimeRankingController m_TimeRankingController;
+    private BestTimeController m_BestTimeController;
     [SerializeField]
     private TMP_Text[] m_RankTexts;
 
@@ -21,7 +21,7 @@ public class TimeRankingUI : MonoBehaviour
     private void UpdateRanking()
     {
 
-        float[] times = m_TimeRankingController.GetBestTimes();
+        float[] times = m_BestTimeController.GetBestTimes();
 
         for (int i = 0; i < m_RankTexts.Length; i++)
         {

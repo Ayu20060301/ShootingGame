@@ -11,7 +11,6 @@ public enum EffectType
 
 public class EffectData : ScriptableObject
 {
-    
     public EffectType type;
     public GameObject prefab;
 }

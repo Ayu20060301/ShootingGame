@@ -6,11 +6,6 @@ public class PlayTimeController : MonoBehaviour
     [SerializeField]
     private TMP_Text m_PlayTimeText;
 
-    private void Start()
-    {
-        GameManager.Instance.playTime = 0.0f;
-    }
-
     private void Update()
     {
         if (!GameManager.Instance.isActive) return;

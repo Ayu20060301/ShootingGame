@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+//グリッチ演出クラス
 public class GlitchController : MonoBehaviour
 {
     [SerializeField]

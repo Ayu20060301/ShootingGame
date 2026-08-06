@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4257199abdfa8444888fc8976145800b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultUI
-  m_TimeRankingController: {fileID: 809864567}
+  m_BestTimeController: {fileID: 809864567}
   m_ResultText: {fileID: 249360498}
   m_PlayTimeText: {fileID: 646625582}
   m_BestTimeText: {fileID: 1751136604}
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 809864568}
   - component: {fileID: 809864567}
   m_Layer: 0
-  m_Name: TimeRankingController
+  m_Name: BestTimeController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -502,6 +502,7 @@ GameObject:
   - component: {fileID: 398163992}
   - component: {fileID: 398163994}
   - component: {fileID: 398163993}
+  - component: {fileID: 398163995}
   m_Layer: 5
   m_Name: PausePanel
   m_TagString: Untagged
@@ -568,6 +569,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398163991}
   m_CullTransparentMesh: 1
+--- !u!95 &398163995
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398163991}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9be5fbddd9f34f54eb7f2e920d896f9b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &523149179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2385,7 +2408,6 @@ GameObject:
   - component: {fileID: 1630205803}
   - component: {fileID: 1630205802}
   - component: {fileID: 1630205804}
-  - component: {fileID: 1630205805}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2409,16 +2431,6 @@ MonoBehaviour:
   m_MoveSpeed: 1
   m_MoveDuration: 3
   m_StopDuration: 2
-  m_StopTimer: 0
-  m_ElapsedTime: 0
-  m_MoveTime: 0
-  m_IsStopping: 0
-  m_CachedTransform: {fileID: 1630205797}
-  m_StartPosition: {x: 0, y: 0, z: 0}
-  m_HomePosition: {x: 0, y: 0, z: 0}
-  m_IsReturning: 0
-  m_TargetChangeTime: 1.5
-  m_Phase2TargetPosition: {x: 0, y: 0, z: 0}
   m_Phase2MoveSpeed: 4
 --- !u!212 &1630205796
 SpriteRenderer:
@@ -2733,22 +2745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3c2d0b535edd64eaaf51fcac183ade, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamageEffect
-  m_SpriteRenderer: {fileID: 1630205796}
   m_FlashTime: 0.1
---- !u!114 &1630205805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630205793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 462a3e6c876ada94ea775598004dbedf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFlash
-  m_FlashInterval: 0.1
-  m_SP: {fileID: 1630205796}
 --- !u!1 &1736928020
 GameObject:
   m_ObjectHideFlags: 0

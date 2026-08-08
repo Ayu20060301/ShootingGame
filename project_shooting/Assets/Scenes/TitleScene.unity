@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u306F\u3044\n\u3044\u3044\u3048"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 347ce965ab2804847bfc31d2f7bf49cc, type: 2}
   m_sharedMaterial: {fileID: 3304921240332321186, guid: 347ce965ab2804847bfc31d2f7bf49cc, type: 2}
@@ -1288,8 +1288,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1960,6 +1960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleController
   m_QuitMenu: {fileID: 1682857044}
   m_QuitMenuText: {fileID: 845395061}
+  m_StartButton: {fileID: 2031529544}
 --- !u!4 &1321710623
 Transform:
   m_ObjectHideFlags: 0
@@ -2489,6 +2490,7 @@ GameObject:
   - component: {fileID: 1682857045}
   - component: {fileID: 1682857047}
   - component: {fileID: 1682857046}
+  - component: {fileID: 1682857048}
   m_Layer: 5
   m_Name: QuitPanel
   m_TagString: Untagged
@@ -2555,6 +2557,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682857044}
   m_CullTransparentMesh: 1
+--- !u!95 &1682857048
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682857044}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de109cd81d9aa4c45983e9f97ecad8c4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1799578592
 GameObject:
   m_ObjectHideFlags: 0

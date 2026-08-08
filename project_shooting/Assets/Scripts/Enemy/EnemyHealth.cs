@@ -20,14 +20,17 @@ public class EnemyHealth : MonoBehaviour
 
     private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
 
-    private void Start()
+    private void Awake()
     {
         //ƒR[ƒ|ƒlƒ“ƒg‚Ìæ“¾
         m_EnemyAttackController = GetComponent<EnemyAttackController>();
         m_EnemyController = GetComponent<EnemyController>();
         m_EnemyHPBar = GetComponent<EnemyHPBar>();
         m_EnemyDamageEffect = GetComponent<EnemyDamageEffect>();
+    }
 
+    private void Start()
+    {
         m_DisplayedHP = GameManager.Instance.maxEnemyHP;
         m_EnemyHPBar.SetHP(GameManager.Instance.currentEnemyHP, GameManager.Instance.maxEnemyHP);
     }
@@ -78,8 +81,6 @@ public class EnemyHealth : MonoBehaviour
         if (m_IsDead) return;
 
         m_IsDead = true;
-
-       
 
         //“–‚½‚è”»’è‚âUŒ‚‚ğ–h~
         Collider2D col = GetComponent<Collider2D>();

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+//プレイヤーを点滅させる処理
 public class PlayerFlash : MonoBehaviour
 {
 

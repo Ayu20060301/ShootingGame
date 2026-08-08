@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Rendering;
+using System.Collections;
 
 //タイトル画面の制御
 public class TitleController : MonoBehaviour
@@ -16,6 +16,9 @@ public class TitleController : MonoBehaviour
     private GameObject m_QuitMenu;
     [SerializeField]
     private TMP_Text m_QuitMenuText;
+
+    [SerializeField]
+    private Button m_StartButton;
 
     private int m_SelectIndex = YES; //現在選択している項目
 
@@ -158,11 +161,22 @@ public class TitleController : MonoBehaviour
         }
     }
     
+    private IEnumerator PressedButton()
+    {
+        m_StartButton.image.color = m_StartButton.colors.pressedColor;
+
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        m_StartButton.image.color = m_StartButton.colors.normalColor;
+    }
+
     /// <summary>
     /// ゲーム開始
     /// </summary>
     private void StartGame()
     {
+        StartCoroutine(PressedButton());
+
         SceneController.Instance.LoadScene("MainScene");
     }
 

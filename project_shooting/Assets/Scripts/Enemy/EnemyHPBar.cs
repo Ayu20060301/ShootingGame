@@ -15,29 +15,40 @@ public class EnemyHPBar : MonoBehaviour
     private Sprite m_CriticalSprite;  //20%以下
 
    
-
+    /// <summary>
+    /// HPゲージを更新
+    /// </summary>
+    /// <param name="current">現在のHP</param>
+    /// <param name="max">最大HP</param>
     public void SetHP(int current, int max)
     {
 
-        if (max <= 0) return;
+        if (m_HPUI == null || max <= 0) return;
 
-         float ratio = (float)current / max;
-
-        Sprite targetSprite;
-        if(ratio <= 0.2f)
-        {
-            targetSprite = m_CriticalSprite;
-        }
-        else if(ratio <= 0.50f)
-        {
-            targetSprite = m_HalfSprite;
-        }
-        else
-        {
-            targetSprite = m_NormalSprite;
-        }
+        float ratio = Mathf.Clamp01((float)current / max);
 
         m_HPUI.fillAmount = ratio;
-        m_HPUI.sprite = targetSprite;
+        m_HPUI.sprite = GetGaugeSprite(ratio);
+    }
+
+    /// <summary>
+    /// HP割合に応じたゲージ画像を取得
+    /// </summary>
+    /// <param name="ratio">HPの割合</param>
+    /// <returns></returns>
+    private Sprite GetGaugeSprite(float ratio)
+    {
+
+        if(ratio <= 0.2f)
+        {
+            return m_CriticalSprite;
+        }
+        else if(ratio <= 0.5f)
+        {
+            return m_HalfSprite;
+        }
+
+        return m_NormalSprite;
+
     }
 }

@@ -51,17 +51,17 @@ public class ResultUI : MonoBehaviour
             m_RankText.text = "S";
             m_RankText.color = Color.yellow;
         }
-        else if (time <= 120.0f)
+        else if (time <= 100.0f)
         {
             m_RankText.text = "A";
             m_RankText.color = Color.green;
         }
-        else if (time <= 150.0f)
+        else if (time <= 110.0f)
         {
             m_RankText.text = "B";
             m_RankText.color = Color.cyan;
         }
-        else if (time <= 180.0f)
+        else if (time <= 120.0f)
         {
             m_RankText.text = "C";
             m_RankText.color = Color.magenta;

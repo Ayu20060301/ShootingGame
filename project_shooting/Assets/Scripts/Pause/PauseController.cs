@@ -155,7 +155,6 @@ public class PauseController : MonoBehaviour
         m_IsPause = true;
 
         m_SelectIndex = RESUME;
-      
 
         Time.timeScale = 0.0f;
 

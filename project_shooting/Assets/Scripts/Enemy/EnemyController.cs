@@ -1,47 +1,52 @@
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-//敵の移動制御
+/// <summary>
+/// 敵の移動制御
+/// </summary>
 public class EnemyController : MonoBehaviour
 {
+    private const float PHASE1_ACCELERATION = 3.0f;          //加速倍率
+    private const float PHASE1_ACCELERATION_START = 0.7f;    //加速開始割合
+    private const float ARRIVAL_DISTANCE = 0.01f;            //到達判定距離
+
+    [Header("通常移動")]
     [SerializeField]
-    private float m_MoveDistance = 3.0f; //上下に動く距離
+    private float m_MoveDistance = 3.0f;
+
     [SerializeField]
-    private float m_MoveSpeed = 1.0f; //移動速度
+    private float m_MoveSpeed = 1.0f;
+
+    [Header("フェーズ1")]
     [SerializeField]
-    private float m_MoveDuration = 3.0f;//移動時間
+    private float m_MoveDuration = 3.0f;
+
     [SerializeField]
-    private float m_StopDuration = 2.0f; //瞬間移動後の停止時間
+    private float m_StopDuration = 2.0f;
+
+    [Header("フェーズ2")]
     [SerializeField]
-    private float m_StopTimer = 0.0f; //停止時間
-    [SerializeField]
-    private float m_ElapsedTime = 0.0f; //移動経過時間
-    [SerializeField]
-    private float m_MoveTime = 0.0f;  
-    [SerializeField]
-    private bool m_IsStopping = false; //停止しているか
-    [SerializeField]
-    private Transform m_CachedTransform; //敵のtransformキャッシュ
-    [SerializeField]
-    private Vector3 m_StartPosition;  //移動基準位置
-    [SerializeField]
-    private Vector3 m_HomePosition; //初期位置
-    [SerializeField]
-    private bool m_IsReturning = false; //戻り中かどうかのフラグ
-    [SerializeField]
-    private float m_TargetChangeTime = 1.5f; //次の目標までの時間
-    [SerializeField]
-    private Vector3 m_Phase2TargetPosition; 
-    [SerializeField]
-    private float m_Phase2MoveSpeed = 10.0f;  //フェーズ2段階の移動速度
-    private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;  //現在のフェーズ
-    private EnemyAttackController.EnemyPhase m_NextPhase;  //現在のフェーズ
+    private float m_Phase2MoveSpeed = 10.0f;
+
+    private float m_ElapsedTime;
+    private float m_MoveTime;
+
+    private bool m_IsStopping;
+    private bool m_IsReturning;
+
+    private Transform m_CachedTransform;
+
+    private Vector3 m_StartPosition;
+    private Vector3 m_HomePosition;
+    private Vector3 m_Phase2TargetPosition;
+
+    private EnemyAttackController.EnemyPhase m_CurrentPhase =
+        EnemyAttackController.EnemyPhase.NORMAL;
+
+    private EnemyAttackController.EnemyPhase m_NextPhase;
 
     /// <summary>
     /// 現在停止中か取得
     /// </summary>
-    /// <returns></returns>
     public bool IsStopping()
     {
         return m_IsStopping;
@@ -60,71 +65,74 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        if (!GameManager.Instance.isActive)
+        {
+            return;
+        }
 
-        if (!GameManager.Instance.isActive) return;
-
-
-        if(m_IsReturning)
+        if (m_IsReturning)
         {
             ReturnToHome();
             return;
         }
 
-        //段階ごとの移動処理
         MovePhase();
     }
 
-
+    /// <summary>
+    /// フェーズ変更
+    /// </summary>
     public void SetPhase(EnemyAttackController.EnemyPhase phase)
     {
-        //同じフェーズなら処理をしない
-        if (m_CurrentPhase == phase) return;
+        if (m_CurrentPhase == phase)
+        {
+            return;
+        }
 
         m_NextPhase = phase;
         m_IsReturning = true;
     }
 
     /// <summary>
-    /// 段階ごとの移動処理
+    /// 現在のフェーズに応じた移動
     /// </summary>
     private void MovePhase()
     {
-        switch(m_CurrentPhase)
+        switch (m_CurrentPhase)
         {
             case EnemyAttackController.EnemyPhase.NORMAL:
                 NormalMove();
                 break;
+
             case EnemyAttackController.EnemyPhase.PHASE1:
                 Phase1Move();
                 break;
+
             case EnemyAttackController.EnemyPhase.PHASE2:
                 Phase2Move();
                 break;
         }
     }
+
     /// <summary>
-    /// 上下移動(通常段階)
+    /// 通常移動
     /// </summary>
     private void NormalMove()
     {
-        float newY = m_StartPosition.y +
+        float newY =
+            m_StartPosition.y +
             Mathf.Sin(Time.time * m_MoveSpeed) * m_MoveDistance;
 
-        m_CachedTransform.position = new Vector3(
-            m_StartPosition.x,
-            newY,
-            m_StartPosition.z
-            );
+        SetPositionY(newY);
     }
 
     /// <summary>
-    /// フェーズ1段階の移動処理
+    /// フェーズ1移動
     /// </summary>
     private void Phase1Move()
     {
         m_ElapsedTime += Time.deltaTime;
 
-        //停止中かどうか
         if (m_IsStopping)
         {
             if (m_ElapsedTime >= m_StopDuration)
@@ -136,27 +144,21 @@ public class EnemyController : MonoBehaviour
             return;
         }
 
-
         float speed = m_MoveSpeed;
 
-
-        //停止前だけ加速
-        if (m_ElapsedTime >= m_MoveDuration * 0.7f)
+        if (m_ElapsedTime >=
+            m_MoveDuration * PHASE1_ACCELERATION_START)
         {
-            speed *= 3.0f;
+            speed *= PHASE1_ACCELERATION;
         }
-
 
         m_MoveTime += Time.deltaTime * speed;
 
-
-        float newY = m_StartPosition.y +
-            Mathf.Sin(m_MoveTime) *
-            m_MoveDistance;
-
+        float newY =
+            m_StartPosition.y +
+            Mathf.Sin(m_MoveTime) * m_MoveDistance;
 
         SetPositionY(newY);
-
 
         if (m_ElapsedTime >= m_MoveDuration)
         {
@@ -166,7 +168,7 @@ public class EnemyController : MonoBehaviour
     }
 
     /// <summary>
-    /// フェーズ2段階の移動処理
+    /// フェーズ2移動
     /// </summary>
     private void Phase2Move()
     {
@@ -174,31 +176,76 @@ public class EnemyController : MonoBehaviour
             Vector3.MoveTowards(
                 m_CachedTransform.position,
                 m_Phase2TargetPosition,
-                m_Phase2MoveSpeed * Time.deltaTime
-                );
+                m_Phase2MoveSpeed * Time.deltaTime);
 
-
-        //目的地に到着したら次の位置を設定
-        if(Vector3.Distance(
+        if (Vector3.Distance(
             m_CachedTransform.position,
-            m_Phase2TargetPosition) < 0.01f)
+            m_Phase2TargetPosition) < ARRIVAL_DISTANCE)
         {
             SetRandomTarget();
         }
     }
 
     /// <summary>
-    /// Y座標だけ変更
+    /// 帰還処理
     /// </summary>
-    /// <param name="y">y座標</param>
+    private void ReturnToHome()
+    {
+        m_CachedTransform.position =
+            Vector3.MoveTowards(
+                m_CachedTransform.position,
+                m_HomePosition,
+                m_Phase2MoveSpeed * Time.deltaTime);
+
+        if (Vector3.Distance(
+            m_CachedTransform.position,
+            m_HomePosition) < ARRIVAL_DISTANCE)
+        {
+            CompleteReturn();
+        }
+    }
+
+    /// <summary>
+    /// 帰還完了
+    /// </summary>
+    private void CompleteReturn()
+    {
+        m_CachedTransform.position = m_HomePosition;
+
+        m_IsReturning = false;
+        m_CurrentPhase = m_NextPhase;
+
+        m_StartPosition = m_HomePosition;
+
+        ResetMoveState();
+
+        if (m_CurrentPhase ==
+            EnemyAttackController.EnemyPhase.PHASE2)
+        {
+            SetRandomTarget();
+        }
+    }
+
+    /// <summary>
+    /// 移動状態をリセット
+    /// </summary>
+    private void ResetMoveState()
+    {
+        m_ElapsedTime = 0.0f;
+        m_MoveTime = 0.0f;
+        m_IsStopping = false;
+    }
+
+    /// <summary>
+    /// Y座標のみ変更
+    /// </summary>
     private void SetPositionY(float y)
     {
         m_CachedTransform.position =
             new Vector3(
                 m_StartPosition.x,
                 y,
-                m_StartPosition.z
-                );
+                m_StartPosition.z);
     }
 
     /// <summary>
@@ -207,47 +254,13 @@ public class EnemyController : MonoBehaviour
     private void SetRandomTarget()
     {
         float randomY = Random.Range(
-            -m_MoveDuration,
-            m_MoveDuration
-            );
+            -m_MoveDistance,
+            m_MoveDistance);
 
         m_Phase2TargetPosition =
             new Vector3(
                 m_StartPosition.x,
                 m_StartPosition.y + randomY,
-                m_StartPosition.z
-                );
-    }
-
-
-    private void ReturnToHome()
-    {
-        m_CachedTransform.position =
-            Vector3.MoveTowards(
-               m_CachedTransform.position,
-               m_HomePosition,
-               m_Phase2MoveSpeed * Time.deltaTime
-                );
-
-        if(Vector3.Distance(m_CachedTransform.position, m_HomePosition) < 0.01f)
-        {
-            m_CachedTransform.position = m_HomePosition;
-
-            m_IsReturning = false;
-            m_CurrentPhase = m_NextPhase;
-
-
-            //各タイマーをリセット
-            m_StartPosition = m_HomePosition;
-            m_ElapsedTime = 0.0f;
-            m_MoveTime = 0.0f;
-            m_StopTimer = 0.0f;
-            m_IsStopping = false;
-
-            if(m_CurrentPhase == EnemyAttackController.EnemyPhase.PHASE2)
-            {
-                SetRandomTarget();
-            }
-        }
+                m_StartPosition.z);
     }
 }

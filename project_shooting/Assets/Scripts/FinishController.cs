@@ -5,31 +5,52 @@ using TMPro;
 //ゲーム終了処理
 public class FinishController : MonoBehaviour
 {
-    [SerializeField]
-    private int m_ExplosionCount = 7;
-    [SerializeField]
-    private float m_ExplosionInterval = 0.35f; 
-    [SerializeField]
-    private float m_ExplosionRadius = 1.0f;
-    [SerializeField]
-    private float m_EndWaitTime = 8.0f;
 
+    //------------------
+    //定数
+    //------------------
+
+    // 終了演出開始までの待機時間
+    private const float FINISH_START_WAIT = 1.0f;
+
+    // 結果表示前の待機時間
+    private const float RESULT_WAIT_TIME = 1.0f;
+
+    // 爆発演出終了後の待機時間
+    private const float EXPLOSION_END_WAIT = 0.1f;
+
+    // 最後の大爆発のサイズ
+    private const float FINAL_EXPLOSION_SCALE = 6.0f;
+
+    [Header("爆発演出")]
+    [SerializeField]
+    private int m_ExplosionCount = 7; //爆発回数 
+    [SerializeField]
+    private float m_ExplosionInterval = 0.35f;  //爆発間隔
+    [SerializeField]
+    private float m_ExplosionRadius = 1.0f; //爆発位置のランダム範囲
+    [SerializeField]
+    private float m_EndWaitTime = 8.0f; //リザルト画面へ移動するまでの待機時間
+
+    [Header("リザルト表示")]
     [SerializeField]
     private TMP_Text m_ResultText;
 
-    private bool m_IsFinished = false;  //終了しているか
+    private bool m_IsFinished = false;  //終了処理がすでに開始されているか
 
     /// <summary>
     /// ゲーム終了処理
     /// </summary>
     /// <param name="isClear">クリアしているかどうか</param>
-    /// <param name="position">指定の座標</param>
-    /// <param name="target">ターゲット</param>
+    /// <param name="position">終了演出を行う座標</param>
+    /// <param name="target">削除する対象オブジェクト</param>
 
     public void Finish(bool isClear,Vector3 position, GameObject target)
     {
+        //終了処理がすでに開始されている場合は無視
         if (m_IsFinished) return; 
         
+        //終了処理開始
         m_IsFinished = true;
         
         StartCoroutine(FinishSequence(isClear, position, target));
@@ -39,43 +60,61 @@ public class FinishController : MonoBehaviour
     /// 終了演出シーケンス
     /// </summary>
     /// <param name="isClear">クリアしているか</param>
-    /// <param name="position">指定の座標</param>
-    /// <param name="target">ターゲット</param>
+    /// <param name="position">終了演出を行う座標</param>
+    /// <param name="target">削除する対象オブジェクト</param>
     /// <returns></returns>
     private IEnumerator FinishSequence(bool isClear,Vector3 position,GameObject target)
     {
+        //ゲーム中の処理を停止
         GameManager.Instance.isActive = false;
 
+        //終了演出開始まで少し待機
+        yield return new WaitForSecondsRealtime(FINISH_START_WAIT);
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        //クリア・ゲームオーバーに応じた爆発処理
+        if(isClear)
+        {
+            yield return PlayEnemyExplosion(position);
+        }
+        else
+        {
+            yield return PlayPlayerExplosion(position); 
+        }
 
-        yield return isClear
-            ? PlayEnemyExplosion(position)
-            : PlayPlayerExplosion(position);
-
+        //対象オブジェクトを削除
         DestroyTarget(target);
 
-        yield return new WaitForSecondsRealtime(1.0f);
+        //結果表示まで待機
+        yield return new WaitForSecondsRealtime(RESULT_WAIT_TIME);
 
+        //Clear / Game Overを表示
         PlayResult(isClear);
 
+        //結果画面へ移動するまで待機
         yield return new WaitForSecondsRealtime(m_EndWaitTime);
 
+        //ゲーム終了
         GameManager.Instance.GameEnd(isClear);
     }
 
-
+    /// <summary>
+    /// Clear / Game Overの演出を行う
+    /// </summary>
+    /// <param name="isClear">ゲームをクリアしたか</param>
     private void PlayResult(bool isClear)
     {
+        //現在のBGMを停止
         BGMManager.Instance.AudioStop();
 
         if(isClear)
         {
+            //クリア時のBGMと文字を設定
             BGMManager.Instance.BGMPlay(BGMType.CLEAR);
             m_ResultText.text = "Game Clear";
         }
         else
         {
+            //ゲームオーバー時のBGM知二を設定
             BGMManager.Instance.BGMPlay(BGMType.GAMEOVER);
             m_ResultText.text = "Game Over";
         }
@@ -85,46 +124,53 @@ public class FinishController : MonoBehaviour
     /// <summary>
     /// 敵の爆発演出
     /// </summary>
-    /// <param name="position">敵のポジション</param>
+    /// <param name="position">敵の座標</param>
     /// <returns></returns>
     private IEnumerator PlayEnemyExplosion(Vector3 position)
     {
 
+        //複数回爆発させる
         for (int i = 0; i < m_ExplosionCount; i++)
         {
 
-            CreateExplosion(
-                position + (Vector3)(Random.insideUnitCircle * m_ExplosionRadius)
+            Vector3 explosionPosition =
+                position +
+                (Vector3)(
+                Random.insideUnitCircle *
+                m_ExplosionRadius
                 );
+
+            CreateExplosion(explosionPosition);
 
             yield return new WaitForSecondsRealtime(m_ExplosionInterval);
         }
 
-
-        yield return new WaitForSecondsRealtime(1.0f);
+        //最後の大爆発まで少し待機
+        yield return new WaitForSecondsRealtime(RESULT_WAIT_TIME);
 
         //最後に中央で大爆発
         EffectManager.Instance.PlayEffect(
             EffectType.EXPLOSION,
             position,
-            Vector3.one * 6.0f
+            Vector3.one * FINAL_EXPLOSION_SCALE
             );
 
         SEManager.Instance.SEPlay(SEType.EXPLOSION);
 
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(EXPLOSION_END_WAIT);
     }
 
     /// <summary>
     /// プレイヤーの爆発演出
     /// </summary>
-    /// <param name="position">プレイヤーのポジション</param>
+    /// <param name="position">プレイヤーの座標</param>
     /// <returns></returns>
     private IEnumerator PlayPlayerExplosion(Vector3 position)
     {
+        //プレイヤーの位置で爆発
         CreateExplosion(position);
 
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(EXPLOSION_END_WAIT);
     }
 
 
@@ -134,6 +180,7 @@ public class FinishController : MonoBehaviour
     /// <param name="position">爆発させるポジション</param>
     private void CreateExplosion(Vector3 position)
     {
+        //爆発エフェクトを生成
         EffectManager.Instance.PlayEffect(
             EffectType.EXPLOSION,
             position
@@ -145,13 +192,11 @@ public class FinishController : MonoBehaviour
     /// <summary>
     /// オブジェクト削除
     /// </summary>
-    /// <param name="target">ターゲット</param>
+    /// <param name="target">削除対象のオブジェクト</param>
     private void DestroyTarget(GameObject target)
     {
-        if(target != null)
-        {
-            Destroy(target);
-        }
-    }
+        if (target == null) return;
 
+        Destroy(target);
+    }
 }

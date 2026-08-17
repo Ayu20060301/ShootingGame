@@ -7,16 +7,24 @@ using System.Collections;
 //タイトル画面の制御
 public class TitleController : MonoBehaviour
 {
-    [Header("定数")]
+    //定数
+
+    //終了確認メニューの選択項目
     private const int YES = 0;
     private const int NO = 1;
 
-    private PlayerInputActions m_Input;
+    //ボタンを押した際の演出の時間
+    private const float BUTTON_PRESSED_TIME = 0.1f;
+
+    private PlayerInputActions m_Input; //入力
+
+    [Header("終了確認メニュー")]
     [SerializeField]
     private GameObject m_QuitMenu;
     [SerializeField]
     private TMP_Text m_QuitMenuText;
 
+    [Header("スタートボタン")]
     [SerializeField]
     private Button m_StartButton;
 
@@ -27,18 +35,23 @@ public class TitleController : MonoBehaviour
 
     private void Awake()
     {
+        //InputSystemを生成
         m_Input = new PlayerInputActions();
 
+        //終了確認メニューを非表示
         m_QuitMenu.SetActive(false);
 
-        //初期表示
+        //初期表示をUIへ反映
         RefreshQuitMenu();
     }
 
 
     private void OnEnable()
     {
+        //UI入力を有効化
         m_Input.UI.Enable();
+
+        //入力イベントを登録
         m_Input.UI.Navigate.performed += OnNavigate;
         m_Input.UI.Submit.performed += OnSubmit;
         m_Input.UI.Cancel.performed += OnCancel;
@@ -46,9 +59,12 @@ public class TitleController : MonoBehaviour
 
     private void OnDisable()
     {
+        //入力イベントを解除
         m_Input.UI.Navigate.performed -= OnNavigate;
         m_Input.UI.Submit.performed -= OnSubmit;
         m_Input.UI.Cancel.performed -= OnCancel;
+
+        //UI入力を無効化
         m_Input.UI.Disable();
     }
 
@@ -57,9 +73,12 @@ public class TitleController : MonoBehaviour
     /// </summary>
     private void RefreshQuitMenu()
     {
+        string yesText = m_SelectIndex == YES ? "> " : " ";
+        string noText = m_SelectIndex == NO ? "> " : " ";
+
         m_QuitMenuText.text =
-            (m_SelectIndex == YES ? "> " : " ") + "はい\n" +
-            (m_SelectIndex == NO ? "> " : " ") + "いいえ\n";
+            $"{yesText}はい\n" +
+            $"{noText}いいえ\n";
     }
 
     /// <summary>
@@ -72,8 +91,10 @@ public class TitleController : MonoBehaviour
 
         m_QuitMenu.SetActive(true);
 
+        //初期選択を「はい」に戻す
         RefreshQuitMenu();
 
+        //メニュー表示中はcancelの二重処理を防ぐ
         m_Input.UI.Cancel.Disable();
     }
 
@@ -85,6 +106,7 @@ public class TitleController : MonoBehaviour
         m_IsMenuOpen = false;
         m_QuitMenu.SetActive(false);
 
+        //Cancel入力を再び有効化
         m_Input.UI.Cancel.Enable();
     }
 
@@ -100,12 +122,15 @@ public class TitleController : MonoBehaviour
 
         float y = context.ReadValue<Vector2>().y;
 
+        //移動前の選択位置を保存
         int previewIndex = m_SelectIndex;
 
+        //上入力
         if(y > 0.5f)
         {
             m_SelectIndex = 0;
         }
+        //下入力
         else if(y < -0.5f)
         {
             m_SelectIndex = 1;
@@ -121,7 +146,7 @@ public class TitleController : MonoBehaviour
     }
 
     /// <summary>
-    /// 決定
+    /// 決定入力
     /// </summary>
     /// <param name="context"></param>
     private void OnSubmit(InputAction.CallbackContext context)
@@ -129,6 +154,7 @@ public class TitleController : MonoBehaviour
         //シーン遷移中なら無視
         if (SceneController.Instance.IsFading) return;
 
+        //決定SEを再生
         SEManager.Instance.SEPlay(SEType.DECIDE);
 
         //終了メニューが開いていない場合はゲーム開始
@@ -138,11 +164,12 @@ public class TitleController : MonoBehaviour
             return;
         }
 
+        //終了確認メニューを決定
         ExecuteQuitMenu();
     }
 
     /// <summary>
-    /// キャンセル
+    /// キャンセル入力
     /// </summary>
     /// <param name="context"></param>
     private void OnCancel(InputAction.CallbackContext context)
@@ -150,34 +177,46 @@ public class TitleController : MonoBehaviour
         // シーン遷移中なら無視
         if (SceneController.Instance.IsFading) return;
 
+        //メニューが開いてなければ開く
         if (!m_IsMenuOpen)
         {
             OpenQuitMenu();
            
         }
+        //メニューが開いていれば閉じる
         else
         {
             CloseQuitMenu();
         }
     }
-    
-    private IEnumerator PressedButton()
-    {
-        m_StartButton.image.color = m_StartButton.colors.pressedColor;
 
-        yield return new WaitForSecondsRealtime(0.1f);
-
-        m_StartButton.image.color = m_StartButton.colors.normalColor;
-    }
-
+  
     /// <summary>
     /// ゲーム開始
     /// </summary>
     private void StartGame()
     {
+        //スタートボタンのPressed演出
         StartCoroutine(PressedButton());
 
+        //メインシーンへ移動
         SceneController.Instance.LoadScene("MainScene");
+    }
+
+    /// <summary>
+    /// スタートボタンを押したときの演出
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PressedButton()
+    {
+        //押し込み時の色に変更
+        m_StartButton.image.color = m_StartButton.colors.pressedColor;
+
+        //一定時間待機
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        //通常時の色に戻す
+        m_StartButton.image.color = m_StartButton.colors.normalColor;
     }
 
     /// <summary>
@@ -185,18 +224,28 @@ public class TitleController : MonoBehaviour
     /// </summary>
     private void ExecuteQuitMenu()
     {
+        //「はい」が選択されている場合
         if(m_SelectIndex == YES)
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            QuitGame();
         }
+        //「いいえ」が選択されている場合
         else
         {
             CloseQuitMenu();
         }
+    }
+
+    /// <summary>
+    /// ゲームを終了する
+    /// </summary>
+    private void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     /// <summary>

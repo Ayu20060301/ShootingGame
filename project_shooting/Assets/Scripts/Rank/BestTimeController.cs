@@ -1,8 +1,14 @@
 using UnityEngine;
 
+//ベストタイムランキングを管理するクラス
 public class BestTimeController : MonoBehaviour
 {
+    //定数
+
+    //ランキングの最大登録数
     private const int RANK_MAX = 5;
+
+    //PlayerPrefsで使用するキーのベース
     private const string BEST_TIME_KEY = "BestTime";
 
    
@@ -10,54 +16,72 @@ public class BestTimeController : MonoBehaviour
     /// ランキングを保存
     /// </summary>
     /// <param name="currentTime">クリアタイム</param>
-    /// <returns></returns>
+    /// <returns>1位にランクインした場合はtrue、それ以外はfalse</returns>
     public bool SaveBestTime(float currentTime)
     {
+        //現在のランキングを取得
         float[] times = GetBestTimes();
 
-        int insertIndex = -1;
+        //今回のクリアタイムを挿入する位置
+        int insertIndex = FindInsertIndex(times, currentTime);
 
-        //入る順位を探す
+        //ランク外の場合は保存しない
+        if (insertIndex == -1) return false;
+
+        //挿入位置より下のランキングを1つずつ後ろへ移動
+        ShiftRanking(times, insertIndex);
+
+        //新しいタイムをランキングへ追加
+        times[insertIndex] = currentTime;
+
+        //更新したランキングを保存
+        SaveRanking(times);
+
+        Debug.Log($"{insertIndex + 1}位にランクイン");
+
+        //1位に入った場合はニューレコード
+        return insertIndex == 0;
+    }
+
+    /// <summary>
+    /// タイムを挿入する位置を検索する
+    /// </summary>
+    /// <param name="times">現在のランキング</param>
+    /// <param name="currentTime">今回のクリアタイム</param>
+    /// <returns>挿入位置。ランク外の場合は-1</returns>
+    private int FindInsertIndex(float[] times,float currentTime)
+    {
         for(int i = 0; i < RANK_MAX; i++)
         {
+            //既存タイムより速ければ、その位置に入る
             if(currentTime < times[i])
             {
-                insertIndex = i;
-                break;
+                return i;
             }
         }
 
         //ランク外
-        if (insertIndex == -1) return false;
+        return -1;
+    }
 
-
-        //下へずらす
+    /// <summary>
+    /// ランキングを下へずらす
+    /// </summary>
+    /// <param name="times">ランキング</param>
+    /// <param name="insertIndex">新しいタイムを挿入する位置</param>
+    private void ShiftRanking(float[] times, int insertIndex)
+    {
+        //最下位から順番に1つ後ろへ移動
         for(int i = RANK_MAX - 1; i > insertIndex; i--)
         {
             times[i] = times[i - 1];
         }
-
-        //新しいタイムを挿入
-        times[insertIndex] = currentTime;
-
-        //保存
-        for(int i = 0; i < RANK_MAX; i++)
-        {
-            PlayerPrefs.SetFloat(BEST_TIME_KEY + i, times[i]);
-        }
-
-        PlayerPrefs.Save();
-
-        Debug.Log($"{insertIndex + 1}位にランクイン");
-
-        //1位ならニューレコード
-        return insertIndex == 0;
     }
 
     /// <summary>
     /// 1位のタイムを取得
     /// </summary>
-    /// <returns></returns>
+    /// <returns>1位のタイム</returns>
     public float GetBestTime()
     {
         return GetBestTimes()[0];
@@ -66,7 +90,7 @@ public class BestTimeController : MonoBehaviour
     /// <summary>
     /// ランキングを取得
     /// </summary>
-    /// <returns></returns>
+    /// <returns>ランキングのタイム</returns>
     public float[] GetBestTimes()
     {
         float[] times = new float[RANK_MAX];
@@ -80,27 +104,38 @@ public class BestTimeController : MonoBehaviour
     }
 
     /// <summary>
-    /// ランキングをリセット
+    /// ランキングをPlayerPrefsへ保存する
     /// </summary>
-    public void ResetBestTime()
+    /// <param name="times">保存するランキング</param>
+    private void SaveRanking(float[] times)
     {
-        
         for(int i = 0; i < RANK_MAX; i++)
         {
-            PlayerPrefs.DeleteKey(BEST_TIME_KEY + i);
+            PlayerPrefs.SetFloat(GetTimeKey(i), times[i]);
         }
 
+        //PlayerPrefsへ変更内容を反映
         PlayerPrefs.Save();
-
-        Debug.Log("ベストタイムをリセットしました");
     }
 
+    /// <summary>
+    /// ランキング用のPlayerPrefsキーを取得する
+    /// </summary>
+    /// <param name="rankIndex">ランキングのインデックス</param>
+    /// <returns>PlayerPrefsのキー</returns>
+    private string GetTimeKey(int rankIndex)
+    {
+        return BEST_TIME_KEY + rankIndex;
+    }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Unityエディタ終了時にPlayerPrefsを削除する
+    /// </summary>
     private void OnApplicationQuit()
     {
-#if UNITY_EDITOR
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
-#endif
     }
-
+#endif
 }

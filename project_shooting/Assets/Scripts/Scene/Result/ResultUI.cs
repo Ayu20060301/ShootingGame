@@ -2,12 +2,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+//リザルト画面のUIを制御するクラス
 public class ResultUI : MonoBehaviour
 {
 
+    //------------------
+    //ランク設定
+    //------------------
+    private const float RANK_S_TIME = 90.0f;
+    private const float RANK_A_TIME = 100.0f;
+    private const float RANK_B_TIME = 110.0f;
+    private const float RANK_C_TIME = 120.0f;
+
+    [Header("ベストタイム")]
     [SerializeField]
     private BestTimeController m_BestTimeController;
 
+    [Header("リザルト")]
     [SerializeField]
     private TMP_Text m_ResultText;
     [SerializeField]
@@ -21,17 +32,41 @@ public class ResultUI : MonoBehaviour
 
     private void Start()
     {
-        m_ResultText.text = ResultData.isClear ? "GAME CLEAR" : "GAME OVER";
+        //リザルトを表示
+        UpdateResult();
 
-        int minutes = Mathf.FloorToInt(ResultData.playTime / 60.0f);
-        int seconds = Mathf.FloorToInt(ResultData.playTime % 60.0f);
+        //プレイ時間を表示
+        UpdatePlayTime();
 
-        m_PlayTimeText.text = (ResultData.isClear ? "クリア時間 : "  : "生存時間 : ")　+  $"{minutes:00}:{seconds:00}";
-
-        //ベストタイムを更新
+        //ベストタイムを更新・表示
         UpdateBestTime();
-        //ランクの更新
+
+        //ランク表示
         UpdateRank();
+    }
+
+    /// <summary>
+    /// CLEAR / GAME OVERを表示する
+    /// </summary>
+    private void UpdateResult()
+    {
+        m_ResultText.text =
+            ResultData.isClear
+                ? "GAME CLEAR"
+                : "GAME OVER";
+    }
+
+    /// <summary>
+    /// プレイ時間を表示する
+    /// </summary>
+    private void UpdatePlayTime()
+    {
+        string label = ResultData.isClear
+            ? "クリア時間 : "
+            : "生存時間 : ";
+
+        m_PlayTimeText.text =
+            label + FormatTime(ResultData.playTime);
     }
 
     /// <summary>
@@ -39,38 +74,46 @@ public class ResultUI : MonoBehaviour
     /// </summary>
     private void UpdateRank()
     {
-        float time = ResultData.playTime;
-
+        // ゲームオーバーの場合はDランク
         if (!ResultData.isClear)
         {
-            m_RankText.text = "D";
-            m_RankText.color = Color.gray;
+            SetRank("D", Color.gray);
+            return;
         }
-        else if (time <= 90.0f)
+
+        float time = ResultData.playTime;
+
+        if (time <= RANK_S_TIME)
         {
-            m_RankText.text = "S";
-            m_RankText.color = Color.yellow;
+            SetRank("S", Color.yellow);
         }
-        else if (time <= 100.0f)
+        else if (time <= RANK_A_TIME)
         {
-            m_RankText.text = "A";
-            m_RankText.color = Color.green;
+            SetRank("A", Color.green);
         }
-        else if (time <= 110.0f)
+        else if (time <= RANK_B_TIME)
         {
-            m_RankText.text = "B";
-            m_RankText.color = Color.cyan;
+            SetRank("B", Color.cyan);
         }
-        else if (time <= 120.0f)
+        else if (time <= RANK_C_TIME)
         {
-            m_RankText.text = "C";
-            m_RankText.color = Color.magenta;
+            SetRank("C", Color.magenta);
         }
         else
         {
-            m_RankText.text = "D";
-            m_RankText.color = Color.gray;
+            SetRank("D", Color.gray);
         }
+    }
+
+    /// <summary>
+    /// ランクの文字と色を設定する
+    /// </summary>
+    /// <param name="rank">ランク</param>
+    /// <param name="color">表示色</param>
+    private void SetRank(string rank,Color color)
+    {
+        m_RankText.text = rank;
+        m_RankText.color = color;
     }
 
     /// <summary>
@@ -78,48 +121,66 @@ public class ResultUI : MonoBehaviour
     /// </summary>
     private void UpdateBestTime()
     {
-
-        //保存前のベストタイムを取得
-        float oldBestTime = m_BestTimeController.GetBestTime();
-
         bool isNewRecord = false;
 
-       //ゲームクリア時のみベストタイムを更新
-       if(ResultData.isClear)
-       {
-           //初記録または過去記録より早い場合
-           if(ResultData.playTime < oldBestTime)
-           {
-                isNewRecord = true;
-           }
+        //ゲームクリア時のみランキングへ登録
+        if(ResultData.isClear)
+        {
+            isNewRecord =
+                m_BestTimeController.SaveBestTime(
+                    ResultData.playTime
+                    );
+        }
 
-            m_BestTimeController.SaveBestTime(ResultData.playTime);
-       }
-
-       //ニューレコード表示
-       if(isNewRecord)
-       {
-            m_NewRecordText.text = "NEW RECORD!";
-       }
-       else
-       {
-            m_NewRecordText.text = string.Empty;
-       }
-    
+        //NEW RECORD!を表示
+        UpdateNewRecord(isNewRecord);
 
         //更新後のベストタイムを取得
         float bestTime = m_BestTimeController.GetBestTime();
 
-        //まだ記録がない
+        //ベストタイムを表示
+        UpdateBestTimeText(bestTime);
+    }
+
+    /// <summary>
+    /// NEW RECORD!表示を更新する
+    /// </summary>
+    /// <param name="isNewRecord">新記録かどうか</param>
+    private void UpdateNewRecord(bool isNewRecord)
+    {
+        m_NewRecordText.text =
+            isNewRecord
+            ? "NEW RECORD!"
+            : string.Empty;
+    }
+
+    /// <summary>
+    /// ベストタイムを表示する
+    /// </summary>
+    /// <param name="bestTime">ベストタイム</param>
+    private void UpdateBestTimeText(float bestTime)
+    {
+        //まだ記録が存在しない場合
         if(bestTime == float.MaxValue)
         {
             m_BestTimeText.text = "ベストタイム : --:--";
             return;
         }
 
-        int minutes = Mathf.FloorToInt(bestTime / 60.0f);
-        int seconds = Mathf.FloorToInt(bestTime % 60.0f);
+        m_BestTimeText.text =
+            $"ベストタイム : {FormatTime(bestTime)}";
+    }
 
-        m_BestTimeText.text = $"ベストタイム : {minutes:00}:{seconds:00}";
+    /// <summary>
+    /// 秒数を「00:00」形式へ変換する
+    /// </summary>
+    /// <param name="time">秒数</param>
+    /// <returns>分:秒形式の文字列</returns>
+    private string FormatTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60.0f);
+        int seconds = Mathf.FloorToInt(time % 60.0f);
+
+        return $"{minutes:00}:{seconds:00}";
     }
 }

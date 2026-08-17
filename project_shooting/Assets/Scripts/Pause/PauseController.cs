@@ -6,19 +6,38 @@ using UnityEditor;
 //ポーズメニューの制御
 public class PauseController : MonoBehaviour
 {
-    [Header("定数")]
-    private const int RESUME = 0;
-    private const int RETRY = 1;
-    private const int TITLE = 2;
+    /// <summary>
+    /// ポーズメニューの選択項目
+    /// </summary>
+    private enum MenuSelection
+    {
+        RESUME,
+        RETRY,
+        TITLE
+    }
 
+    //---------------
+    //定数
+    //---------------
+
+    //ポーズ中のBGM音量
+    private const float PAUSE_BGM_VOLUME = 0.3f;
+
+    //通常時のBGm音量
+    private const float NORMAL_BGM_VOLUME = 1.0f;
+
+    // スティック・十字キーの入力判定値
+    private const float NAVIGATION_THRESHOLD = 0.5f;
+
+    [Header("ポーズメニュー")]
     [SerializeField]
     private GameObject m_PauseMenu;
     [SerializeField]
     private TMP_Text m_SelectText;
 
-    private PlayerInputActions m_Input;
+    private PlayerInputActions m_Input; //入力
 
-    private int m_SelectIndex = RESUME; //現在選択している項目 
+    private MenuSelection m_SelectIndex = MenuSelection.RESUME; //現在選択している項目 
 
     private bool m_IsCanMove = true; //キーの連続入力防止
 
@@ -29,9 +48,13 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        //InputSystemを生成
         m_Input = new PlayerInputActions();
 
-        //初期表示
+        //ポーズメニューを非表示
+        m_PauseMenu.SetActive(false);
+
+        //初期メニューを表示
         RefreshMenu();
     }
 
@@ -58,13 +81,13 @@ public class PauseController : MonoBehaviour
     /// <param name="context"></param>
     private void OnNavigate(InputAction.CallbackContext context)
     {
-
+        //ポーズ中でなければ操作しない
         if (!m_IsPause) return;
 
         float y = context.ReadValue<Vector2>().y;
 
         //入力が戻ったら次の入力を受け付ける
-        if(Mathf.Abs(y) < 0.5f)
+        if(Mathf.Abs(y) < NAVIGATION_THRESHOLD)
         {
             m_IsCanMove = true;
             return;
@@ -73,25 +96,25 @@ public class PauseController : MonoBehaviour
         //連続入力防止
         if (!m_IsCanMove) return;
 
-        int previewIndex = m_SelectIndex;
+        MenuSelection previewIndex = m_SelectIndex;
 
         if (y > 0)
         {
-            m_SelectIndex--;
+            MoveSelection(-1);
         }
         else
         {
-            m_SelectIndex++;
+            MoveSelection(1);
         }
 
-        m_SelectIndex = Mathf.Clamp(m_SelectIndex, 0, 2);
-
+        //選択項目が変わった場合
         if (previewIndex != m_SelectIndex)
         {
             SEManager.Instance.SEPlay(SEType.SELECT);
             RefreshMenu();
         }
 
+        //次の入力まで移動を受け付けない
         m_IsCanMove = false;
     }
 
@@ -101,7 +124,7 @@ public class PauseController : MonoBehaviour
     /// <param name="context"></param>
     private void OnSubmit(InputAction.CallbackContext context)
     {
-
+        //ポーズ中でなければ操作しない
         if (!m_IsPause) return;
 
         //シーン遷移中なら無視
@@ -112,16 +135,36 @@ public class PauseController : MonoBehaviour
 
         switch (m_SelectIndex)
         {
-            case 0:
+            case MenuSelection.RESUME:
                 ResumeGame();
                 break;
-            case 1:
+            case MenuSelection.RETRY:
                 RetryGame();
                 break;
-            case 2:
+            case MenuSelection.TITLE:
                 ReturnTitle();
                 break;
         }
+    }
+
+    /// <summary>
+    /// 選択項目を移動する
+    /// </summary>
+    /// <param name="direction">移動方向</param>
+    private void MoveSelection(int direction)
+    {
+        int index = (int)m_SelectIndex;
+
+        index += direction;
+
+        //選択範囲内に制限
+        index = Mathf.Clamp(
+            index,
+            (int)MenuSelection.RESUME,
+            (int)MenuSelection.TITLE
+            );
+
+        m_SelectIndex = (MenuSelection)index;
     }
 
     /// <summary>
@@ -152,14 +195,19 @@ public class PauseController : MonoBehaviour
         //フェード中は処理を行わない
         if (SceneController.Instance.IsFading) return;
 
+        //ポーズ状態にする
         m_IsPause = true;
 
-        m_SelectIndex = RESUME;
+        //初期選択を「再開」に戻す
+        m_SelectIndex = MenuSelection.RESUME;
 
+        //停止
         Time.timeScale = 0.0f;
 
-        BGMManager.Instance.bgmAudio.volume = 0.3f;
+        //ポーズ中はBGM音量を下げる
+        SetBGMVolume(PAUSE_BGM_VOLUME);
 
+        //ポーズメニューを表示
         m_PauseMenu.SetActive(true);
 
         //連打防止
@@ -171,17 +219,32 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void ResumeGame()
     {
+        //ポーズ状態を解除
         m_IsPause = false;
+
+        //カーソル移動を再び許可
         m_IsCanMove = true;
 
+        //通常へ戻す
         Time.timeScale = 1.0f;
 
-        BGMManager.Instance.bgmAudio.volume = 1.0f;
+        //BGM音量を戻す
+        SetBGMVolume(NORMAL_BGM_VOLUME);
 
+        //ポーズメニューを非表示
         m_PauseMenu.SetActive(false);
 
         //ESCキー・startボタンを有効
         m_Input.UI.Pause.Enable();
+    }
+
+    /// <summary>
+    /// BGM音量を設定する
+    /// </summary>
+    /// <param name="volume">音量</param>
+    private void SetBGMVolume(float volume)
+    {
+        BGMManager.Instance.bgmAudio.volume = volume;
     }
 
     /// <summary>
@@ -191,8 +254,10 @@ public class PauseController : MonoBehaviour
     {
         ResumeGame();
 
+        //ゲーム状態を初期化
         GameManager.Instance.ResetGame();
 
+        //メインシーンへ移動
         SceneController.Instance.LoadScene("MainScene");
     }
 
@@ -203,8 +268,10 @@ public class PauseController : MonoBehaviour
     {
         ResumeGame();
 
+        //ゲーム状態を初期化
         GameManager.Instance.ResetGame();
 
+        //タイトルシーンへ移動
         SceneController.Instance.LoadScene("TitleScene");
     }
 
@@ -213,10 +280,20 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void RefreshMenu()
     {
+        string resumeText =
+            m_SelectIndex == MenuSelection.RESUME ? "> " : " ";
+
+        string retryText =
+            m_SelectIndex == MenuSelection.RETRY ? "> " : " ";
+
+        string titleText =
+            m_SelectIndex == MenuSelection.TITLE ? "> " : " ";
+
+
         m_SelectText.text =
-            (m_SelectIndex == RESUME ? "> " : " ") + "再開\n" +
-            (m_SelectIndex == RETRY ? "> " : " ") + "リトライ\n" +
-            (m_SelectIndex == TITLE ? "> " : " ") + "タイトルへ戻る\n";
+            $"{resumeText}再開\n" +
+            $"{retryText}リトライ\n" +
+            $"{titleText}タイトルへ戻る";
     }
 
     /// <summary>

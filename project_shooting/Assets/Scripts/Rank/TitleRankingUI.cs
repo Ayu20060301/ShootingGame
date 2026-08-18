@@ -61,5 +61,4 @@ public class TitleRankingUI : MonoBehaviour
 
         return $"{rank}ˆÊ {minutes:00}:{seconds:00}";
     }
-
 }

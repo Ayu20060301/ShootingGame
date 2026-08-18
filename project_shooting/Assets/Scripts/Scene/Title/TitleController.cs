@@ -7,16 +7,19 @@ using System.Collections;
 //タイトル画面の制御
 public class TitleController : MonoBehaviour
 {
-    //定数
 
-    //終了確認メニューの選択項目
-    private const int YES = 0;
-    private const int NO = 1;
+    private enum MenuSelection
+    {
+        YES,
+        NO
+    }
+
 
     //ボタンを押した際の演出の時間
     private const float BUTTON_PRESSED_TIME = 0.1f;
 
-    private PlayerInputActions m_Input; //入力
+    //入力
+    private PlayerInputActions m_Input; 
 
     [Header("終了確認メニュー")]
     [SerializeField]
@@ -28,10 +31,11 @@ public class TitleController : MonoBehaviour
     [SerializeField]
     private Button m_StartButton;
 
-    private int m_SelectIndex = YES; //現在選択している項目
+    //現在選択している項目
+    private MenuSelection m_SelectIndex = MenuSelection.YES;
 
-    private bool m_IsMenuOpen = false;  //終了メニューが開いているか 
-
+    //終了メニューが開いているか
+    private bool m_IsMenuOpen = false; 
 
     private void Awake()
     {
@@ -73,8 +77,8 @@ public class TitleController : MonoBehaviour
     /// </summary>
     private void RefreshQuitMenu()
     {
-        string yesText = m_SelectIndex == YES ? "> " : " ";
-        string noText = m_SelectIndex == NO ? "> " : " ";
+        string yesText = m_SelectIndex == MenuSelection.YES ? "> " : " ";
+        string noText = m_SelectIndex == MenuSelection.NO ? "> " : " ";
 
         m_QuitMenuText.text =
             $"{yesText}はい\n" +
@@ -87,7 +91,7 @@ public class TitleController : MonoBehaviour
     private void OpenQuitMenu()
     {
         m_IsMenuOpen = true;
-        m_SelectIndex = YES;
+        m_SelectIndex = MenuSelection.YES;
 
         m_QuitMenu.SetActive(true);
 
@@ -123,17 +127,17 @@ public class TitleController : MonoBehaviour
         float y = context.ReadValue<Vector2>().y;
 
         //移動前の選択位置を保存
-        int previewIndex = m_SelectIndex;
+        MenuSelection previewIndex = m_SelectIndex;
 
         //上入力
         if(y > 0.5f)
         {
-            m_SelectIndex = 0;
+            m_SelectIndex = MenuSelection.YES;
         }
         //下入力
         else if(y < -0.5f)
         {
-            m_SelectIndex = 1;
+            m_SelectIndex = MenuSelection.NO;
         }
 
         //選択項目が変わった時だけ更新
@@ -213,7 +217,7 @@ public class TitleController : MonoBehaviour
         m_StartButton.image.color = m_StartButton.colors.pressedColor;
 
         //一定時間待機
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(BUTTON_PRESSED_TIME);
 
         //通常時の色に戻す
         m_StartButton.image.color = m_StartButton.colors.normalColor;
@@ -225,7 +229,7 @@ public class TitleController : MonoBehaviour
     private void ExecuteQuitMenu()
     {
         //「はい」が選択されている場合
-        if(m_SelectIndex == YES)
+        if(m_SelectIndex == MenuSelection.YES)
         {
             QuitGame();
         }

@@ -18,10 +18,11 @@ public class ResultController : MonoBehaviour
     [SerializeField]
     private TMP_Text m_MenuText;
 
-    private PlayerInputActions m_Input; //“ü—Í
+    //“ü—Í
+    private PlayerInputActions m_Input; 
 
     //Œ»İ‘I‘ğ‚µ‚Ä‚¢‚é€–Ú
-    private MenuSelection m_SelectIndex = MenuSelection.RETRY; //Œ»İ‘I‘ğ‚µ‚Ä‚¢‚é€–Ú
+    private MenuSelection m_SelectIndex = MenuSelection.RETRY;
 
     /// <summary>
     /// ‰Šú‰»

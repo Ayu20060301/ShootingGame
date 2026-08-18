@@ -23,7 +23,7 @@ public class PauseController : MonoBehaviour
     //ポーズ中のBGM音量
     private const float PAUSE_BGM_VOLUME = 0.3f;
 
-    //通常時のBGm音量
+    //通常時のBGM音量
     private const float NORMAL_BGM_VOLUME = 1.0f;
 
     // スティック・十字キーの入力判定値
@@ -35,13 +35,17 @@ public class PauseController : MonoBehaviour
     [SerializeField]
     private TMP_Text m_SelectText;
 
-    private PlayerInputActions m_Input; //入力
+    //入力
+    private PlayerInputActions m_Input;
 
-    private MenuSelection m_SelectIndex = MenuSelection.RESUME; //現在選択している項目 
+    //現在選択している項目
+    private MenuSelection m_SelectIndex = MenuSelection.RESUME;
 
-    private bool m_IsCanMove = true; //キーの連続入力防止
+    //キーの連続入力防止
+    private bool m_IsCanMove = true; 
 
-    private bool m_IsPause = false; //ポーズ中かどうか
+    //ポーズ中かどうか
+    private bool m_IsPause = false; 
 
     /// <summary>
     /// 初期化

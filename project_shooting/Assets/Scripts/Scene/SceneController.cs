@@ -8,15 +8,20 @@ using UnityEngine.SceneManagement;
 public class SceneController : SingletonMonoBehaviour<SceneController>
 {
 
+    [Header("フェード")]
     [SerializeField]
     private CanvasGroup m_FadeCanvas;
 
     [SerializeField]
-    private float m_FadeTime = 0.5f;
+    private float m_FadeTime = 0.5f; //フェード時間
 
-    private bool m_IsFading = false; 
+    private bool m_IsFading = false; //フェード・シーン遷移中か
 
+    /// <summary>
+    /// 現在シーン遷移中か
+    /// </summary>
     public bool IsFading => m_IsFading;
+
 
     protected override void Awake()
     {
@@ -25,6 +30,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         //フレームレートを60FPSに設定
         Application.targetFrameRate = 60; 
 
+        //フェード画面を透明にする
         if(m_FadeCanvas != null)
         {
             m_FadeCanvas.alpha = 0.0f;
@@ -38,18 +44,24 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         yield return Fade(1.0f, 0.0f);
     }
 
+    /// <summary>
+    /// シーン読み込み完了イベントを登録
+    /// </summary>
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    /// <summary>
+    /// シーン読み込み完了イベントを解除
+    /// </summary>
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
-    /// シーン読み込み完了時
+    /// シーン読み込み完了時の処理
     /// </summary>
     /// <param name="scene">シーン名</param>
     /// <param name="mode"></param>
@@ -60,18 +72,13 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
 
 
     /// <summary>
-    /// シーン遷移
+    /// 指定したシーンへ遷移する
     /// </summary>
-    /// <param name="sceneName">遷移先シーン</param>
+    /// <param name="sceneName">遷移先シーン名</param>
     public void LoadScene(string sceneName)
     {
-        
         //既に遷移中なら無視
         if (m_IsFading) return;
-
-        //遷移開始
-        m_IsFading = true;
-
 
         StartCoroutine(LoadSceneAsync(sceneName));
     }
@@ -83,11 +90,16 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <returns></returns>
     private IEnumerator LoadSceneAsync(string sceneName)
     {
+        //遷移開始
+        m_IsFading = true;
+
         //フェードアウト
         yield return Fade(0.0f, 1.0f);
 
-        //シーン読み込み
+        //シーン読み込み開始
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
+
+        //シーンの自動切り替えを停止
         async.allowSceneActivation = false;
 
         //読み込み完了まで待機
@@ -99,6 +111,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         //シーン切り替え
         async.allowSceneActivation = true;
 
+        //シーン切り替え完了まで待機
         while(!async.isDone)
         {
             yield return null;
@@ -133,24 +146,44 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <summary>
     /// フェード処理
     /// </summary>
-    /// <param name="start">開始アルファ値</param>
-    /// <param name="end">最終的なアルファ値</param>
+    /// <param name="start">開始時の透明度</param>
+    /// <param name="end">終了時の透明度</param>
     /// <returns></returns>
     private IEnumerator Fade(float start, float end)
     {
+        //CanvasGroupが設定されていない場合
         if (m_FadeCanvas == null) yield break;
 
-        float time = 0.0f;
+        //フェード時間が0の場合
+        if(m_FadeTime <= 0.0f)
+        {
+            m_FadeCanvas.alpha = end;
+            yield break;
+        }
 
+        float elapsedTime = 0.0f;
+
+        //開始時の透明度を設定
         m_FadeCanvas.alpha = start;
 
-        while(time < m_FadeTime)
+        //フェード処理
+        while(elapsedTime < m_FadeTime)
         {
-            time += Time.deltaTime;
-            m_FadeCanvas.alpha = Mathf.Lerp(start, end, time / m_FadeTime);
+            elapsedTime += Time.unscaledDeltaTime;
+
+            float progress =
+                elapsedTime / m_FadeTime;
+
+            m_FadeCanvas.alpha =
+                Mathf.Lerp(
+                    start,
+                    end,
+                    progress
+                    );
             yield return null;
         }
 
+        //最終値を設定
         m_FadeCanvas.alpha = end;
     }
 }

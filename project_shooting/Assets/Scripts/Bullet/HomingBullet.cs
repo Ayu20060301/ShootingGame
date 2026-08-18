@@ -92,7 +92,7 @@ public class HomingBullet : BulletBase
         m_Direction = m_Direction.normalized;
 
         //ëOêi
-        m_CashedTransform.position +=
+        m_CachedTransform.position +=
             (Vector3)(m_Direction * m_Speed * Time.deltaTime);
     }
 

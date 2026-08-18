@@ -1,43 +1,119 @@
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-//弾を生成するクラス
+//弾の生成を管理するクラス
 public static class BulletManager
 {
+    //弾のColliderの半径
+    private const float BULLET_COLLIDER_RADIUS = 0.5f;
+
+    //Rigidbodyの重力
+    private const float GRAVITY_SCALE = 0.0f;
+
+    //弾の回転補正
+    private const float ROTATION_OFFSET = 90.0f;
+
     /// <summary>
     /// 弾を1発生成する
     /// </summary>
-    /// <typeparam name="T">生成するバレットの型</typeparam>
+    /// <typeparam name="T">生成する弾の型</typeparam>
     /// <param name="position">発射位置</param>
     /// <param name="direction">進行方向</param>
     /// <param name="speed">弾の速度</param>
-    /// <returns></returns>
+    /// <param name="sprite">弾のスプライト</param>
+    /// <returns>生成した弾</returns>
     public static T CreateBullet<T>(Vector3 position,Vector2 direction, float speed,Sprite sprite) where T : BulletBase
     {
+        //弾のGameObjectを生成
         GameObject bulletObj = new GameObject(typeof(T).Name);
-        bulletObj.transform.position = position;
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        bulletObj.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+        //Transformを取得
+        Transform bulletTransform =
+            bulletObj.transform;
 
+        //発射位置を設定
+        bulletTransform.position = position;
 
-        //見た目
-        SpriteRenderer spriteRenderer = bulletObj.AddComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
+        //弾の向きを設定
+        SetupRotation(bulletTransform, direction);
 
-        //当たり判定
-        CircleCollider2D collider = bulletObj.AddComponent<CircleCollider2D>();
-        collider.isTrigger = true;
+        //SpriteRendererを設定
+        SetupSpriteRenderer(bulletObj, sprite);
 
-        //物理演算
-        Rigidbody2D rb = bulletObj.AddComponent<Rigidbody2D>();
-        rb.gravityScale = 0.0f;
-        rb.bodyType = RigidbodyType2D.Kinematic;
+        //Colliderを設定
+        SetupCollider(bulletObj);
 
-        //弾の挙動スクリプト
+        //Rigidbodyを設定
+        SetupRigidbody(bulletObj);
+
+        //弾の制御コンポーネントを追加
         T bullet = bulletObj.AddComponent<T>();
+
+        //弾を初期化
         bullet.Initialize(position, direction, speed);
 
         return bullet;
+    }
+
+    /// <summary>
+    /// 弾の進行に合わせて回転させる
+    /// </summary>
+    /// <param name="transform">トランスフォーム</param>
+    /// <param name="direction">進行方向</param>
+    private static void SetupRotation(Transform transform,Vector2 direction)
+    {
+        float angle =
+            Mathf.Atan2(
+                direction.y,
+                direction.x
+                ) * Mathf.Rad2Deg;
+
+        transform.rotation =
+            Quaternion.Euler(
+                0.0f,
+                0.0f,
+                angle + ROTATION_OFFSET
+                );
+    }
+
+    /// <summary>
+    /// 弾の当たり判定を設定する
+    /// </summary>
+    /// <param name="bulletObject">弾のGameObject</param>
+    /// <param name="sprite">弾のスプライト</param>
+    private static void SetupSpriteRenderer(GameObject bulletObject,Sprite sprite)
+    {
+        SpriteRenderer spriteRenderer =
+          bulletObject.AddComponent<SpriteRenderer>();
+
+        spriteRenderer.sprite = sprite;
+    }
+
+    /// <summary>
+    /// 弾の当たり判定を設定する
+    /// </summary>
+    /// <param name="bulletObject">弾のGameObject</param>
+    private static void SetupCollider(GameObject bulletObject)
+    {
+        CircleCollider2D collider =
+            bulletObject.AddComponent<CircleCollider2D>();
+
+        collider.isTrigger = true;
+        collider.radius = BULLET_COLLIDER_RADIUS;
+    }
+
+    /// <summary>
+    /// 弾の物理設定を行う
+    /// </summary>
+    /// <param name="bulletObject">弾のGameObject</param>
+    private static void SetupRigidbody(GameObject bulletObject)
+    {
+        Rigidbody2D rigidbody =
+            bulletObject.AddComponent<Rigidbody2D>();
+
+        rigidbody.gravityScale = GRAVITY_SCALE;
+        rigidbody.bodyType =
+            RigidbodyType2D.Kinematic;
     }
 }

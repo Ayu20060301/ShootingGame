@@ -1,15 +1,30 @@
 using UnityEngine;
 
+//プレイヤーが発射する弾
 public class PlayerBullet : BulletBase
 {
-    private int m_Damage = 40; //ダメージ数
+    //弾のダメージ
+    private const int DAMAGE = 40;
 
+    /// <summary>
+    /// 弾が敵に命中した時の処理
+    /// </summary>
+    /// <param name="other">敵のCollider</param>
     protected override void OnHit(Collider2D other)
     {
-        if(other.CompareTag("Enemy"))
+        //敵以外に当たった場合は何もしない
+        if(!other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyHealth>().TakeDamage(m_Damage);
-            Despawn();
+            return;
         }
+
+        //EnemyHealthを取得してダメージを与える
+        if(other.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
+        {
+            enemyHealth.TakeDamage(DAMAGE);
+        }
+
+        //弾を消す
+        Despawn();
     }
 }

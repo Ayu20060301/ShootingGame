@@ -5,9 +5,6 @@ using UnityEngine;
 //’e‚Ì¶¬‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 public static class BulletManager
 {
-    //’e‚ÌCollider‚Ì”¼Œa
-    private const float BULLET_COLLIDER_RADIUS = 0.5f;
-
     //Rigidbody‚Ìd—Í
     private const float GRAVITY_SCALE = 0.0f;
 
@@ -100,7 +97,6 @@ public static class BulletManager
             bulletObject.AddComponent<CircleCollider2D>();
 
         collider.isTrigger = true;
-        collider.radius = BULLET_COLLIDER_RADIUS;
     }
 
     /// <summary>

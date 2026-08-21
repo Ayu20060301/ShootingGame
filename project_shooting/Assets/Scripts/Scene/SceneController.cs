@@ -28,7 +28,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         base.Awake();
 
         //フレームレートを60FPSに設定
-        Application.targetFrameRate = 60; 
+        Application.targetFrameRate = 60;
 
         //フェード画面を透明にする
         if(m_FadeCanvas != null)

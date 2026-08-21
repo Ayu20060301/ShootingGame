@@ -69,7 +69,7 @@ public class FinishController : MonoBehaviour
         GameManager.Instance.isActive = false;
 
         //終了演出開始まで少し待機
-        yield return new WaitForSecondsRealtime(FINISH_START_WAIT);
+        yield return new WaitForSeconds(FINISH_START_WAIT);
 
         //クリア・ゲームオーバーに応じた爆発処理
         if(isClear)
@@ -85,13 +85,13 @@ public class FinishController : MonoBehaviour
         DestroyTarget(target);
 
         //結果表示まで待機
-        yield return new WaitForSecondsRealtime(RESULT_WAIT_TIME);
+        yield return new WaitForSeconds(RESULT_WAIT_TIME);
 
         //Clear / Game Overを表示
         PlayResult(isClear);
 
         //結果画面へ移動するまで待機
-        yield return new WaitForSecondsRealtime(m_EndWaitTime);
+        yield return new WaitForSeconds(m_EndWaitTime);
 
         //ゲーム終了
         GameManager.Instance.GameEnd(isClear);
@@ -142,11 +142,11 @@ public class FinishController : MonoBehaviour
 
             CreateExplosion(explosionPosition);
 
-            yield return new WaitForSecondsRealtime(m_ExplosionInterval);
+            yield return new WaitForSeconds(m_ExplosionInterval);
         }
 
         //最後の大爆発まで少し待機
-        yield return new WaitForSecondsRealtime(RESULT_WAIT_TIME);
+        yield return new WaitForSeconds(RESULT_WAIT_TIME);
 
         //最後に中央で大爆発
         EffectManager.Instance.PlayEffect(
@@ -157,7 +157,7 @@ public class FinishController : MonoBehaviour
 
         SEManager.Instance.SEPlay(SEType.EXPLOSION);
 
-        yield return new WaitForSecondsRealtime(EXPLOSION_END_WAIT);
+        yield return new WaitForSeconds(EXPLOSION_END_WAIT);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public class FinishController : MonoBehaviour
         //プレイヤーの位置で爆発
         CreateExplosion(position);
 
-        yield return new WaitForSecondsRealtime(EXPLOSION_END_WAIT);
+        yield return new WaitForSeconds(EXPLOSION_END_WAIT);
     }
 
 

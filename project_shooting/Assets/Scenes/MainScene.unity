@@ -1116,6 +1116,7 @@ GameObject:
   - component: {fileID: 928235192}
   - component: {fileID: 928235193}
   - component: {fileID: 928235194}
+  - component: {fileID: 928235195}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1311,7 +1312,19 @@ MonoBehaviour:
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 928235183}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnBomb
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6e5d0047-71c0-4ed1-9817-4f279f76233c
     m_ActionName: 'Player/Bomb[/XInputControllerWindows/buttonSouth,/Keyboard/x]'
   - m_PersistentCalls:
@@ -1373,6 +1386,7 @@ MonoBehaviour:
   m_MuzzlePoint: {fileID: 928235181}
   m_ShootInterval: 0.3
   m_BulletSpeed: 10
+  m_BombController: {fileID: 928235195}
 --- !u!95 &928235185
 Animator:
   serializedVersion: 7
@@ -1675,8 +1689,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e9d747801e05f4ebb1e62d10228741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBombUI
-  m_BombPrefab: {fileID: 3976785504649102554, guid: e19fdc9cf33487048b16cd141c07706b, type: 3}
+  m_BombUIPrefab: {fileID: 3976785504649102554, guid: e19fdc9cf33487048b16cd141c07706b, type: 3}
   m_BombParent: {fileID: 1367525111}
+--- !u!114 &928235195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 928235179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85ce5e4168efb8458aa1e9d0482a090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBombController
+  m_BombPrefab: {fileID: 7356613242354181775, guid: 95fcbd1b2ef9ef9409a1ca47934ae463, type: 3}
+  m_BombSpawnPoint: {fileID: 928235181}
+  m_EffectTime: 0.5
+  m_BlinkInterval: 0.05
+  m_BombUI: {fileID: 928235194}
 --- !u!1 &962627362
 GameObject:
   m_ObjectHideFlags: 0

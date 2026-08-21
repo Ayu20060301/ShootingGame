@@ -496,7 +496,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Shooting",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -507,7 +507,7 @@
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Slow Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -518,7 +518,7 @@
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Slow Movement",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -5,7 +5,7 @@ public class EffectManager : SingletonMonoBehaviour<EffectManager>
     /// <summary>
     /// エフェクトの再生
     /// </summary>
-    /// <param name="type">エフェクトのタイプ</param>
+    /// <param name="type">エフェクトの種類</param>
     /// <param name="position">指定の座標</param>
     public void PlayEffect(EffectType type, Vector3 position)
     {

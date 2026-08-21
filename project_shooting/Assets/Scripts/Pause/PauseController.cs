@@ -75,7 +75,13 @@ public class PauseController : MonoBehaviour
         m_Input.UI.Navigate.performed -= OnNavigate;
         m_Input.UI.Submit.performed -= OnSubmit;
         m_Input.UI.Pause.performed -= OnPause;
+
+        // UI入力を無効化
         m_Input.UI.Disable();
+
+        // Player入力も無効化
+        m_Input.Player.Disable();
+
     }
 
 
@@ -214,6 +220,12 @@ public class PauseController : MonoBehaviour
         //ポーズメニューを表示
         m_PauseMenu.SetActive(true);
 
+        // Player入力を無効化
+        m_Input.Player.Disable();
+
+        // UI入力は有効にする
+        m_Input.UI.Enable();
+
         //連打防止
         m_Input.UI.Pause.Disable();
     }
@@ -238,7 +250,10 @@ public class PauseController : MonoBehaviour
         //ポーズメニューを非表示
         m_PauseMenu.SetActive(false);
 
-        //ESCキー・startボタンを有効
+        // Player入力を有効化
+        m_Input.Player.Enable();
+
+        // ポーズキーを有効化
         m_Input.UI.Pause.Enable();
     }
 
@@ -256,13 +271,15 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void RetryGame()
     {
+
         ResumeGame();
 
-        //ゲーム状態を初期化
+        //状態をリセット
         GameManager.Instance.ResetGame();
 
         //メインシーンへ移動
         SceneController.Instance.LoadScene("MainScene");
+
     }
 
     /// <summary>
@@ -270,13 +287,15 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void ReturnTitle()
     {
+
         ResumeGame();
 
-        //ゲーム状態を初期化
+        //状態をリセット
         GameManager.Instance.ResetGame();
 
         //タイトルシーンへ移動
         SceneController.Instance.LoadScene("TitleScene");
+
     }
 
     /// <summary>

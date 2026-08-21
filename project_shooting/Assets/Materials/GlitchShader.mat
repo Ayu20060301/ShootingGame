@@ -47,7 +47,7 @@ Material:
     m_Floats:
     - _BlockScale: 10
     - _EnableExternalAlpha: 0
-    - _GlitchIntensity: 0
+    - _GlitchIntensity: 0.15
     - _NoiseSpeed: 1
     - _ZWrite: 0
     m_Colors:

@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     private float m_ShootTimer;
     private bool m_IsShooting; //”­Ë‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 
+    [SerializeField]
+    private PlayerBombController m_BombController;
 
     private void Start()
     {
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         //ËŒ‚“ü—Í’†‚©‚Ç‚¤‚©‚ğŒ©‚ÄA”­Ëˆ—‚ğŒÄ‚Ño‚·
         HandleShooting();
+
     }
 
     private void FixedUpdate()
@@ -144,7 +147,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnSlowMode(InputAction.CallbackContext context)
     {
-        if(context.started)
+
+        if (context.started)
         {
             m_IsSlowMode = true;
         }
@@ -160,6 +164,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnShoot(InputAction.CallbackContext context)
     {
+        if (Time.timeScale == 0.0f) return;
+
         if ((context.started))
         {
             m_IsShooting = true;
@@ -168,5 +174,18 @@ public class PlayerController : MonoBehaviour
         {
             m_IsShooting = false;
         }
+    }
+
+    /// <summary>
+    /// ƒ{ƒ€“ü—Í
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnBomb(InputAction.CallbackContext context)
+    {
+        if (!context.started) return;
+
+        if (!GameManager.Instance.isActive) return;
+
+        m_BombController.UseBomb();
     }
 }

@@ -1,27 +1,29 @@
 using System.Collections;
 using UnityEngine;
 
-//プレイヤーを点滅させる処理
+//プレイヤーの被弾時の無敵・点滅処理
 public class PlayerFlash : MonoBehaviour
 {
-
+    [Header("スプライトを切り替える間隔")]
     [SerializeField]
-    private float m_FlashInterval = 0.1f; //点滅間隔
+    private float m_FlashInterval = 0.1f;
+
+    [Header("点滅回数")]
     [SerializeField]
-    private int m_LoopCount = 60;
+    private int m_LoopCount = 60; 
 
-    private SpriteRenderer m_SP; //プレイヤーの画像スプライト
+    private SpriteRenderer m_SpriteRenderer; //プレイヤーの画像スプライト
 
-    private PolygonCollider2D m__Py2D;
+    private PolygonCollider2D m_Collider; //プレイヤーの当たり判定
 
-    private bool m_IsHit; //当たったかどうかのフラグ
+    private bool m_IsInvincible; //現在無敵状態か
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //コンポーネントの取得
-        m_SP = GetComponent<SpriteRenderer>();
-        m__Py2D = GetComponent<PolygonCollider2D>();
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        m_Collider = GetComponent<PolygonCollider2D>();
     }
 
     /// <summary>
@@ -29,44 +31,69 @@ public class PlayerFlash : MonoBehaviour
     /// </summary>
     public void BulletHit()
     {
-        //Hitしていたら処理を行わない
-        if (m_IsHit)
+        //すでに無敵中なら処理しない
+        if (m_IsInvincible)
         {
             return;
         }
 
-        //コルーチンを開始
+        //無敵・点滅処理を開始
         StartCoroutine(HitCoroutine());
     }
 
     //点滅させる処理
     private IEnumerator HitCoroutine()
     {
-        //当たりフラグをtrueに変更
-        m_IsHit = true;
+        //無敵状態にする
+        m_IsInvincible = true;
 
-        //無敵中は当たり判定を無効化
-        m__Py2D.enabled = false;
+        //無敵中は敵弾との当たり判定を無効にする
+        SetColliderEnabled(false);
 
         //点滅ループ開始
         for(int i = 0; i < m_LoopCount; i++)
         {
+            //非表示
+            SetSpriteVisible(false);
 
             yield return new WaitForSeconds(m_FlashInterval);
 
-            //spriteRendererをオフ
-            m_SP.enabled = false;
-
+            //表示
+            SetSpriteVisible(true);
+            
             yield return new WaitForSeconds(m_FlashInterval);
-
-            //spriteRendererをオン
-            m_SP.enabled = true;
         }
 
-        //点滅ループが抜けたら当たりフラグをfalse
-        m_IsHit = false;
 
-        //当たり判定を有効化
-        m__Py2D.enabled = true;
+        //演出終了後はスプライトを表示のままにする
+        SetSpriteVisible(true);
+
+        //当たり判定を再び有効化する
+        SetColliderEnabled(true);
+
+        //点滅ループが抜けたら当たりフラグをfalse
+        m_IsInvincible = false;
+    }
+
+    /// <summary>
+    /// プレイヤーのスプライト表示状態を変更する
+    /// </summary>
+    /// <param name="isVisible">表示する場合はtrue</param>
+    private void SetSpriteVisible(bool isVisible)
+    {
+        if (m_SpriteRenderer == null) return;
+
+        m_SpriteRenderer.enabled = isVisible;
+    }
+
+    /// <summary>
+    /// プレイヤーの当たり判定の有効・無効を切り替える
+    /// </summary>
+    /// <param name="isEnabled">有効にする場合はtrue</param>
+    private void SetColliderEnabled(bool isEnabled)
+    {
+        if (m_Collider == null) return;
+
+        m_Collider.enabled = isEnabled;
     }
 }

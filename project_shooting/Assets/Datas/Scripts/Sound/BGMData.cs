@@ -5,18 +5,24 @@ using UnityEngine;
 /// </summary>
 public enum BGMType
 {
-    TITLE,   
-    GAME,
-    RESULT,
-    CLEAR,
-    GAMEOVER
+    TITLE,   //タイトル画面
+    GAME,    //ゲーム画面
+    RESULT,  //リザルト画面
+    CLEAR,   //ゲームクリア時のBGM
+    GAMEOVER //ゲームオーバー時のBGM
 }
 
+//BGMデータ
 [CreateAssetMenu(fileName = "BGMData", menuName = "Sound/BGMDataを作成")]
 
 public class BGMData : ScriptableObject
 {
+    [Header("BGMの種類")]
     public BGMType type;
+
+    [Header("BGM")]
     public AudioClip clip;
+
+    [Header("BGMがループするか")]
     public bool loop = true;
 }

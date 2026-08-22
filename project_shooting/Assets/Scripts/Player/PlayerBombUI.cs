@@ -77,7 +77,7 @@ public class PlayerBombUI : MonoBehaviour
     public void SetDim(bool isDimmed)
     {
         //ˆÃ“]Žž‚ÌAlpha’l
-        float alpha = 0.4f;
+        float alpha = 0.1f;
 
         for(int i = 0; i < m_BombUI.Count; i++)
         {

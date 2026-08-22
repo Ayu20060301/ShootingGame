@@ -7,13 +7,14 @@ using System.Collections;
 //タイトル画面の制御
 public class TitleController : MonoBehaviour
 {
-
+    /// <summary>
+    /// 終了メニューの選択項目
+    /// </summary>
     private enum MenuSelection
     {
-        YES,
-        NO
+        YES,   //はい
+        NO     //いいえ
     }
-
 
     //ボタンを押した際の演出の時間
     private const float BUTTON_PRESSED_TIME = 0.1f;
@@ -173,7 +174,7 @@ public class TitleController : MonoBehaviour
     }
 
     /// <summary>
-    /// キャンセル入力
+    /// メニュー入力
     /// </summary>
     /// <param name="context"></param>
     private void OnCancel(InputAction.CallbackContext context)

@@ -7,7 +7,6 @@ using UnityEngine;
 //--------------------
 public class GlitchController : MonoBehaviour
 {
-
     //Shaderのプロパティ名
     private const string GLITCH_INTENSITY_PROPERTY = "_GlitchIntensity";
 
@@ -15,15 +14,21 @@ public class GlitchController : MonoBehaviour
     private const float GLITCH_INTERVAL_MIN = 2.0f;
     private const float GLITCH_INTERVAL_MAX = 4.0f;
 
-    [Header("グリッチ設定")]
+    [Header("マテリアルを参照する")]
     [SerializeField]
     private Material m_GlitchMaterial;
+
+    [Header("通常時のグリッチ強度")]
     [SerializeField]
-    private float m_NormalIntensity = 0.01f; //通常時のグリッチ強度
+    private float m_NormalIntensity = 0.01f;
+
+    [Header("グリッチ発生時の強度")]
     [SerializeField]
-    private float m_GlitchIntensity = 0.15f;  //グリッチ発生時の強度
+    private float m_GlitchIntensity = 0.15f;
+
+    [Header("グリッチ継続時間")]
     [SerializeField]
-    private float m_GlitchTime = 0.15f;  //グリッチ継続時間
+    private float m_GlitchTime = 0.15f;
 
 
     //ShaderプロパティID

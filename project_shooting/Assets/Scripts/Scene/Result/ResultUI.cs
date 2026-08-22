@@ -5,7 +5,6 @@ using TMPro;
 //リザルト画面のUIを制御するクラス
 public class ResultUI : MonoBehaviour
 {
-
     //------------------
     //ランク設定
     //------------------

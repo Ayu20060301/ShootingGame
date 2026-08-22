@@ -279,7 +279,6 @@ public class PauseController : MonoBehaviour
 
         //メインシーンへ移動
         SceneController.Instance.LoadScene("MainScene");
-
     }
 
     /// <summary>
@@ -295,7 +294,6 @@ public class PauseController : MonoBehaviour
 
         //タイトルシーンへ移動
         SceneController.Instance.LoadScene("TitleScene");
-
     }
 
     /// <summary>

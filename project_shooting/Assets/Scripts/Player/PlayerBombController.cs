@@ -103,7 +103,7 @@ public class PlayerBombController : MonoBehaviour
 
         //爆発前にボムを点滅させる
         yield return StartCoroutine(BlinkBomb(bomb, 1.0f));
-
+        
         //爆発直前にボムを拡大する
         yield return StartCoroutine(ScaleBomb(bomb));
 

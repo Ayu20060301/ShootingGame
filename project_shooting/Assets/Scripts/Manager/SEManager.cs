@@ -3,7 +3,8 @@ using UnityEngine;
 //Œø‰Ê‰¹‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 public class SEManager : SingletonMonoBehaviour<SEManager>
 {
-    public AudioSource seAudio; //Œø‰Ê‰¹‚ğÄ¶‚·‚éAudioSource
+    //Œø‰Ê‰¹‚ğÄ¶‚·‚éAudioSource
+    public AudioSource seAudio; 
 
     /// <summary>
     /// Œø‰Ê‰¹‚ÌÄ¶
@@ -24,11 +25,4 @@ public class SEManager : SingletonMonoBehaviour<SEManager>
         //Œø‰Ê‰¹‚ğÄ¶‚·‚é
         seAudio.PlayOneShot(data.clip);
     }
-
-    public void AudioStop()
-    {
-        seAudio.Stop();
-    }
-
-  
 }

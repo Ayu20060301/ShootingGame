@@ -149,7 +149,7 @@ public class EnemyAttackController : MonoBehaviour
     /// </summary>
     private void Phase1Attack()
     {
-        if (!m_EnemyController.IsStopping())
+        if (!m_EnemyController.IsStopping)
         {
             return;
         }

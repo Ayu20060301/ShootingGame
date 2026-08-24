@@ -3,11 +3,16 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
+//ゲーム全体の状態や情報を管理するクラス
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
-
+    //デフォルトの最大残機数
     private const int DEFAULT_MAX_LIFE = 3;
+    
+    //敵の最大HP
     private const int DEFAULT_ENEMY_HP = 10000;
+    
+    //最大ボム数
     private const int DEFAULT_MAX_BOMB = 3;
 
 
@@ -33,32 +38,38 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         base.Awake();
 
+        //ゲーム情報を初期化
         InitializeGame();
     }
 
     /// <summary>
-    /// ゲーム初期化
+    /// ゲーム情報を初期化する
     /// </summary>
     private void InitializeGame()
     {
         Time.timeScale = 1.0f;
 
+        //ゲームを開始状態にする
         isActive = true;
 
+        //残機を初期化
         maxLife = DEFAULT_MAX_LIFE;
         currentLife = maxLife;
 
+        //敵HPを初期化
         maxEnemyHP = DEFAULT_ENEMY_HP;
         currentEnemyHP = maxEnemyHP;
 
+        //ボム数を初期化
         maxBomb = DEFAULT_MAX_BOMB;
         currentBomb = maxBomb;
 
+        //経過時間をリセット
         playTime = 0.0f;
     }
 
     /// <summary>
-    /// ゲームリセット
+    /// ゲームの状態を初期状態に戻す
     /// </summary>
     public void ResetGame()
     {
@@ -71,8 +82,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// <param name="isClear">ゲームクリアしているかどうか</param>
     public void GameEnd(bool isClear)
     {
+        //リザルト用のデータを保存
         ResultData.isClear = isClear;
         ResultData.playTime = playTime;
+
+        //リザルトシーンへ移動
         SceneController.Instance.LoadScene("ResultScene");
     }
 }

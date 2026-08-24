@@ -4,6 +4,7 @@ using TMPro;
 //プレイ時間の計測・表示を管理するクラス
 public class PlayTimeController : MonoBehaviour
 {
+    [Header("時間テキスト")]
     [SerializeField]
     private TMP_Text m_PlayTimeText;
 
@@ -15,7 +16,7 @@ public class PlayTimeController : MonoBehaviour
         //プレイ時間を加算
         GameManager.Instance.playTime += Time.deltaTime;
 
-        //UIを更新
+        //プレイ時間の表示を更新する
         UpdatePlayTime();
     }
 
@@ -26,8 +27,7 @@ public class PlayTimeController : MonoBehaviour
     {
         float playTime = GameManager.Instance.playTime;
 
-        m_PlayTimeText.text =
-            $"Time : {FormatTime(playTime)}";
+        m_PlayTimeText.text = $"Time : {FormatTime(playTime)}";
     }
 
     /// <summary>

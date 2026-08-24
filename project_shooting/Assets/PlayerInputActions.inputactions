@@ -97,7 +97,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shooting",
+                    "name": "Shot",
                     "type": "Button",
                     "id": "de408723-192b-407a-9f9a-7c35e7343b10",
                     "expectedControlType": "",
@@ -486,7 +486,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Shooting",
+                    "action": "Shot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -497,7 +497,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Shooting",
+                    "action": "Shot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

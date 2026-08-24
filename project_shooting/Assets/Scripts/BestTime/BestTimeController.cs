@@ -3,7 +3,9 @@ using UnityEngine;
 //ベストタイムランキングを管理するクラス
 public class BestTimeController : MonoBehaviour
 {
+    //---------------
     //定数
+    //---------------
 
     //ランキングの最大登録数
     private const int RANK_MAX = 5;
@@ -11,7 +13,6 @@ public class BestTimeController : MonoBehaviour
     //PlayerPrefsで使用するキーのベース
     private const string BEST_TIME_KEY = "BestTime";
 
-   
     /// <summary>
     /// ランキングを保存
     /// </summary>
@@ -130,7 +131,7 @@ public class BestTimeController : MonoBehaviour
 
 #if UNITY_EDITOR
     /// <summary>
-    /// Unityエディタ終了時にPlayerPrefsを削除する
+    /// Unityエディタ終了時にランキングデータを削除する
     /// </summary>
     private void OnApplicationQuit()
     {

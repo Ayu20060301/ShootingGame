@@ -12,11 +12,14 @@ public class PlayerFlash : MonoBehaviour
     [SerializeField]
     private int m_LoopCount = 60; 
 
-    private SpriteRenderer m_SpriteRenderer; //プレイヤーの画像スプライト
+    //プレイヤーの画像スプライト
+    private SpriteRenderer m_SpriteRenderer;
 
-    private PolygonCollider2D m_Collider; //プレイヤーの当たり判定
+    //プレイヤーのCollider
+    private PolygonCollider2D m_Collider;
 
-    private bool m_IsInvincible; //現在無敵状態か
+    //現在無敵状態か
+    private bool m_IsInvincible; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,16 +35,17 @@ public class PlayerFlash : MonoBehaviour
     public void BulletHit()
     {
         //すでに無敵中なら処理しない
-        if (m_IsInvincible)
-        {
-            return;
-        }
+        if (m_IsInvincible) return;
+        
 
         //無敵・点滅処理を開始
         StartCoroutine(HitCoroutine());
     }
 
-    //点滅させる処理
+    /// <summary>
+    /// 点滅させる処理
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator HitCoroutine()
     {
         //無敵状態にする

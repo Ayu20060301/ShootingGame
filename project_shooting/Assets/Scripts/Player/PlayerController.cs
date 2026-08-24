@@ -25,11 +25,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform m_MuzzlePoint; //弾の発射位置
     [SerializeField]
-    private float m_ShootInterval = 0.1f; //弾の発射間隔
+    private float m_ShotInterval = 0.1f; //弾の発射間隔
     [SerializeField]
     private float m_BulletSpeed = 10.0f; //弾の移動速度
-    private float m_ShootTimer;
-    private bool m_IsShooting; //射撃ボタンを押しているかどうか
+    private float m_ShotTimer;
+    private bool m_IsShoting; //射撃ボタンを押しているかどうか
 
     [SerializeField]
     private PlayerBombController m_BombController;
@@ -48,10 +48,10 @@ public class PlayerController : MonoBehaviour
         if (!GameManager.Instance.isActive) return;
 
         //発射間隔のクールタイムを更新する
-        HandleShootTimer();
+        HandleShotTimer();
 
         //射撃入力中かどうかを見て、発射処理を呼び出す
-        HandleShooting();
+        HandleShoting();
     }
 
     private void FixedUpdate()
@@ -107,33 +107,33 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 発射間隔のクールタイムを更新する
     /// </summary>
-    private void HandleShootTimer()
+    private void HandleShotTimer()
     {
         //クールタイムが終了している場合は何もしない
-        if (m_ShootTimer <= 0.0f) return;
+        if (m_ShotTimer <= 0.0f) return;
 
         ///次に発射できるまでの時間を減らす
-        m_ShootTimer -= Time.deltaTime;
+        m_ShotTimer -= Time.deltaTime;
     }
 
     /// <summary>
     /// 射撃入力中かどうかを見て、発射処理を呼び出す
     /// </summary>
-    private void HandleShooting()
+    private void HandleShoting()
     {
         //射撃ボタンが押されていない場合は何もしない
-        if (!m_IsShooting) return;
+        if (!m_IsShoting) return;
 
         //弾を発射
-        Shoot();
+        Shot();
     }
 
     /// <summary>
     /// プレイヤー弾を生成する
     /// </summary>
-    private void Shoot()
+    private void Shot()
     {
-        if (m_ShootTimer > 0.0f) return;
+        if (m_ShotTimer > 0.0f) return;
 
         //射撃SEを再生
         SEManager.Instance.SEPlay(SEType.SHOT_PLAYER);
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
             Vector2.right, m_BulletSpeed, m_BulletSprite);
 
         //次の発射までクールタイムを設定
-        m_ShootTimer = m_ShootInterval;
+        m_ShotTimer = m_ShotInterval;
     }
 
     /// <summary>
@@ -183,20 +183,20 @@ public class PlayerController : MonoBehaviour
     /// 射撃入力を受け取る
     /// </summary>
     /// <param name="context"></param>
-    public void OnShoot(InputAction.CallbackContext context)
+    public void OnShot(InputAction.CallbackContext context)
     {
         if (Time.timeScale == 0.0f) return;
 
         //射撃ボタンを押した場合
         if ((context.started))
         {
-            m_IsShooting = true;
+            m_IsShoting = true;
         }
 
         //射撃ボタンを離した場合
         else if(context.canceled)
         {
-            m_IsShooting = false;
+            m_IsShoting = false;
         }
     }
 

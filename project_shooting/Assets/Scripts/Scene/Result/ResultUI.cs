@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 //リザルト画面のUIを制御するクラス
@@ -17,7 +16,7 @@ public class ResultUI : MonoBehaviour
     [SerializeField]
     private BestTimeController m_BestTimeController;
 
-    [Header("リザルト")]
+    [Header("リザルト表示用テキスト")]
     [SerializeField]
     private TMP_Text m_ResultText;
     [SerializeField]
@@ -49,10 +48,7 @@ public class ResultUI : MonoBehaviour
     /// </summary>
     private void UpdateResult()
     {
-        m_ResultText.text =
-            ResultData.isClear
-                ? "GAME CLEAR"
-                : "GAME OVER";
+        m_ResultText.text = ResultData.isClear ? "GAME CLEAR" : "GAME OVER";
     }
 
     /// <summary>
@@ -60,12 +56,9 @@ public class ResultUI : MonoBehaviour
     /// </summary>
     private void UpdatePlayTime()
     {
-        string label = ResultData.isClear
-            ? "クリア時間 : "
-            : "生存時間 : ";
+        string label = ResultData.isClear ? "クリア時間 : " : "生存時間 : ";
 
-        m_PlayTimeText.text =
-            label + FormatTime(ResultData.playTime);
+        m_PlayTimeText.text = label + FormatTime(ResultData.playTime);
     }
 
     /// <summary>
@@ -82,22 +75,31 @@ public class ResultUI : MonoBehaviour
 
         float time = ResultData.playTime;
 
+        //Sランク
         if (time <= RANK_S_TIME)
         {
             SetRank("S", Color.yellow);
         }
+
+        //Aランク
         else if (time <= RANK_A_TIME)
         {
             SetRank("A", Color.green);
         }
+
+        //Bランク
         else if (time <= RANK_B_TIME)
         {
             SetRank("B", Color.cyan);
         }
+
+        //Cランク
         else if (time <= RANK_C_TIME)
         {
             SetRank("C", Color.magenta);
         }
+
+        //Dランク
         else
         {
             SetRank("D", Color.gray);
@@ -125,10 +127,7 @@ public class ResultUI : MonoBehaviour
         //ゲームクリア時のみランキングへ登録
         if(ResultData.isClear)
         {
-            isNewRecord =
-                m_BestTimeController.SaveBestTime(
-                    ResultData.playTime
-                    );
+            isNewRecord = m_BestTimeController.SaveBestTime(ResultData.playTime);
         }
 
         //NEW RECORD!を表示
@@ -147,10 +146,7 @@ public class ResultUI : MonoBehaviour
     /// <param name="isNewRecord">新記録かどうか</param>
     private void UpdateNewRecord(bool isNewRecord)
     {
-        m_NewRecordText.text =
-            isNewRecord
-            ? "NEW RECORD!"
-            : string.Empty;
+        m_NewRecordText.text = isNewRecord ? "NEW RECORD!" : string.Empty;
     }
 
     /// <summary>
@@ -166,8 +162,7 @@ public class ResultUI : MonoBehaviour
             return;
         }
 
-        m_BestTimeText.text =
-            $"ベストタイム : {FormatTime(bestTime)}";
+        m_BestTimeText.text = $"ベストタイム : {FormatTime(bestTime)}";
     }
 
     /// <summary>

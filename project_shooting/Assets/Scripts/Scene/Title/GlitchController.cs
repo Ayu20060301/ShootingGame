@@ -32,8 +32,7 @@ public class GlitchController : MonoBehaviour
 
 
     //ShaderプロパティID
-    private static readonly int GlitchIntensityID =
-        Shader.PropertyToID(GLITCH_INTENSITY_PROPERTY);
+    private static readonly int GlitchIntensityID = Shader.PropertyToID(GLITCH_INTENSITY_PROPERTY);
 
     private void Start()
     {
@@ -53,10 +52,7 @@ public class GlitchController : MonoBehaviour
             SetGlitchIntensity(m_NormalIntensity);
 
             //次のグリッチまでランダムに待機
-            float waitTime = Random.Range(
-                GLITCH_INTERVAL_MIN,
-                GLITCH_INTERVAL_MAX
-                ); 
+            float waitTime = Random.Range(GLITCH_INTERVAL_MIN,GLITCH_INTERVAL_MAX); 
 
             //2～4秒待つ
             yield return new WaitForSecondsRealtime(waitTime);
@@ -78,9 +74,6 @@ public class GlitchController : MonoBehaviour
     /// <param name="intensity">グリッチ強度</param>
     private void SetGlitchIntensity(float intensity)
     {
-        m_GlitchMaterial.SetFloat(
-            GlitchIntensityID,
-            intensity
-            );
+        m_GlitchMaterial.SetFloat(GlitchIntensityID,intensity);
     }
 }

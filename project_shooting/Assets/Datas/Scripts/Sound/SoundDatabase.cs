@@ -9,8 +9,8 @@ using System.Collections.Generic;
 public class SoundDatabase : ScriptableObject
 {
     //リストに追加
-    public List<BGMData> bgmData = new List<BGMData>();
-    public List<SEData> seData = new List<SEData>();
+    public List<BGMData> bgmData = new();
+    public List<SEData> seData = new();
 
     //メソッドの取得
     public BGMData GetBGMData(BGMType type)

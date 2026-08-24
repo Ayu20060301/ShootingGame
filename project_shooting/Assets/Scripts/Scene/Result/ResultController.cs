@@ -14,7 +14,7 @@ public class ResultController : MonoBehaviour
         TITLE
     }
 
-    [Header("メニュー")]
+    [Header("メニュー用テキスト")]
     [SerializeField]
     private TMP_Text m_MenuText;
 
@@ -66,15 +66,11 @@ public class ResultController : MonoBehaviour
     private void RefreshMenu()
     {
 
-        string retryText =
-            m_SelectIndex == MenuSelection.RETRY ? "> " : " ";
+        string retryText = m_SelectIndex == MenuSelection.RETRY ? "> " : " ";
 
-        string titleText =
-            m_SelectIndex == MenuSelection.TITLE ? "> " : " ";
+        string titleText = m_SelectIndex == MenuSelection.TITLE ? "> " : " ";
 
-        m_MenuText.text =
-         $"{retryText}リトライ\n" +
-         $"{titleText}タイトルへ戻る";
+        m_MenuText.text = $"{retryText}リトライ\n" + $"{titleText}タイトルへ戻る";
     }
     
     /// <summary>

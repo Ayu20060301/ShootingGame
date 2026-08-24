@@ -81,9 +81,7 @@ public class TitleController : MonoBehaviour
         string yesText = m_SelectIndex == MenuSelection.YES ? "> " : " ";
         string noText = m_SelectIndex == MenuSelection.NO ? "> " : " ";
 
-        m_QuitMenuText.text =
-            $"{yesText}はい\n" +
-            $"{noText}いいえ\n";
+        m_QuitMenuText.text = $"{yesText}はい\n" + $"{noText}いいえ\n";
     }
 
     /// <summary>
@@ -121,7 +119,6 @@ public class TitleController : MonoBehaviour
     /// <param name="context"></param>
     private void OnNavigate(InputAction.CallbackContext context)
     {
-
         //終了メニューが開いていないときは操作しない
         if (!m_IsMenuOpen) return;
 
@@ -249,7 +246,7 @@ public class TitleController : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-        Application.Quit();
+        Application.Quit();  
 #endif
     }
 

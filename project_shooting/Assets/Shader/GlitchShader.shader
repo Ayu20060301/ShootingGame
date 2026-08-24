@@ -78,7 +78,7 @@ Shader "Custom/GlitchShader"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                //元UV
+               //元UV
                float2 gv = IN.uv;
 
                //ブロックノイズを生成

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class EffectDatabase : ScriptableObject
 {
     //リストに追加
-    public List<EffectData> effectData = new List<EffectData>();
+    public List<EffectData> effectData = new();
 
     //メソッドの取得
     public EffectData GetEffectData(EffectType type)

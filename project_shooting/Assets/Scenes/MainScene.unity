@@ -1331,7 +1331,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 928235183}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnShoot
+        m_MethodName: OnShot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1384,7 +1384,7 @@ MonoBehaviour:
   m_SlowMoveSpeedRatio: 0.5
   m_BulletSprite: {fileID: -5544677771057691170, guid: 38198277edbc35749b1c0e24d9525747, type: 3}
   m_MuzzlePoint: {fileID: 928235181}
-  m_ShootInterval: 0.3
+  m_ShotInterval: 0.3
   m_BulletSpeed: 10
   m_BombController: {fileID: 928235195}
 --- !u!95 &928235185
@@ -2005,6 +2005,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGController
   m_Speed: 0.5
+  m_ResetPositionX: -19
+  m_StartPositionX: 19
 --- !u!1 &1242767659
 GameObject:
   m_ObjectHideFlags: 0
@@ -2283,6 +2285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGController
   m_Speed: 0.5
+  m_ResetPositionX: -19
+  m_StartPositionX: 19
 --- !u!212 &1392946256
 SpriteRenderer:
   serializedVersion: 2
@@ -2726,7 +2730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d670a033551df9442a85cfd38bd5f162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackController
-  m_CurrentPhase: 0
+  m_EnemyController: {fileID: 1630205794}
   m_FirePoint: {fileID: 1630205797}
   m_Player: {fileID: 928235181}
   m_NormalBulletSprite: {fileID: -8807635413740140514, guid: 3d65d4837cac5a047bbda961423cf163, type: 3}
@@ -2764,6 +2768,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   m_FinishController: {fileID: 988322247}
+  m_EnemyAttackController: {fileID: 1630205801}
+  m_EnemyController: {fileID: 1630205794}
+  m_EnemyHPBar: {fileID: 1630205802}
+  m_EnemyDamageEffect: {fileID: 1630205804}
 --- !u!114 &1630205804
 MonoBehaviour:
   m_ObjectHideFlags: 0

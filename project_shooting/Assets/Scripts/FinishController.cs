@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-//ゲーム終了処理
+
 public class FinishController : MonoBehaviour
 {
 
@@ -22,21 +22,29 @@ public class FinishController : MonoBehaviour
     // 最後の大爆発のサイズ
     private const float FINAL_EXPLOSION_SCALE = 6.0f;
 
-    [Header("爆発演出")]
-    [SerializeField]
-    private int m_ExplosionCount = 7; //爆発回数 
-    [SerializeField]
-    private float m_ExplosionInterval = 0.35f;  //爆発間隔
-    [SerializeField]
-    private float m_ExplosionRadius = 1.0f; //爆発位置のランダム範囲
-    [SerializeField]
-    private float m_EndWaitTime = 8.0f; //リザルト画面へ移動するまでの待機時間
 
-    [Header("リザルト表示")]
+    [Header("爆発回数")]
+    [SerializeField]
+    private int m_ExplosionCount = 7; 
+
+    [Header("爆発間隔")]
+    [SerializeField]
+    private float m_ExplosionInterval = 0.35f;
+
+    [Header("爆発位置のランダム範囲")]
+    [SerializeField]
+    private float m_ExplosionRadius = 1.0f; 
+
+    [Header("リザルト画面へ移動するまでの待機時間")]
+    [SerializeField]
+    private float m_EndWaitTime = 8.0f;
+
+    [Header("リザルトテキスト表示")]
     [SerializeField]
     private TMP_Text m_ResultText;
 
-    private bool m_IsFinished = false;  //終了処理がすでに開始されているか
+    //終了処理がすでに開始されているか
+    private bool m_IsFinished = false;
 
     /// <summary>
     /// ゲーム終了処理
@@ -118,7 +126,6 @@ public class FinishController : MonoBehaviour
             BGMManager.Instance.BGMPlay(BGMType.GAMEOVER);
             m_ResultText.text = "Game Over";
         }
-
     }
 
     /// <summary>
@@ -128,17 +135,10 @@ public class FinishController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator PlayEnemyExplosion(Vector3 position)
     {
-
         //複数回爆発させる
         for (int i = 0; i < m_ExplosionCount; i++)
         {
-
-            Vector3 explosionPosition =
-                position +
-                (Vector3)(
-                Random.insideUnitCircle *
-                m_ExplosionRadius
-                );
+            Vector3 explosionPosition = position + (Vector3)(Random.insideUnitCircle * m_ExplosionRadius);
 
             CreateExplosion(explosionPosition);
 
@@ -149,14 +149,12 @@ public class FinishController : MonoBehaviour
         yield return new WaitForSeconds(RESULT_WAIT_TIME);
 
         //最後に中央で大爆発
-        EffectManager.Instance.PlayEffect(
-            EffectType.EXPLOSION,
-            position,
-            Vector3.one * FINAL_EXPLOSION_SCALE
-            );
+        EffectManager.Instance.PlayEffect(EffectType.EXPLOSION,position,Vector3.one * FINAL_EXPLOSION_SCALE);
 
+        //爆発SEを再生
         SEManager.Instance.SEPlay(SEType.EXPLOSION);
 
+        //終了演出開始まで待機する
         yield return new WaitForSeconds(EXPLOSION_END_WAIT);
     }
 
@@ -181,10 +179,7 @@ public class FinishController : MonoBehaviour
     private void CreateExplosion(Vector3 position)
     {
         //爆発エフェクトを生成
-        EffectManager.Instance.PlayEffect(
-            EffectType.EXPLOSION,
-            position
-            );
+        EffectManager.Instance.PlayEffect(EffectType.EXPLOSION,position);
 
         SEManager.Instance.SEPlay(SEType.EXPLOSION);
     }

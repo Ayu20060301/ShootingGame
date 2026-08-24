@@ -54,20 +54,14 @@ public class EnemyController : MonoBehaviour
     public bool IsStopping => m_IsStopping;
 
     /// <summary>
-    /// 初期化処理
-    /// </summary>
-    private void Awake()
-    {
-        //Transformをキャッシュ
-        m_CachedTransform = transform;
-    }
-
-    /// <summary>
     /// 開始時の座標を保存
     /// </summary>
     private void Start()
     {
-        //現在位置をホームぽじょしょんとして保存
+        //Transformをキャッシュ
+        m_CachedTransform = transform;
+
+        //現在位置をホームポジションとして保存
         m_HomePosition = m_CachedTransform.position;
         
         //通常移動の基準座標を設定

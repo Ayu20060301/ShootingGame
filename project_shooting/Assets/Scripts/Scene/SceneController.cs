@@ -8,14 +8,16 @@ using UnityEngine.SceneManagement;
 public class SceneController : SingletonMonoBehaviour<SceneController>
 {
 
-    [Header("フェード")]
+    [Header("フェード用のCanvas")]
     [SerializeField]
     private CanvasGroup m_FadeCanvas;
 
+    [Header("フェード時間")]
     [SerializeField]
-    private float m_FadeTime = 0.5f; //フェード時間
+    private float m_FadeTime = 0.5f;
 
-    private bool m_IsFading = false; //フェード・シーン遷移中か
+    //フェード・シーン中か
+    private bool m_IsFading = false;
 
     /// <summary>
     /// 現在シーン遷移中か
@@ -158,6 +160,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         if(m_FadeTime <= 0.0f)
         {
             m_FadeCanvas.alpha = end;
+
             yield break;
         }
 
@@ -171,15 +174,10 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         {
             elapsedTime += Time.unscaledDeltaTime;
 
-            float progress =
-                elapsedTime / m_FadeTime;
+            float progress =　elapsedTime / m_FadeTime;
 
-            m_FadeCanvas.alpha =
-                Mathf.Lerp(
-                    start,
-                    end,
-                    progress
-                    );
+            m_FadeCanvas.alpha = Mathf.Lerp(start,end,progress);
+
             yield return null;
         }
 

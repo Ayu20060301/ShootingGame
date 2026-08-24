@@ -4,74 +4,88 @@ using UnityEngine;
 public class EnemyAttackController : MonoBehaviour
 {
     /// <summary>
-    /// 攻撃フェーズ
+    /// 敵の攻撃フェーズ
     /// </summary>
     public enum EnemyPhase
     {
-        NORMAL,    //通常
+        NORMAL,    //通常攻撃
         PHASE1,    //扇形攻撃
         PHASE2     //ホーミング攻撃
     }
 
+    //扇形攻撃の最大角度
     private const float FAN_ANGLE = 60.0f;
+
+    //奇数回目の発射回数
     private const int ODD_BULLET_COUNT = 5;
+
+    //偶数回目の発射数
     private const int EVEN_BULLET_COUNT = 4;
 
-    [SerializeField]
+    //現在の攻撃のフェーズ
     private EnemyPhase m_CurrentPhase = EnemyPhase.NORMAL;
 
+
+    [Header("敵の移動制御")]
+    [SerializeField]
+    private EnemyController m_EnemyController;
+
+    [Header("弾を発射する位置")]
     [SerializeField]
     private Transform m_FirePoint;
 
+    [Header("攻撃対象のプレイヤー")]
     [SerializeField]
     private Transform m_Player;
 
+    [Header("通常弾に使用するSprite")]
     [SerializeField]
     private Sprite m_NormalBulletSprite;
 
+    [Header("ホーミング弾に使用するSprite")]
     [SerializeField]
     private Sprite m_HomingBulletSprite;
 
+    [Header("弾の移動速度")]
     [SerializeField]
     private float m_BulletSpeed = 10.0f;
 
-    [Header("攻撃間隔")]
+    [Header("通常攻撃時の発射する弾の間隔")]
     [SerializeField]
     private float m_NormalInterval = 2.0f;
 
+    [Header("扇形攻撃時の発射する弾の間隔")]
     [SerializeField]
     private float m_FanInterval = 1.0f;
 
+    [Header("ホーミング攻撃の発射する弾の感覚")]
     [SerializeField]
     private float m_HomingInterval = 7.0f;
 
+    //通常攻撃用タイマー
     private float m_NormalTimer;
+    
+    //扇形攻撃用タイマー
     private float m_FanTimer;
+    
+    //ホーミング攻撃用タイマー
     private float m_HomingTimer;
-
-    private EnemyController m_EnemyController;
 
     //奇数・偶数発射を切り替える
     private bool m_IsOddShot = true;
 
-    private void Awake()
-    {
-        m_EnemyController = GetComponent<EnemyController>();
-    }
-
     private void Update()
     {
-        if (!GameManager.Instance.isActive)
-        {
-            return;
-        }
+        //ゲームが進行中でない場合は攻撃しない
+        if (!GameManager.Instance.isActive) return;
 
-        if (m_Player == null)
-        {
-            return;
-        }
-
+        //プレイヤーが設定されていない場合は攻撃しない
+        if (m_Player == null) return;
+        
+        //各攻撃用タイマーを更新
         UpdateTimer();
+        
+        //現在のフェーズに応じて攻撃
         Attack();
     }
 
@@ -97,7 +111,7 @@ public class EnemyAttackController : MonoBehaviour
     }
 
     /// <summary>
-    /// タイマー更新
+    /// 各攻撃用タイマーを更新
     /// </summary>
     private void UpdateTimer()
     {
@@ -107,21 +121,23 @@ public class EnemyAttackController : MonoBehaviour
     }
 
     /// <summary>
-    /// 攻撃フェーズ変更
+    /// 攻撃フェーズを変更する
     /// </summary>
+    /// <param name="phase">変更先のフェーズ</param>
     public void SetPhase(EnemyPhase phase)
     {
-        if (m_CurrentPhase == phase)
-        {
-            return;
-        }
-
+        //現在と同じフェーズの場合は変更しない
+        if (m_CurrentPhase == phase) return;
+        
+        //攻撃フェーズを変更
         m_CurrentPhase = phase;
+        
+        //攻撃タイマーをリセット
         ResetTimer();
     }
 
     /// <summary>
-    /// タイマーをリセット
+    /// 全ての攻撃タイマーをリセットする
     /// </summary>
     private void ResetTimer()
     {
@@ -130,56 +146,67 @@ public class EnemyAttackController : MonoBehaviour
         m_HomingTimer = 0.0f;
     }
 
+
+    //----------------------
+    //各フェーズの攻撃
+    //----------------------
+
+
     /// <summary>
     /// 通常攻撃
     /// </summary>
     private void NormalAttack()
     {
-        if (m_NormalTimer < m_NormalInterval)
-        {
-            return;
-        }
+        //敵が停止していない場合は攻撃しない
+        if (m_NormalTimer < m_NormalInterval) return;
 
+        //攻撃間隔に達していない場合
+        if (m_FanTimer < m_FanInterval) return;
+        
+        //タイマーをリセット
         m_NormalTimer = 0.0f;
-        ShootNormal();
+
+        //扇形弾を発射
+        ShotNormal();
     }
 
     /// <summary>
-    /// フェーズ1攻撃
+    /// フェーズ1の扇形攻撃
     /// </summary>
     private void Phase1Attack()
     {
-        if (!m_EnemyController.IsStopping)
-        {
-            return;
-        }
+        //敵が停止していない場合は攻撃しない
+        if (!m_EnemyController.IsStopping) return;
 
-        if (m_FanTimer < m_FanInterval)
-        {
-            return;
-        }
+        //攻撃間隔に達していない場合
+        if (m_FanTimer < m_FanInterval) return;
 
+        //タイマーをリセット
         m_FanTimer = 0.0f;
-        ShootFan();
+
+        //扇形弾を発射
+        ShotFan();
     }
 
     /// <summary>
-    /// フェーズ2攻撃
+    /// フェーズ2のホーミング攻撃
     /// </summary>
     private void Phase2Attack()
     {
-        if (m_HomingTimer < m_HomingInterval)
-        {
-            return;
-        }
-
+        //攻撃間隔に達していない場合
+        if (m_HomingTimer < m_HomingInterval) return;
+        
+        //タイマーをリセット
         m_HomingTimer = 0.0f;
+
+        //ホーミング弾を発射
         ShotHoming();
     }
 
     /// <summary>
-    /// プレイヤー方向を取得
+    /// プレイヤー方向へのベクトルを取得する
     /// </summary>
+    /// <returns>プレイヤーへの正規化された方向ベクトル</returns>
     private Vector2 GetPlayerDirection()
     {
         return (m_Player.position - m_FirePoint.position).normalized;
@@ -188,10 +215,12 @@ public class EnemyAttackController : MonoBehaviour
     /// <summary>
     /// 通常弾発射
     /// </summary>
-    private void ShootNormal()
+    private void ShotNormal()
     {
+        //敵の発射SEを再生
         SEManager.Instance.SEPlay(SEType.SHOT_ENEMY);
 
+        //通常弾を生成
         BulletManager.CreateBullet<EnemyBullet>(
             m_FirePoint.position,
             GetPlayerDirection(),
@@ -202,31 +231,39 @@ public class EnemyAttackController : MonoBehaviour
     /// <summary>
     /// 扇形弾発射
     /// </summary>
-    private void ShootFan()
+    private void ShotFan()
     {
+        //敵の発射SEを再生
         SEManager.Instance.SEPlay(SEType.SHOT_ENEMY);
 
-        int bulletCount = m_IsOddShot
-            ? ODD_BULLET_COUNT
-            : EVEN_BULLET_COUNT;
+        //奇数発と偶数発を交互に切り替え
+        int bulletCount = m_IsOddShot ? ODD_BULLET_COUNT : EVEN_BULLET_COUNT;
 
+        //扇形の開始角度を計算
         float startAngle = -FAN_ANGLE * 0.5f;
-        float step = FAN_ANGLE / (bulletCount - 1);
+        
+        //弾と弾の間隔を計算
+        float angleStep = FAN_ANGLE / (bulletCount - 1);
 
+        //偶数発の場合は中心から少しずらす
         if (!m_IsOddShot)
         {
-            startAngle += step * 0.5f;
+            startAngle += angleStep * 0.5f;
         }
 
+        //プレイヤー方向を基準にする
         Vector2 baseDirection = GetPlayerDirection();
 
+        //指定された数の弾を発射
         for (int i = 0; i < bulletCount; i++)
         {
-            float angle = startAngle + step * i;
+            //各弾の角度を計算
+            float angle = startAngle + angleStep * i;
 
-            Vector2 direction =
-                Quaternion.Euler(0, 0, angle) * baseDirection;
+            //基準方向を指定角度だけ回転
+            Vector2 direction = Quaternion.Euler(0, 0, angle) * baseDirection;
 
+            //弾を生成
             BulletManager.CreateBullet<EnemyBullet>(
                 m_FirePoint.position,
                 direction,
@@ -234,6 +271,7 @@ public class EnemyAttackController : MonoBehaviour
                 m_NormalBulletSprite);
         }
 
+        //次回の発射数を切り替える
         m_IsOddShot = !m_IsOddShot;
     }
 
@@ -242,8 +280,10 @@ public class EnemyAttackController : MonoBehaviour
     /// </summary>
     private void ShotHoming()
     {
+        //ホーミング弾のSEを再生
         SEManager.Instance.SEPlay(SEType.HOMING);
 
+        //ホーミング弾を生成
         HomingBullet bullet =
             BulletManager.CreateBullet<HomingBullet>(
                 m_FirePoint.position,
@@ -251,6 +291,7 @@ public class EnemyAttackController : MonoBehaviour
                 m_BulletSpeed,
                 m_HomingBulletSprite);
 
+        //追尾対象をプレイヤーに設定
         bullet.SetTarget(m_Player);
     }
 }

@@ -62,6 +62,7 @@ public class PauseController : MonoBehaviour
         RefreshMenu();
     }
 
+
     private void OnEnable()
     {
         m_Input.UI.Enable();
@@ -81,7 +82,6 @@ public class PauseController : MonoBehaviour
 
         // Player入力も無効化
         m_Input.Player.Disable();
-
     }
 
 
@@ -301,24 +301,17 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void RefreshMenu()
     {
-        string resumeText =
-            m_SelectIndex == MenuSelection.RESUME ? "> " : " ";
+        string resumeText = m_SelectIndex == MenuSelection.RESUME ? "> " : " ";
 
-        string retryText =
-            m_SelectIndex == MenuSelection.RETRY ? "> " : " ";
+        string retryText = m_SelectIndex == MenuSelection.RETRY ? "> " : " ";
 
-        string titleText =
-            m_SelectIndex == MenuSelection.TITLE ? "> " : " ";
+        string titleText = m_SelectIndex == MenuSelection.TITLE ? "> " : " ";
 
-
-        m_SelectText.text =
-            $"{resumeText}再開\n" +
-            $"{retryText}リトライ\n" +
-            $"{titleText}タイトルへ戻る";
+        m_SelectText.text = $"{resumeText}再開\n" + $"{retryText}リトライ\n" + $"{titleText}タイトルへ戻る";
     }
 
     /// <summary>
-    /// ゲーム起動中にほかのサイトや別のアプリなどに切り替えたら自動でポーズする
+    /// ゲーム起動中にほかのサイトや別のアプリなどに切り替えたら自動でポーズ画面を表示する
     /// </summary>
     /// <param name="pause"></param>
     private void OnApplicationPause(bool pause)

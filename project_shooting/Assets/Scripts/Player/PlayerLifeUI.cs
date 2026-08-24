@@ -5,14 +5,19 @@ using UnityEngine.UI;
 //プレイヤー残機UI管理クラス
 public class PlayerLifeUI : MonoBehaviour
 {
+    [Header("残機アイコンのプレハブ")]
     [SerializeField]
-    private GameObject m_LifePrefab; //残機アイコンのプレハブ
-    [SerializeField]
-    private Transform m_LifeParent; //横並びにする親
-    private List<Image> m_LifeUI = new();
-    [SerializeField]
-    private FinishController m_FinishController; //ゲーム終了処理
+    private GameObject m_LifePrefab;
 
+    [Header("横並びにする親")]
+    [SerializeField]
+    private Transform m_LifeParent;
+
+    [Header("ゲーム終了処理")]
+    [SerializeField]
+    private FinishController m_FinishController;
+
+    private List<Image> m_LifeUI = new(); //生成した残機UIを管理するリスト
 
     private void Start()
     {
@@ -67,7 +72,6 @@ public class PlayerLifeUI : MonoBehaviour
 
         //残機を減らす
         GameManager.Instance.currentLife--;
-
 
         //UIの更新
         UpdateUI();

@@ -26,10 +26,7 @@ public class TitleRankingUI : MonoBehaviour
         float[] times = m_BestTimeController.GetBestTimes();
 
         //UI‚Æƒ‰ƒ“ƒLƒ“ƒO‚Ì¬‚³‚¢•û‚É‡‚í‚¹‚Äˆ—‚·‚é
-        int rankCount = Mathf.Min(
-            times.Length,
-            m_RankTexts.Length
-            );
+        int rankCount = Mathf.Min(times.Length,m_RankTexts.Length);
 
         for(int i = 0; i < rankCount; i++)
         {

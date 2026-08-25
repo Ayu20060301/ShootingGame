@@ -9,7 +9,7 @@ public class PlayerLifeUI : MonoBehaviour
     [SerializeField]
     private GameObject m_LifePrefab;
 
-    [Header("横並びにする親")]
+    [Header("横並びにする親Transform")]
     [SerializeField]
     private Transform m_LifeParent;
 
@@ -17,11 +17,15 @@ public class PlayerLifeUI : MonoBehaviour
     [SerializeField]
     private FinishController m_FinishController;
 
-    private List<Image> m_LifeUI = new(); //生成した残機UIを管理するリスト
+    //生成した残機UIを管理するリスト
+    private List<Image> m_LifeUI = new();
 
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
     private void Start()
     {
-        //UIを生成
+        //残機UIを生成
         CreateLifeUI();
 
         //UIの更新
@@ -46,7 +50,7 @@ public class PlayerLifeUI : MonoBehaviour
     }
 
     /// <summary>
-    /// UIを更新
+    /// 残機UIを更新
     /// </summary>
     private void UpdateUI()
     {

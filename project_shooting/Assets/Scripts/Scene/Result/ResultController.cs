@@ -65,7 +65,6 @@ public class ResultController : MonoBehaviour
     /// </summary>
     private void RefreshMenu()
     {
-
         string retryText = m_SelectIndex == MenuSelection.RETRY ? "> " : " ";
 
         string titleText = m_SelectIndex == MenuSelection.TITLE ? "> " : " ";

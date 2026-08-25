@@ -11,9 +11,9 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private enum MenuSelection
     {
-        RESUME,
-        RETRY,
-        TITLE
+        RESUME, //再開
+        RETRY,  //リトライ
+        TITLE   //タイトル
     }
 
     //---------------
@@ -88,7 +88,7 @@ public class PauseController : MonoBehaviour
     /// <summary>
     /// カーソル移動
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">入力情報</param>
     private void OnNavigate(InputAction.CallbackContext context)
     {
         //ポーズ中でなければ操作しない
@@ -129,9 +129,9 @@ public class PauseController : MonoBehaviour
     }
 
     /// <summary>
-    /// 決定
+    /// 決定キー
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">入力情報</param>
     private void OnSubmit(InputAction.CallbackContext context)
     {
         //ポーズ中でなければ操作しない
@@ -180,7 +180,7 @@ public class PauseController : MonoBehaviour
     /// <summary>
     /// ポーズキー
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">入力情報</param>
     private void OnPause(InputAction.CallbackContext context)
     { 
         if(m_IsPause)
@@ -271,7 +271,6 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void RetryGame()
     {
-
         ResumeGame();
 
         //状態をリセット
@@ -286,7 +285,6 @@ public class PauseController : MonoBehaviour
     /// </summary>
     private void ReturnTitle()
     {
-
         ResumeGame();
 
         //状態をリセット

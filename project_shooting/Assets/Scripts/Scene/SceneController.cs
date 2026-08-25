@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 //シーン遷移を管理するクラス
 public class SceneController : SingletonMonoBehaviour<SceneController>
 {
-
-    [Header("フェード用のCanvas")]
+    [Header("フェード用のCanvasGroup")]
     [SerializeField]
     private CanvasGroup m_FadeCanvas;
 
@@ -129,7 +128,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
     /// <summary>
     /// シーンごとにBGMを変える
     /// </summary>
-    /// <param name="sceneName"></param>
+    /// <param name="sceneName">シーン名</param>
     private void ChangeBGM(string sceneName)
     {
         //シーンごとにBGMを切り替える

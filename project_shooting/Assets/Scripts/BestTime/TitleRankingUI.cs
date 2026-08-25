@@ -55,7 +55,6 @@ public class TitleRankingUI : MonoBehaviour
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = Mathf.FloorToInt(time % 60);
 
-
         return $"{rank}ˆÊ {minutes:00}:{seconds:00}";
     }
 }

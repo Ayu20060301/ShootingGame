@@ -116,7 +116,7 @@ public class TitleController : MonoBehaviour
     /// <summary>
     /// カーソル移動
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">入力情報</param>
     private void OnNavigate(InputAction.CallbackContext context)
     {
         //終了メニューが開いていないときは操作しない
@@ -150,7 +150,7 @@ public class TitleController : MonoBehaviour
     /// <summary>
     /// 決定入力
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">入力情報</param>
     private void OnSubmit(InputAction.CallbackContext context)
     {
         //シーン遷移中なら無視
@@ -173,7 +173,7 @@ public class TitleController : MonoBehaviour
     /// <summary>
     /// メニュー入力
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="context">入力情報</param>
     private void OnCancel(InputAction.CallbackContext context)
     {
         // シーン遷移中なら無視
@@ -198,7 +198,7 @@ public class TitleController : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
-        //スタートボタンのPressed演出
+        //スタートボタンの演出
         StartCoroutine(PressedButton());
 
         //メインシーンへ移動

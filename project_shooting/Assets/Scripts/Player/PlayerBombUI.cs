@@ -13,9 +13,12 @@ public class PlayerBombUI : MonoBehaviour
     [SerializeField]
     private Transform m_BombParent;
 
-    private List<Image> m_BombUI = new(); //生成したボムUIのImageを管理するリスト
+    //生成したボムUIのImageを管理するリスト
+    private List<Image> m_BombUI = new();
 
-
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
     private void Start()
     {
         //最大ボム数分のUIをあらかじめ生成する

@@ -3,47 +3,70 @@ using UnityEngine;
 //敵の移動制御
 public class EnemyController : MonoBehaviour
 {
-
     //フェーズ1で加速する際の速度倍率
-    private const float PHASE1_ACCELERATION = 3.0f;          //加速倍率
+    private const float PHASE1_ACCELERATION = 3.0f;
     
     //フェーズ1の移動時間に対する加速開始位置
-    private const float PHASE1_ACCELERATION_START = 0.7f;    //加速開始割合
+    private const float PHASE1_ACCELERATION_START = 0.7f;
     
     //目的地へ到達判定に使用する距離
-    private const float ARRIVAL_DISTANCE = 0.01f;            //到達判定距離
+    private const float ARRIVAL_DISTANCE = 0.01f;
 
-    [Header("通常移動")]
+    [Header("移動距離")]
     [SerializeField]
     private float m_MoveDistance = 3.0f;
+
+    [Header("移動速度")]
     [SerializeField]
     private float m_MoveSpeed = 1.0f;
 
-    [Header("フェーズ1")]
+
+    //-------------------
+    //フェーズ1段階の処理    
+    //-------------------
+
+    [Header("移動時間")]
     [SerializeField]
     private float m_MoveDuration = 3.0f;
+
+    [Header("停止する時間")]
     [SerializeField]
     private float m_StopDuration = 2.0f;
 
-    [Header("フェーズ2")]
+    //-------------------
+    //フェーズ2段階の処理
+    //-------------------
+
+    [Header("フェーズ2の場合の移動速度")]
     [SerializeField]
     private float m_Phase2MoveSpeed = 10.0f;
 
-    private float m_ElapsedTime; //現在の移動・停止時間
-    private float m_MoveTime;    //サイン波移動に使用する経過時間
+    //現在の移動・停止時間
+    private float m_ElapsedTime;
 
-    private bool m_IsStopping;  //敵が停止中かどうか
-    private bool m_IsReturning;  //元の位置に戻ったかどうか
+    //サイン波移動に使用する経過時間
+    private float m_MoveTime;
 
-    private Transform m_CachedTransform; //キャッシュしたTransform
+    //敵が停止中かどうか
+    private bool m_IsStopping;
 
-    private Vector3 m_StartPosition;   //サイン波移動の基準となる座標
-    private Vector3 m_HomePosition;    //敵が帰還する基準座標
-    private Vector3 m_Phase2TargetPosition; //フェーズ2で移動する目的地
+    //元の位置に戻ったかどうか
+    private bool m_IsReturning;
+
+    //キャッシュしたTransform
+    private Transform m_CachedTransform;
+
+    //サイン波移動の基準となる座標
+    private Vector3 m_StartPosition;
+
+    //敵が帰還する基準座標
+    private Vector3 m_HomePosition; 
+
+    //フェーズ2で移動する目的地
+    private Vector3 m_Phase2TargetPosition;
 
     //現在のフェーズ
-    private EnemyAttackController.EnemyPhase m_CurrentPhase = 
-        EnemyAttackController.EnemyPhase.NORMAL;
+    private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
 
     //次に移行するフェーズ
     private EnemyAttackController.EnemyPhase m_NextPhase;
@@ -131,9 +154,7 @@ public class EnemyController : MonoBehaviour
     private void NormalMove()
     {
         //サイン波を使用してY座標を計算
-        float newY =
-            m_StartPosition.y +
-            Mathf.Sin(Time.time * m_MoveSpeed) * m_MoveDistance;
+        float newY = m_StartPosition.y + Mathf.Sin(Time.time * m_MoveSpeed) * m_MoveDistance;
 
         //Y座標を更新
         SetPositionY(newY);
@@ -199,11 +220,7 @@ public class EnemyController : MonoBehaviour
     private void Phase2Move()
     {
         //目的地へ移動
-        m_CachedTransform.position =
-            Vector3.MoveTowards(
-                m_CachedTransform.position,
-                m_Phase2TargetPosition,
-                m_Phase2MoveSpeed * Time.deltaTime);
+        m_CachedTransform.position = Vector3.MoveTowards(m_CachedTransform.position,m_Phase2TargetPosition,m_Phase2MoveSpeed * Time.deltaTime);
 
         //目的地に到達した場合
         if (Vector3.Distance(m_CachedTransform.position,m_Phase2TargetPosition) < ARRIVAL_DISTANCE)
@@ -219,11 +236,7 @@ public class EnemyController : MonoBehaviour
     private void ReturnToHome()
     {
         //元の位置へ移動
-        m_CachedTransform.position =
-            Vector3.MoveTowards(
-                m_CachedTransform.position,
-                m_HomePosition,
-                m_Phase2MoveSpeed * Time.deltaTime);
+        m_CachedTransform.position = Vector3.MoveTowards(m_CachedTransform.position,m_HomePosition,m_Phase2MoveSpeed * Time.deltaTime);
 
         //元に位置に到達した場合
         if (Vector3.Distance(m_CachedTransform.position,m_HomePosition) < ARRIVAL_DISTANCE)
@@ -280,11 +293,7 @@ public class EnemyController : MonoBehaviour
    /// <param name="y">設定するY座標</param>
     private void SetPositionY(float y)
     {
-        m_CachedTransform.position =
-            new Vector3(
-                m_StartPosition.x,
-                y,
-                m_StartPosition.z);
+        m_CachedTransform.position = new Vector3(m_StartPosition.x,y,m_StartPosition.z);
     }
 
     /// <summary>
@@ -293,15 +302,9 @@ public class EnemyController : MonoBehaviour
     private void SetRandomTarget()
     {
         //元の位置を基準にランダムなY座標を取得
-        float randomY = Random.Range(
-            -m_MoveDistance,
-            m_MoveDistance);
+        float randomY = Random.Range(-m_MoveDistance,m_MoveDistance);
 
         //新しい移動先を設定
-        m_Phase2TargetPosition =
-            new Vector3(
-                m_StartPosition.x,
-                m_StartPosition.y + randomY,
-                m_StartPosition.z);
+        m_Phase2TargetPosition = new Vector3(m_StartPosition.x,m_StartPosition.y + randomY,m_StartPosition.z);
     }
 }

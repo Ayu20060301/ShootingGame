@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//ボムの制御
 public class PlayerBombController : MonoBehaviour
 {
     [Header("生成するボムのPrefab")]
@@ -25,15 +26,19 @@ public class PlayerBombController : MonoBehaviour
     [SerializeField]
     private PlayerBombUI m_BombUI;
 
-    private bool m_IsActive; //現在ボムの演出中かどうか
+    //現在ボムの演出中かどうか
+    private bool m_IsActive;
 
    
-
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
     private void Start()
     {
         //ゲーム開始時はボムを最大数まで所持させる
         GameManager.Instance.currentBomb = GameManager.Instance.maxBomb;
 
+        //UIを更新する
         m_BombUI.UpdateUI();
     }
 
@@ -44,7 +49,6 @@ public class PlayerBombController : MonoBehaviour
     {
         //ゲーム中でなければ処理を行わない
         if (!GameManager.Instance.isActive) return;
-
 
         //ボム演出中でなければ使用しない
         if (m_IsActive) return;
@@ -82,7 +86,6 @@ public class PlayerBombController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator BombSequence()
     {
-
         m_IsActive = true;
 
         //ボム発動中はUIを薄暗くする
@@ -180,7 +183,6 @@ public class PlayerBombController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator BlinkBomb(GameObject bomb,float duration)
     {
-
         SpriteRenderer spriteRenderer = bomb.GetComponent<SpriteRenderer>();
 
         //SpriteRendererがなければ点滅できない

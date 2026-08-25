@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 //--------------------
-//グリッチ演出を制御するクラス
+//グリッチ演出クラス
 //ロゴアニメーション
 //--------------------
 public class GlitchController : MonoBehaviour

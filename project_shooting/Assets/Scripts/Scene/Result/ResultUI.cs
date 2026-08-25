@@ -5,7 +5,7 @@ using TMPro;
 public class ResultUI : MonoBehaviour
 {
     //------------------
-    //ランク設定
+    //各クリア時間のランク設定
     //------------------
     private const float RANK_S_TIME = 90.0f;
     private const float RANK_A_TIME = 100.0f;

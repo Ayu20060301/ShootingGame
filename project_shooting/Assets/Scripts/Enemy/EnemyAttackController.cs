@@ -25,7 +25,6 @@ public class EnemyAttackController : MonoBehaviour
     //現在の攻撃のフェーズ
     private EnemyPhase m_CurrentPhase = EnemyPhase.NORMAL;
 
-
     [Header("敵の移動制御")]
     [SerializeField]
     private EnemyController m_EnemyController;

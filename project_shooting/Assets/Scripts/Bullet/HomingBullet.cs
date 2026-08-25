@@ -4,16 +4,27 @@ using UnityEngine;
 //ホーミング弾
 public class HomingBullet : BulletBase
 {
-    [Header("ホーミング設定")]
-    private float m_RotateSpeed = 180.0f;  //1秒あたりの回転速度
-    private float m_MaxHomingAngle = 30.0f; //最大誘導角
-    private float m_MaxHomingTime = 15.0f; //誘導時間
-    private Transform m_Target;           //追尾対象
-    private Vector2 m_StartDirection;     //発射時の進行方向
-    private float m_HomingTimer;          //ホーミング開始からの経過時間
-    private bool m_IsHoming = false;      //現在ホーミング中か
+    //1秒あたりの回転速度
+    private float m_RotateSpeed = 180.0f;
+    
+    //最大誘導角
+    private float m_MaxHomingAngle = 30.0f;
+    
+    //誘導時間
+    private float m_MaxHomingTime = 15.0f;
+    
+    //追尾対象
+    private Transform m_Target;
+    
+    //発射時の進行方向
+    private Vector2 m_StartDirection;
+    
+    //ホーミング開始からの経過時間
+    private float m_HomingTimer;
+    
+    //現在ホーミング中か
+    private bool m_IsHoming = false;
    
-
     /// <summary>
     /// ターゲットの設定
     /// </summary>
@@ -43,7 +54,9 @@ public class HomingBullet : BulletBase
         m_IsHoming = true;
     }
 
-    //弾を移動する
+    /// <summary>
+    /// 弾を移動する
+    /// </summary>
     protected override void Move()
     {
         //ホーミング処理
@@ -60,11 +73,8 @@ public class HomingBullet : BulletBase
     protected override void OnHit(Collider2D other)
     {
         //プレイヤーに当たったら消す
-        if(!other.CompareTag("Player"))
-        {
-            return;
-        }
-
+        if (!other.CompareTag("Player")) return;
+        
         //被弾演出
         if (other.TryGetComponent<PlayerFlash>(out var playerFlash))
         {

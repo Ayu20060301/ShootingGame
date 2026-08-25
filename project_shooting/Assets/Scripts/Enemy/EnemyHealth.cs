@@ -22,11 +22,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     private EnemyDamageEffect m_EnemyDamageEffect;
 
-    private float m_DecreaseSpeed = 30000.0f; //1秒あたりに減らすHP量
+    //1秒あたりに減らすHP量
+    private float m_DecreaseSpeed = 30000.0f;
 
-    private float m_DisplayedHP; //徐々に減る値
+    //徐々に減る値
+    private float m_DisplayedHP;
 
-    private bool m_IsDead = false; //敵が死亡しているかどうか
+    //敵が死亡しているかどうか
+    private bool m_IsDead = false;
 
     //現在の敵のフェーズ
     private EnemyAttackController.EnemyPhase m_CurrentPhase = EnemyAttackController.EnemyPhase.NORMAL;
@@ -79,13 +82,11 @@ public class EnemyHealth : MonoBehaviour
     /// </summary>
     private void  UpdateHPDisplay()
     {
+        //今現在のHP
         int currentHP = GameManager.Instance.currentEnemyHP;
 
         //表示HPが実際のHPより大きい場合のみ減少
-        if(m_DisplayedHP <= currentHP)
-        {
-            return;
-        }
+        if(m_DisplayedHP <= currentHP) return;
 
         //表示HPを徐々に減少
         m_DisplayedHP -= m_DecreaseSpeed * Time.deltaTime;
@@ -117,7 +118,6 @@ public class EnemyHealth : MonoBehaviour
         //敵の移動を停止
         m_EnemyController.enabled = false;
 
-
         //終了演出開始
         m_FinishController.Finish(true, transform.position,gameObject);
     }
@@ -144,7 +144,6 @@ public class EnemyHealth : MonoBehaviour
 
         //HP割合から次のフェーズを取得
         EnemyAttackController.EnemyPhase nextPhase = GetPhaseFromHP(hpRatio);
-
 
         //フェーズが変化していない場合は処理をしない
         if (nextPhase == m_CurrentPhase) return;

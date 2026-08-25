@@ -5,7 +5,7 @@ using UnityEngine;
 //弾の生成を管理するクラス
 public static class BulletManager
 {
-    //Rigidbodyの重力
+    //Rigidbody2Dの重力
     private const float GRAVITY_SCALE = 0.0f;
 
     //弾の回転補正
@@ -26,8 +26,7 @@ public static class BulletManager
         GameObject bulletObj = new GameObject(typeof(T).Name);
 
         //Transformを取得
-        Transform bulletTransform =
-            bulletObj.transform;
+        Transform bulletTransform = bulletObj.transform;
 
         //発射位置を設定
         bulletTransform.position = position;
@@ -60,18 +59,9 @@ public static class BulletManager
     /// <param name="direction">進行方向</param>
     private static void SetupRotation(Transform transform,Vector2 direction)
     {
-        float angle =
-            Mathf.Atan2(
-                direction.y,
-                direction.x
-                ) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
 
-        transform.rotation =
-            Quaternion.Euler(
-                0.0f,
-                0.0f,
-                angle + ROTATION_OFFSET
-                );
+        transform.rotation = Quaternion.Euler(0.0f,0.0f,angle + ROTATION_OFFSET);
     }
 
     /// <summary>
@@ -81,8 +71,7 @@ public static class BulletManager
     /// <param name="sprite">弾のスプライト</param>
     private static void SetupSpriteRenderer(GameObject bulletObject,Sprite sprite)
     {
-        SpriteRenderer spriteRenderer =
-          bulletObject.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = bulletObject.AddComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = sprite;
     }
@@ -93,8 +82,7 @@ public static class BulletManager
     /// <param name="bulletObject">弾のGameObject</param>
     private static void SetupCollider(GameObject bulletObject)
     {
-        CircleCollider2D collider =
-            bulletObject.AddComponent<CircleCollider2D>();
+        CircleCollider2D collider = bulletObject.AddComponent<CircleCollider2D>();
 
         collider.isTrigger = true;
     }
@@ -105,11 +93,9 @@ public static class BulletManager
     /// <param name="bulletObject">弾のGameObject</param>
     private static void SetupRigidbody(GameObject bulletObject)
     {
-        Rigidbody2D rigidbody =
-            bulletObject.AddComponent<Rigidbody2D>();
+        Rigidbody2D rigidbody = bulletObject.AddComponent<Rigidbody2D>();
 
         rigidbody.gravityScale = GRAVITY_SCALE;
-        rigidbody.bodyType =
-            RigidbodyType2D.Kinematic;
+        rigidbody.bodyType = RigidbodyType2D.Kinematic;
     }
 }

@@ -1,0 +1,93 @@
+プログラムの構成
+
+クラス名　　　　　　　　　　　　　具体的な役割
+
+
+【システム】
+GameManager　　　　　　　　　　　 ゲーム全体の状態や情報を管理するクラス
+SingletonMonoBehaviour　　　　　　 シーンをまたいで使用するSingletonクラスの
+　　　　　　　　　　　　　　　　　基底クラス
+
+
+【Scene】
+
+Title
+└ TitleController　　　　　　　　　タイトル画面の制御を行うクラス。
+　　　　　　　　　　　　　　　　　入力処理やゲーム開始などを管理
+└ GlitchController　　　　　　　　 タイトル画面のロゴにグリッチ演出を
+　　　　　　　　　　　　　　　　　加えるクラス
+
+Result
+└ ResultUI　　　　　　　　　　　　 リザルト画面に表示するUIを制御するクラス
+└ ResultData　　　　　　　　　　　 スコアやクリア状況など、リザルト画面で
+　　　　　　　　　　　　　　　　　使用するデータをまとめるクラス
+└ ResultController　　　　　　　　 リザルト画面全体の進行や処理を
+　　　　　　　　　　　　　　　　　制御するクラス
+
+SceneController　　　　　　　　　　タイトル、ゲーム、リザルトなどの
+　　　　　　　　　　　　　　　　　シーン遷移を管理するクラス
+
+
+【Player】
+PlayerController　　　　　　　　　 プレイヤーの移動や入力など、
+　　　　　　　　　　　　　　　　　基本的なプレイヤー制御を行うクラス
+PlayerFlash　　　　　　　　　　　　プレイヤーが被弾した際の無敵時間や
+　　　　　　　　　　　　　　　　　点滅処理を管理するクラス
+PlayerLifeUI　　　　　　　　　　　 プレイヤーの残機UIを生成・表示するクラス
+PlayerBombUI　　　　　　　　　　　 ボムの残り使用回数を示すUIを
+　　　　　　　　　　　　　　　　　生成・表示するクラス
+PlayerBombController　　　　　　　 ボムの使用処理や演出、敵弾の消去を
+　　　　　　　　　　　　　　　　　管理するクラス
+
+
+【Enemy】
+EnemyController　　　　　　　　　　敵の移動を制御するクラス
+EnemyAttackController　　　　　　　 敵の攻撃や攻撃パターンを制御するクラス
+EnemyHPBar　　　　　　　　　　　　 敵のHPゲージの表示を管理するクラス
+EnemyHealth　　　　　　　　　　　　敵のHPやダメージ処理を管理するクラス
+EnemyDamageEffect　　　　　　　　　敵がダメージを受けた際の
+　　　　　　　　　　　　　　　　　点滅処理を管理するクラス
+
+
+【Bullet】
+BulletBase　　　　　　　　　　　　 弾に共通する処理を定義する基底クラス
+BulletManager　　　　　　　　　　　弾の生成や管理を行うクラス
+EnemyBullet　　　　　　　　　　　 敵が発射する通常弾を制御するクラス
+PlayerBullet　　　　　　　　　　　 プレイヤーが発射する弾を制御するクラス
+HomingBullet　　　　　　　　　　　 敵が発射するホーミング弾の
+　　　　　　　　　　　　　　　　　移動を制御するクラス
+
+
+【Manager】
+SEManager　　　　　　　　　　　　 効果音の再生・停止などを管理するクラス
+BGMManager　　　　　　　　　　　　BGMの再生・停止などを管理するクラス
+EffectManager　　　　　　　　　　　ゲーム内のエフェクトの再生を管理するクラス
+
+
+【その他】
+PauseController　　　　　　　　　　ポーズメニューの表示や操作を制御するクラス
+PlayTimeController　　　　　　　　 プレイ時間の計測・表示を管理するクラス
+BGController　　　　　　　　　　　背景を横方向にスクロールさせるクラス
+BestTime　　　　　　　　　　　　　ベストタイムの記録・管理を行うクラス
+Ranking　　　　　　　　　　　　　 1位から5位までのランキング表示を
+　　　　　　　　　　　　　　　　　管理するクラス
+FinishController　　　　　　　　　 ゲーム終了時の処理や演出を管理するクラス
+
+
+【データベース】
+
+※各種データはScriptableObjectを利用して管理しています。
+DatabaseManagerを経由して各データベースから必要なデータを
+取得できる構成としています。
+
+DatabaseManager　　　　　　　　　　各種データベースを一元管理し、
+　　　　　　　　　　　　　　　　　必要なデータを取得するクラス
+
+└ SoundDatabase　　　　　　　　　　BGMやSEなど、サウンドに関する
+　　　　　　　　　　　　　　　　　データを管理するクラス
+　└ BGMData　　　　　　　　　　　 BGMの音声データを管理するクラス
+　└ SEData　　　　　　　　　　　　 SEの音声データを管理するクラス
+
+└ EffectDatabase　　　　　　　　　 ゲーム内で使用するエフェクトの
+　　　　　　　　　　　　　　　　　データを管理するクラス
+　└ EffectData　　　　　　　　　　 エフェクトのPrefabを管理するクラス

@@ -2,11 +2,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 
-//タイトル画面のランキングUIを管理するクラス
-public class TitleRankingUI : MonoBehaviour
+//ランキングを管理するクラス
+public class Ranking : MonoBehaviour
 {
     [SerializeField]
-    private BestTimeController m_BestTimeController;
+    private BestTime m_BestTime;
     [SerializeField]
     private TMP_Text[] m_RankTexts;
 
@@ -23,7 +23,7 @@ public class TitleRankingUI : MonoBehaviour
     private void UpdateRanking()
     {
         //ベストタイムを取得
-        float[] times = m_BestTimeController.GetBestTimes();
+        float[] times = m_BestTime.GetBestTimes();
 
         //UIとランキングの小さい方に合わせて処理する
         int rankCount = Mathf.Min(times.Length,m_RankTexts.Length);

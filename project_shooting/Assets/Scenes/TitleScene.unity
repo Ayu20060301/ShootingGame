@@ -871,6 +871,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGController
   m_Speed: 0.5
+  m_ResetPositionX: -19
+  m_StartPositionX: 19
 --- !u!212 &784392520
 SpriteRenderer:
   serializedVersion: 2
@@ -1524,6 +1526,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGController
   m_Speed: 0.5
+  m_ResetPositionX: -19
+  m_StartPositionX: 19
 --- !u!212 &1221461539
 SpriteRenderer:
   serializedVersion: 2
@@ -2031,7 +2035,7 @@ GameObject:
   - component: {fileID: 1381489836}
   - component: {fileID: 1381489835}
   m_Layer: 0
-  m_Name: TitleRankingUI
+  m_Name: Ranking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2049,7 +2053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbbcd72adaa3b6428ceb0c546e83936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RankingTime
-  m_BestTimeController: {fileID: 1503028663}
+  m_BestTime: {fileID: 1503028663}
   m_RankTexts:
   - {fileID: 60558776}
   - {fileID: 1455436387}
@@ -2446,7 +2450,7 @@ GameObject:
   - component: {fileID: 1503028664}
   - component: {fileID: 1503028663}
   m_Layer: 0
-  m_Name: BestTimeController
+  m_Name: BestTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

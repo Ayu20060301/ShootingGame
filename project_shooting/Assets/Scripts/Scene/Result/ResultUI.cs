@@ -14,7 +14,7 @@ public class ResultUI : MonoBehaviour
 
     [Header("ベストタイム")]
     [SerializeField]
-    private BestTimeController m_BestTimeController;
+    private BestTime m_BestTime;
 
     [Header("リザルト表示用テキスト")]
     [SerializeField]
@@ -127,14 +127,14 @@ public class ResultUI : MonoBehaviour
         //ゲームクリア時のみランキングへ登録
         if(ResultData.isClear)
         {
-            isNewRecord = m_BestTimeController.SaveBestTime(ResultData.playTime);
+            isNewRecord = m_BestTime.SaveBestTime(ResultData.playTime);
         }
 
         //NEW RECORD!を表示
         UpdateNewRecord(isNewRecord);
 
         //更新後のベストタイムを取得
-        float bestTime = m_BestTimeController.GetBestTime();
+        float bestTime = m_BestTime.GetBestTime();
 
         //ベストタイムを表示
         UpdateBestTimeText(bestTime);

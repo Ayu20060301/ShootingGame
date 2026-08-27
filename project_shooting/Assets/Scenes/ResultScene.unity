@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4257199abdfa8444888fc8976145800b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultUI
-  m_BestTimeController: {fileID: 809864567}
+  m_BestTime: {fileID: 809864567}
   m_ResultText: {fileID: 249360498}
   m_PlayTimeText: {fileID: 646625582}
   m_BestTimeText: {fileID: 1751136604}
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 809864568}
   - component: {fileID: 809864567}
   m_Layer: 0
-  m_Name: BestTimeController
+  m_Name: BestTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1313,6 +1313,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGController
   m_Speed: 0.5
+  m_ResetPositionX: -19
+  m_StartPositionX: 19
 --- !u!212 &1693250178
 SpriteRenderer:
   serializedVersion: 2
@@ -1555,6 +1557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BGController
   m_Speed: 0.5
+  m_ResetPositionX: -19
+  m_StartPositionX: 19
 --- !u!212 &1786257842
 SpriteRenderer:
   serializedVersion: 2

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //ベストタイムランキングを管理するクラス
-public class BestTimeController : MonoBehaviour
+public class BestTime : MonoBehaviour
 {
     //---------------
     //定数

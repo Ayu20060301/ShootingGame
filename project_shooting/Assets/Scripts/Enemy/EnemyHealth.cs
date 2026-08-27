@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//敵のHPやダメージ処理を管理するクラス
 public class EnemyHealth : MonoBehaviour
 {
     [Header("敵撃破時の終了演出を管理するクラス")]

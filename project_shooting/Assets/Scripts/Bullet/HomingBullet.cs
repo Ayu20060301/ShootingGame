@@ -59,6 +59,8 @@ public class HomingBullet : BulletBase
     /// </summary>
     protected override void Move()
     {
+        if (!GameManager.Instance.isActive) return;
+
         //ホーミング処理
         UpdateHoming();
 

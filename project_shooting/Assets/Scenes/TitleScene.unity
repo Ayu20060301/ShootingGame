@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 488248096}
   - component: {fileID: 488248095}
   m_Layer: 0
-  m_Name: GlitchController
+  m_Name: LogoAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3025,7 +3025,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatabaseManager
   effectDatabase: {fileID: 11400000, guid: 9e02045fd92b67241b33b745383b17a3, type: 2}
   soundDatabase: {fileID: 11400000, guid: 3420248fb93c9024880691d484b44f65, type: 2}
-  playerDatabase: {fileID: 11400000, guid: ba1bc8a957a90f94c9b6cecea798b9cb, type: 2}
 --- !u!4 &2000757325
 Transform:
   m_ObjectHideFlags: 0

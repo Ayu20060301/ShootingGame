@@ -184,6 +184,7 @@ public class FinishController : MonoBehaviour
         SEManager.Instance.SEPlay(SEType.EXPLOSION);
     }
 
+
     /// <summary>
     /// オブジェクト削除
     /// </summary>

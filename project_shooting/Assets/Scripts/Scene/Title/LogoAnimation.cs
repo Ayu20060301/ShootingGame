@@ -5,7 +5,7 @@ using UnityEngine;
 //グリッチ演出クラス
 //ロゴアニメーション
 //--------------------
-public class GlitchController : MonoBehaviour
+public class LogoAnimation : MonoBehaviour
 {
     //Shaderのプロパティ名
     private const string GLITCH_INTENSITY_PROPERTY = "_GlitchIntensity";

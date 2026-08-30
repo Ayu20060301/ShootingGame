@@ -21,10 +21,10 @@ public abstract class BulletBase : MonoBehaviour
     //’e‚ª¶¬‚³‚ê‚Ä‚©‚ç‚ÌŒo‰ßŠÔ
     private float m_Timer = 0.0f;
 
-    
-    private void Awake()
+
+    protected virtual void Awake()
     {
-        m_CachedTransform = this.transform;   
+        m_CachedTransform = this.transform;
     }
 
     /// <summary>
